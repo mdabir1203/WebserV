@@ -21,7 +21,7 @@ Socket::Socket(int domain, int service, int protocol, int port, unsigned long in
     _address.sin_port = htons(port);
 
     _descriptor = socket(domain, service, protocol);
-    if (_descriptor == -1) {
+    if (_descriptor < 0) {
         throw(Socket::creationFailureException());
     }
     if (bind(_descriptor, (struct sockaddr *) &_address, sizeof(_address)) < 0) {

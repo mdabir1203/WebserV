@@ -43,12 +43,13 @@ int main() {
     }
 
     char buffer[1024] = {0};
-    read(clientSocket, buffer, sizeof(buffer));
-    std::cout << "Received: " << buffer << "\n";
+    while (1) {
+        read(clientSocket, buffer, sizeof(buffer));
+        std::cout << "Received: " << buffer << "\n";
 
-    const char* msg = "Hello from server!\n";
-    send(clientSocket, msg, strlen(msg), 0);
-
+        const char* msg = "Hello from server!\n";
+        send(clientSocket, msg, strlen(msg), 0);
+    }
     close(clientSocket);
     delete serverSocket;
     return 0;
