@@ -38,14 +38,14 @@ Socket::~Socket() {
     close(_descriptor);
 }
 
-Socket::Socket(Socket const & other) {
-    (void)other;
+Socket::Socket(Socket const &other) {
+    (void) other;
     _address = other.getSockaddr();
     _descriptor = other.getSocketDescriptor();
     std::cout << "Socket copy constructor called\n";
 }
 
-Socket& Socket::operator=(const Socket &other) {
+Socket &Socket::operator=(const Socket &other) {
     _address = other.getSockaddr();
     _descriptor = other.getSocketDescriptor();
     return *this;
@@ -59,10 +59,20 @@ const sockaddr_in &Socket::getSockaddr() const {
     return _address;
 }
 
-const char * Socket::bindingFailureException::what() const throw() {
+void Socket::setTolisten() const {
+    if (listen(_descriptor, MAX_PENDING) < 0) {
+        throw(setToListenFailureException());
+    }
+}
+
+const char *Socket::bindingFailureException::what() const throw() {
     return "Socket binding failed\n";
 }
 
-const char * Socket::creationFailureException::what() const throw() {
+const char *Socket::creationFailureException::what() const throw() {
     return "Socket creation failed\n";
+}
+
+const char *Socket::setToListenFailureException::what() const throw() {
+    return "setting Socket to listen failed\n";
 }

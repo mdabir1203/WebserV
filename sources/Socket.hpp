@@ -13,43 +13,44 @@
 #ifndef WEBSERV_SOCKET_HPP
 #define WEBSERV_SOCKET_HPP
 
-#include <iostream>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
-#include <unistd.h>
+#include <netinet/in.h>
 #include <strings.h>
+#include <sys/socket.h>
+#include <unistd.h>
+#include <iostream>
+
+#include "Common.hpp"
 
 class Socket {
 public:
-
     class creationFailureException : public std::exception {
-        virtual const char * what() const _NOEXCEPT;
+        virtual const char* what() const _NOEXCEPT;
     };
 
     class bindingFailureException : public std::exception {
-        virtual const char * what() const _NOEXCEPT;
+        virtual const char* what() const _NOEXCEPT;
     };
 
-    // Default constructor
+    class setToListenFailureException : public std::exception {
+        virtual const char* what() const _NOEXCEPT;
+    };
+
     Socket(int domain, int service, int protocol, int port, unsigned long interface);
-
-    // Destructor
     ~Socket();
-
-    // Copy constructor
-    Socket(const Socket& other);
-
-    // Copy assignment operator
-    Socket& operator=(const Socket& other);
     int getSocketDescriptor() const;
     const sockaddr_in& getSockaddr() const;
+    void setTolisten(void) const;
+
+    Socket(const Socket& other); // should be private --> duplicating fds is dangerous
 
 private:
-    // Private members and methods
+    Socket& operator=(const Socket& other);
     Socket();
+
     int _descriptor;
     struct sockaddr_in _address;
 };
+
 #endif

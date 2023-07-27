@@ -10,47 +10,54 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Socket.hpp"
 #include <iostream>
 
-#define PORT 8080
+#include "Common.hpp"
+#include "Socket.hpp"
+#include "Server.hpp"
+
+typedef struct s_client {
+    struct sockaddr_in  clientAddress;
+    socklen_t           clientAddressLen = sizeof(clientAddress);
+    int                 socket_fd;
+} t_client;
 
 int main() {
-    Socket* serverSocket = nullptr;
+    Server* server = nullptr;
 
     try {
-        serverSocket = new Socket(AF_INET, SOCK_STREAM, 0, PORT, INADDR_ANY);
-    } catch (std::exception & e) {
+        server = new Server();
+    } catch (std::exception& e) {
         std::cerr << e.what() << "\n";
-        delete serverSocket;
-        return (1);
-    }
-
-    if (listen(serverSocket->getSocketDescriptor(), 1) < 0) {
-        std::cerr << "Error on listen\n";
-        delete serverSocket;
+        delete server;
         return 1;
     }
 
-    struct sockaddr_in clientAddress;
-    socklen_t clientAddressLen = sizeof(clientAddress);
-    int clientSocket = accept(serverSocket->getSocketDescriptor(), (struct sockaddr*)&clientAddress, &clientAddressLen);
-
-    if (clientSocket < 0) {
-        std::cerr << "Error on accept\n";
-        delete serverSocket;
+    try {
+        server->getSocket().setTolisten();
+    } catch (std::exception& e) {
+        std::cerr << e.what() << "\n";
+        delete server;
         return 1;
     }
 
-    char buffer[1024] = {0};
-    while (1) {
+        struct sockaddr_in clientAddress;
+        socklen_t clientAddressLen = sizeof(clientAddress);
+        int clientSocket = accept(server->getSocket().getSocketDescriptor(), (struct sockaddr*) &clientAddress, &clientAddressLen);
+
+        if (clientSocket < 0) {
+            std::cerr << "Error on accept\n";
+            delete server;
+            return 1;
+        }
+
+        char buffer[1024] = {0};
         read(clientSocket, buffer, sizeof(buffer));
         std::cout << "Received: " << buffer << "\n";
-
         const char* msg = "Hello from server!\n";
         send(clientSocket, msg, strlen(msg), 0);
-    }
-    close(clientSocket);
-    delete serverSocket;
+        close(clientSocket);
+
+    delete server;
     return 0;
 }

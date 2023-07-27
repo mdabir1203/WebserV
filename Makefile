@@ -11,9 +11,13 @@
 # **************************************************************************** #
 
 NAME		:= server
+
 VPATH		:= sources
-SRCS		:= main.cpp Socket.cpp
-OBJS		:= $(SRCS:.cpp=.o)
+
+SRCS		:= main.cpp Socket.cpp Server.cpp
+
+BUILDDIR	:= build
+OBJS		:= $(SRCS:%.cpp=$(BUILDDIR)/%.o)
 
 CFLAGS		:= -Wall -Werror -Wextra -std=c++98 -pedantic
 
@@ -22,13 +26,16 @@ CC			:= c++
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@
 
-%.o: %.cpp
+$(BUILDDIR)/%.o: %.cpp $(BUILDDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILDDIR):
+	mkdir $(BUILDDIR)
 
 .PHONY: clean all re fclean
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(BUILDDIR)
 
 fclean: clean
 	rm -rf $(NAME)
