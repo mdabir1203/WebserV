@@ -6,7 +6,7 @@
 #    By: cschmied <cschmied@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/18 13:51:14 by cschmied          #+#    #+#              #
-#    Updated: 2023/06/18 13:51:14 by cschmied         ###   ########.fr        #
+#    Updated: 2023/07/28 14:06:09 by cschmied         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		:= server
 
 VPATH		:= sources
 
-SRCS		:= main.cpp Socket.cpp Server.cpp
+SRCS		:= main.cpp networkSocket.cpp
 
 BUILDDIR	:= build
 OBJS		:= $(SRCS:%.cpp=$(BUILDDIR)/%.o)
