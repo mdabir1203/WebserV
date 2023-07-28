@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "networkSocket.hpp"
+#include <sstream>
+#include <fstream>
+
 #define PORT 8080
 #define MAX_BACKLOG 5
 
@@ -45,6 +48,19 @@ int main() {
             std::cout << c;
         }
         std::cout << "\n";
+
+        std::ifstream htmlFile("../index.html");
+
+        if (!htmlFile) {
+            write(clientDescriptor, "Error: could not find file\n", 27);
+            continue;
+        }
+        std::ostringstream ss;
+        ss << htmlFile.rdbuf();
+        std::string httpResponse = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n" + ss.str();
+        write(clientDescriptor, httpResponse.c_str(), httpResponse.size());
+        shutdown(clientDescriptor, SHUT_RDWR);
+        close(clientDescriptor);
     }
     delete serverSocket;
     return 0;
