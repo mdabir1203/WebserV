@@ -37,30 +37,26 @@ int main() {
         struct sockaddr_in clientSocket;
         int                clientDescriptor;
         socklen_t          socklen;
-        char c;
 
         if ((clientDescriptor = accept(serverSocket->getSocketDescriptor(), \
                    (struct sockaddr *)&clientSocket, &socklen)) < 0) {
             std::cerr << "accepting client socket failed\n";
             exit(1);
         }
-        while (read(clientDescriptor, &c, 1) > 0) {
-            std::cout << c;
-        }
-        std::cout << "\n";
 
-        std::ifstream htmlFile("../index.html");
 
-        if (!htmlFile) {
-            write(clientDescriptor, "Error: could not find file\n", 27);
-            continue;
-        }
-        std::ostringstream ss;
-        ss << htmlFile.rdbuf();
-        std::string httpResponse = "HTTP/1.1 200 OK\nContent-Type: text/html\n\n" + ss.str();
+
+        std::string httpResponse =
+                "HTTP/1.1 200 OK\r\n"
+                "Content-Type: text/html\r\n"
+                "\r\n"
+                "<html>\r\n"
+                "<body>\r\n"
+                "<h1>Hello, World!</h1>\r\n"
+                "</body>\r\n"
+                "</html>\r\n";
         write(clientDescriptor, httpResponse.c_str(), httpResponse.size());
         shutdown(clientDescriptor, SHUT_RDWR);
-        close(clientDescriptor);
     }
     delete serverSocket;
     return 0;

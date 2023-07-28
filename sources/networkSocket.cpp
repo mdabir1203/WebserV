@@ -13,6 +13,7 @@
 #include "networkSocket.hpp"
 
 networkSocket::networkSocket(int port) {
+    int sockoptval = 1;
     std::cout << "networkSocket constructor called\n";
     _socketDescriptor = socket(AF_INET, SOCK_STREAM, 0);
     if (_socketDescriptor < 0) {
@@ -23,6 +24,9 @@ networkSocket::networkSocket(int port) {
     _addr.sin_family = AF_INET;               // IPv4
     _addr.sin_port = htons(port);             // port
     _addr.sin_addr.s_addr = htonl(INADDR_ANY);// IP address currently default
+
+    setsockopt(_socketDescriptor, SOL_SOCKET, SO_REUSEADDR, &sockoptval, sizeof(int));
+
     if (bind(_socketDescriptor, (struct sockaddr *) &_addr, sizeof(_addr)) < 0) {
         throw networkSocket::socketBindingException();
     }
