@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: compile
-      run: c++ -Wall -Werror -Wstandard -std=c++98 *.cpp
+      run: c++ -Wall -Werror -Wextra -std=c++98 -pedantic *.cpp
     - name: build
       run: ./a.out
 
