@@ -31,18 +31,7 @@
 *.out
 *.app
 
-#do not push files wihtout extension but still include folders
-# Ignore all files
-*
-# Unignore directories
-!*/
-# Unignore specific file types
-!*.cpp
-!*.hpp
-!Makefile
-!Dockerfile
-# Unignore the "test" folder and its contents
-!/*/test/*
-
+# Debug files
 .idea
 .vscode
+*.dSYM
