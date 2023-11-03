@@ -31,6 +31,15 @@
 *.out
 *.app
 
-#Clion Files
-*.idea
-*.iml
+#do not push files wihtout extension but still include folders
+# Ignore all files
+*
+# Unignore directories
+!*/
+# Unignore specific file types
+!*.cpp
+!*.hpp
+!Makefile
+!Dockerfile
+# Unignore the "test" folder and its contents
+!/*/test/*
