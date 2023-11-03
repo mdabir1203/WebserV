@@ -43,3 +43,6 @@
 !Dockerfile
 # Unignore the "test" folder and its contents
 !/*/test/*
+
+.idea
+.vscode
