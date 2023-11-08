@@ -6,7 +6,7 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-# SERVER := $(addprefix server/, test.cpp)
+SERVER := $(addprefix server/, server.cpp)
 
 SRCS := main.cpp \
 		${SERVER}
@@ -19,13 +19,13 @@ INCLUDES := -I ${INCLUDES_DIR}
 
 #Production flags
 CXXFLAGS := -Wall -Wextra -Werror
-CXXFLAGS += -std=c++98 -pedantic
+CXXFLAGS += -std=c++98 -pedantic -g -O2
 
 #Development flags
 # CXXFLAGS := -Wall -Wextra -std=c++98 -pedantic -g -O0
 # CXXFLAGS += -g -O0
 # CXXFLAGS += -fsanitize=thread
-# CXXFLAGS += -fsanitize=address
+CXXFLAGS += -fsanitize=address
 
 #Add includes
 CXXFLAGS += ${INCLUDES}

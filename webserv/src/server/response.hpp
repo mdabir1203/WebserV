@@ -1,21 +1,35 @@
-class HttpResponseSerializer {
+#ifndef RESPONSE_HPP
+#define RESPONSE_HPP
+
+#include "server.hpp"
+
+class HttpResponse {
 public:
-  static int serialize(const HttpResponse& response, char* buffer, int bufferSize) {
-    // Serialize the status code
-    int bytesWritten = snprintf(buffer, bufferSize, "HTTP/1.1 %d %s\r\n", response.getStatusCode(), response.getReasonPhrase().c_str());
-    buffer += bytesWritten;
+    HttpResponse();
+    ~HttpResponse();
 
-    // Serialize the content type
-    bytesWritten = snprintf(buffer, bufferSize, "Content-Type: %s\r\n", response.getContentType().c_str());
-    buffer += bytesWritten;
+    int GetStatusCode() const;
+    void SetStatusCode(int statusCode);
+    const std::string& GetContentType() const;
+    void SetContentType(const std::string& contentType);
+    const std::string& GetContent() const;
+    void SetContent(const std::string& content);
 
-    // Serialize the content length
-    bytesWritten = snprintf(buffer, bufferSize, "Content-Length: %d\r\n\r\n", response.getContentLength());
-    buffer += bytesWritten;
+private:
+  int statusCode_;
+  std::string contentType_;
+  std::string content_;
 
-    // Serialize the content
-    memcpy(buffer, response.getContent().data(), response.getContentLength());
-
-    return bytesWritten + response.getContentLength();
-  }
+  // ...
 };
+
+// enum class State {
+//   Start,
+//   ReadingRequest,
+//   ParsingRequest,
+//   GeneratingResponse,
+//   SendingResponse,
+//   Done
+// };
+
+#endif
