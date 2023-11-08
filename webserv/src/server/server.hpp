@@ -9,6 +9,8 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <map>
+#include <sstream>
 
 
 class SocketServer {
@@ -17,16 +19,15 @@ class SocketServer {
         void start();
         void stop();
         bool isRunning() const;
-    private:
         SocketServer(int port);
         ~SocketServer();
         int acceptClient();
-        void handleClient(int clientSocket);
+        void HandleClient(int clientSocket);
 
         int m_socket;
         int m_port;
         bool m_isRunning;
-        static HTTPSocketServer* _server;
+        static SocketServer* _server;
 };
 
 #endif
