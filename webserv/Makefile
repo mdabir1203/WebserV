@@ -8,7 +8,7 @@ INCLUDES_DIR := inc
 
 # SERVER := $(addprefix server/, test.cpp)
 
-SRCS := main.cpp \
+SRCS := main.cpp ConfigurationParcer.cpp\
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
@@ -19,7 +19,7 @@ INCLUDES := -I ${INCLUDES_DIR}
 
 #Production flags
 CXXFLAGS := -Wall -Wextra -Werror
-CXXFLAGS += -std=c++98 -pedantic
+CXXFLAGS += -std=c++98
 
 #Development flags
 # CXXFLAGS := -Wall -Wextra -std=c++98 -pedantic -g -O0
