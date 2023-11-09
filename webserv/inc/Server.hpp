@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <map>
 #include <sstream>
+#include <sys/epoll.h>
 
 class SocketServer
 {
@@ -30,6 +31,8 @@ class SocketServer
         int m_port;
         bool m_isRunning;
         static SocketServer* _server;
+    private:
+        void run();
 };
 
 #endif /* SERVER_HPP */
