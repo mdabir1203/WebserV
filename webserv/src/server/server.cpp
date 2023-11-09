@@ -2,34 +2,35 @@
 #include "Response.hpp"
 #include "HttpRequest.hpp"
 
-std::string ToString(HttpMethod method) {
-  switch (method) {
-    case GET:
-      return "GET";
-    case POST:
-      return "POST";
-    case PUT:
-      return "PUT";
-    case DELETE:
-      return "DELETE";
-    default:
-      return "UNKNOWN";
-  }
-}
-
 SocketServer* SocketServer::_server = NULL;
 
-void setupSocketAddr(sockaddr_in& address, int port) {
-    // setup the socket address structure
-  //AF_INET is the Internet address family for IPv4.
-  address.sin_family = AF_INET;
-  //htons() -> For transforming uniform byte order.
-  address.sin_port = htons(port);
-  //INADDR_ANY -> binds the socket to all available interfaces(e.g. wifi, ethernet, etc.)
-  address.sin_addr.s_addr = INADDR_ANY;
+std::string ToString(HttpMethod method)
+{
+	switch (method)
+	{
+		case GET:
+		return "GET";
+		case POST:
+		return "POST";
+		case PUT:
+		return "PUT";
+		case DELETE:
+		return "DELETE";
+		default:
+		return "UNKNOWN";
+	}
 }
 
-
+void setupSocketAddr(sockaddr_in& address, int port)
+{
+	// setup the socket address structure
+	//AF_INET is the Internet address family for IPv4.
+	address.sin_family = AF_INET;
+	//htons() -> For transforming uniform byte order.
+	address.sin_port = htons(port);
+	//INADDR_ANY -> binds the socket to all available interfaces(e.g. wifi, ethernet, etc.)
+	address.sin_addr.s_addr = INADDR_ANY;
+}
 
 SocketServer::SocketServer(int port)
 {
@@ -52,40 +53,40 @@ SocketServer::SocketServer(int port)
 	this->m_isRunning = true;
 }
 
-SocketServer::~SocketServer(){
-		close(this->m_socket);
-	}
+SocketServer::~SocketServer()
+{
+	close(this->m_socket);
+}
 
 // opens a unique socket for each connection of client
-int SocketServer::acceptClient(){
-    struct sockaddr_in client_addr;
-    socklen_t len = sizeof(client_addr);
+int SocketServer::acceptClient()
+{
+	struct sockaddr_in client_addr;
+	socklen_t len = sizeof(client_addr);
+	int clientSocket = accept(this->m_socket, (struct sockaddr *)&client_addr, &len);
+	if (clientSocket == -1)
+	{
+		throw std::runtime_error("Socket accept failed");
+	}
+	return clientSocket;
+}
 
-    int clientSocket = accept(this->m_socket, (struct sockaddr *)&client_addr, &len);
-    if (clientSocket == -1)
-    {
-        throw std::runtime_error("Socket accept failed");
-    }
-    return clientSocket;
-  }
-
-void SocketServer::HandleClient(int clientSocket) {
-  // Read the HTTP request from the client
-  char requestBuffer[8192];
-  int bytesReceived = recv(clientSocket, requestBuffer, 8192, 0); // change 8192 ResponseBufferSize
-  if (bytesReceived < 0) {
-    throw std::runtime_error("Error in recv()");
-  }
-
-  // Temporarily parse the HTTP request
-  HttpRequest request(requestBuffer);
-
-  // Generate and send the HTTP response
-HttpResponse httpResponse(200, "text/html; charset=utf-8", "<h1>Here goes the Fear Blasters</h1>");
-
-  // Send the response
-  char responseBuffer[8192];
-  int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
-  send(clientSocket, responseBuffer, bytesWritten, 0);
-  close(clientSocket);
+void SocketServer::HandleClient(int clientSocket)
+{
+	// Read the HTTP request from the client
+	char requestBuffer[8192];
+	int bytesReceived = recv(clientSocket, requestBuffer, 8192, 0); // change 8192 ResponseBufferSize
+	if (bytesReceived < 0)
+	{
+		throw std::runtime_error("Error in recv()");
+	}
+	// Temporarily parse the HTTP request
+	HttpRequest request(requestBuffer);
+	// Generate and send the HTTP response
+	HttpResponse httpResponse(200, "text/html; charset=utf-8", "<h1>Here goes the Fear Blasters</h1>");
+	// Send the response
+	char responseBuffer[8192];
+	int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
+	send(clientSocket, responseBuffer, bytesWritten, 0);
+	close(clientSocket);
 }

@@ -12,14 +12,17 @@
 #include <map>
 #include <sstream>
 
-class SocketServer {
+class SocketServer
+{
     public:
+        SocketServer(int port);
+        ~SocketServer();
+
         static SocketServer* getServer();
         void start();
         void stop();
         bool isRunning() const;
-        SocketServer(int port);
-        ~SocketServer();
+
         int acceptClient();
         void HandleClient(int clientSocket);
 
