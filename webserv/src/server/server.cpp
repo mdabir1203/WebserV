@@ -50,12 +50,46 @@ SocketServer::SocketServer(int port)
 		throw std::runtime_error("Socket listening failed");
 	}
 	this->m_port = port;
-	this->m_isRunning = true;
+	this->m_isRunning = false;
 }
 
 SocketServer::~SocketServer()
 {
 	close(this->m_socket);
+}
+
+SocketServer* SocketServer::getServer()
+{
+    if (_server == NULL)
+    {
+        throw std::logic_error("Server instance not created");
+    }
+    return _server;
+}
+
+void SocketServer::start()
+{
+    if (this->m_isRunning)
+    {
+        throw std::logic_error("Server is already running");
+    }
+    this->m_isRunning = true;
+    _server = this;
+    // Run(); -> used to start the main server loop
+}
+
+void SocketServer::stop()
+{
+    if (!this->m_isRunning)
+    {
+        throw std::logic_error("Server is not running");
+    }
+    this->m_isRunning = false;
+}
+
+bool SocketServer::isRunning() const
+{
+    return this->m_isRunning;
 }
 
 // opens a unique socket for each connection of client
@@ -89,4 +123,53 @@ void SocketServer::HandleClient(int clientSocket)
 	int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
 	send(clientSocket, responseBuffer, bytesWritten, 0);
 	close(clientSocket);
+}
+
+void	SocketServer::run()
+{
+	int epoll_fd = epoll_create(1); // Create epoll instance
+	if (epoll_fd == -1) {
+		throw std::runtime_error("Error creating epoll instance");
+	}
+
+	struct epoll_event event;
+	event.events = EPOLLIN; // Monitor for read events
+	event.data.fd = this->m_socket; // Add server socket to epoll set
+	if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, this->m_socket, &event) == -1)
+	{
+		throw std::runtime_error("Error adding server socket to epoll set");
+	}
+	int i;
+
+	// this check all the time if there is any acitivity on the fds
+	while (this->m_isRunning)
+	{
+		int serverActivity = select(max_fd, &readfds, NULL, NULL, NULL);
+		if (serverActivity < 0)
+		{
+			throw std::runtime_error("Error in select()");
+		}
+		// if there is activity on the server socket, it means that there is a new request
+		if (FD_ISSET(this->m_socket, &readfds))
+		{
+			int clientSocket = acceptClient();
+			FD_SET(clientSocket, &readfds); // add the new client socket to the list of fds
+			if (clientSocket >= max_fd)
+			{
+				max_fd = clientSocket + 1;
+			}
+		}
+
+		// check all the client sockets for activity
+		i = this->m_socket + 1;
+		while (i < max_fd)
+		{
+			if (FD_ISSET(i, &readfds))
+			{
+				HandleClient(i);
+				FD_CLR(i, &readfds); // remove the client socket from the list of fds
+			}
+			i++;
+		}
+	}
 }
