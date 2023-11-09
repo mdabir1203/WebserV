@@ -13,7 +13,7 @@ SRCS := main.cpp \
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-# HEADER := $(addprefix includes/, Server.hpp)
+HEADER := $(addprefix inc/, Server.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
 
