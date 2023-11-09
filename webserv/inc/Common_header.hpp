@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:15 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/09 17:05:29 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/09 18:27:52 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_serv {
     std::string Mroot;
     std::map<int, std::string> errorPages;
     std::multimap<std::string, Location> loc;
-    std::vector<std::string> ipPort;
+    //std::vector<std::string> ipPort;
 } t_serv;
 
 enum ParseState {
