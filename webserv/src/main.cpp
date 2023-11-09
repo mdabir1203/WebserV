@@ -71,10 +71,10 @@ int main(int ac, char** av)
 				std::cout << "  Path: " << it->first << ", CGI Path: " << it->second.cgiPath << "\n";
 			}
 
-			std::cout << "IP Ports:";
-			for (size_t j = 0; j < parsedConfig[i].ipPort.size(); ++j) {
-				std::cout << " " << parsedConfig[i].ipPort[j];
-			}
+			// std::cout << "IP Ports:";
+			// for (size_t j = 0; j < parsedConfig[i].ipPort.size(); ++j) {
+			// 	std::cout << " " << parsedConfig[i].ipPort[j];
+			// }
 			std::cout << "\n";
 
 			std::cout << "\n";

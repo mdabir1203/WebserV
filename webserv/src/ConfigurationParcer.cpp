@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:53:00 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/09 18:12:40 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/09 19:28:45 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ ConfigurationParser::~ConfigurationParser()
         std::string line;
         t_serv currentServer;
         ParseState state = STATE_START;
-
+        // add error handling if file can't be open
         while (std::getline(file, line)) 
         {
             parseLine(line, currentServer, servers, state);
@@ -43,8 +43,10 @@ ConfigurationParser::~ConfigurationParser()
         std::istringstream iss(line);
         std::string token;
 
-        while (iss >> token) {
-            switch (state) {
+        while (iss >> token) 
+        {
+            switch (state) 
+            {
                 case STATE_START:
                     if (token == "server") 
                     {
@@ -83,32 +85,31 @@ ConfigurationParser::~ConfigurationParser()
                     }
                     break;
                 case STATE_LOCATION:
-                    if (token == "{") 
-                    {
-                        Location location;
-                        while (iss >> token && token != "}") 
-                        {
-                            if (token == "cgi_path:") 
-                            {
-                                iss >> token;
-                                location.cgiPath = token;
+                    if (token == "{") {
+                            // Если найдена открывающая скобка, создаем объект Location и заполняем его
+                            Location location;
+                            while (iss >> token && token != "}") {
+                                if (token == "cgi_path:") {
+                                    iss >> token;
+                                    location.cgiPath = token;
+                                }
+                                // Добавь обработку других параметров location, если необходимо
                             }
-                            // Добавь обработку других параметров location, если необходимо
+                            // Добавляем объект Location в мультимапу текущего сервера
+                            currentServer.loc.insert(std::make_pair("/", location));  // Предполагаем, что location всегда "/"
+                        } else if (token == "}") {
+                            state = STATE_SERVER;  // Если найдена закрывающая скобка, возвращаемся в состояние сервера
                         }
-                        currentServer.loc.insert(std::make_pair("/", location)); // Assuming the location is "/"
-                    } 
-                    else if (token == "}") 
-                    {
-                        state = STATE_SERVER;
-                    }
-                    break;
+                        break;
                 // Добавь обработку других состояний, если необходимо
             }
         }
 
         //if (state == STATE_SERVER && !currentServer.port.empty()) 
-        if (state == STATE_SERVER && !currentServer.port.empty() && !currentServer.host.empty() && !currentServer.Mroot.empty())
+        if (state == STATE_SERVER && !currentServer.port.empty() && !currentServer.host.empty() && !currentServer.Mroot.empty() 
+            && !currentServer.errorPages.empty() && !currentServer.loc.empty())
         {
             servers.push_back(currentServer);
+            currentServer = t_serv();
         }
     }
