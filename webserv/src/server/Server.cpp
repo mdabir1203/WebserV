@@ -128,6 +128,7 @@ void SocketServer::HandleClient(int clientSocket)
 void	SocketServer::run()
 {
 	int epoll_fd = epoll_create(1); // Create epoll instance
+	int i = 0;
 	if (epoll_fd == -1) {
 		throw std::runtime_error("Error creating epoll instance");
 	}
@@ -139,37 +140,34 @@ void	SocketServer::run()
 	{
 		throw std::runtime_error("Error adding server socket to epoll set");
 	}
-	int i;
 
-	// this check all the time if there is any acitivity on the fds
-	while (this->m_isRunning)
-	{
-		int serverActivity = select(max_fd, &readfds, NULL, NULL, NULL);
-		if (serverActivity < 0)
-		{
-			throw std::runtime_error("Error in select()");
-		}
-		// if there is activity on the server socket, it means that there is a new request
-		if (FD_ISSET(this->m_socket, &readfds))
-		{
+	while (this->m_isRunning) {
+    struct epoll_event events[10]; // Array to store events
+    int num_events = epoll_wait(epoll_fd, events, 10, -1); // Wait for events
+
+    if (num_events == -1) {
+        throw std::runtime_error("Error in epoll_wait");
+    }
+
+    // Process events
+	i = 0;
+	while (i < num_events) {
+		int fd = events[i].data.fd;
+
+		// If server socket has an event, accept new client connection
+		if (fd == this->m_socket) {
 			int clientSocket = acceptClient();
-			FD_SET(clientSocket, &readfds); // add the new client socket to the list of fds
-			if (clientSocket >= max_fd)
-			{
-				max_fd = clientSocket + 1;
+			event.events = EPOLLIN; // Monitor for read events
+			event.data.fd = clientSocket;
+			if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clientSocket, &event) == -1) {
+				throw std::runtime_error("Error adding client socket to epoll set");
 			}
+		} else {
+			// Handle client request
+			HandleClient(fd);
+			close(fd); // Close client socket after handling request
 		}
-
-		// check all the client sockets for activity
-		i = this->m_socket + 1;
-		while (i < max_fd)
-		{
-			if (FD_ISSET(i, &readfds))
-			{
-				HandleClient(i);
-				FD_CLR(i, &readfds); // remove the client socket from the list of fds
-			}
-			i++;
-		}
+		i++;
 	}
+}
 }

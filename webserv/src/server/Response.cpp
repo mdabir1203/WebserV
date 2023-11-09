@@ -17,6 +17,7 @@ int	HttpResponse::WriteToBuffer(char* buffer, size_t bufferSize) const
     if (responseStr.size() >= bufferSize) {
       throw std::runtime_error("Buffer is too small");
     }
-    std::strcpy(buffer, responseStr.c_str());
+	responseStr.copy(buffer, responseStr.size() + 1);
+	buffer[responseStr.size()] = '\0';
     return responseStr.size();
 }
