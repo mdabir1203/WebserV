@@ -1,7 +1,14 @@
 #include "Server.hpp"
 
+void signalHandler(int signum)
+{
+  (void)signum;
+  SocketServer::getServer()->stop();
+}
+
 int main()
 {
+  signal(SIGINT, signalHandler);
   // try {
   //   SocketServer server(8080);
 
@@ -15,9 +22,9 @@ int main()
   //   return 1;
   // }
 
+
   SocketServer server(8080);
   server.start();
   std::cout << "Server is running: " << server.isRunning() << std::endl;
-  server.stop();
   return 0;
 }

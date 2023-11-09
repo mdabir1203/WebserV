@@ -75,7 +75,7 @@ void SocketServer::start()
     }
     this->m_isRunning = true;
     _server = this;
-    // Run(); -> used to start the main server loop
+	run(); // -> used to start the main server loop
 }
 
 void SocketServer::stop()
@@ -117,7 +117,7 @@ void SocketServer::HandleClient(int clientSocket)
 	// Temporarily parse the HTTP request
 	HttpRequest request(requestBuffer);
 	// Generate and send the HTTP response
-	HttpResponse httpResponse(200, "text/html; charset=utf-8", "<h1>Here goes the Fear Blasters</h1>");
+	HttpResponse httpResponse(200, "text/html; charset=utf-8", ART);
 	// Send the response
 	char responseBuffer[8192];
 	int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
@@ -128,7 +128,7 @@ void SocketServer::HandleClient(int clientSocket)
 void	SocketServer::run()
 {
 	int epoll_fd = epoll_create(1); // Create epoll instance
-	int i = 0;
+	int i;
 	if (epoll_fd == -1) {
 		throw std::runtime_error("Error creating epoll instance");
 	}
@@ -141,33 +141,37 @@ void	SocketServer::run()
 		throw std::runtime_error("Error adding server socket to epoll set");
 	}
 
-	while (this->m_isRunning) {
-    struct epoll_event events[10]; // Array to store events
-    int num_events = epoll_wait(epoll_fd, events, 10, -1); // Wait for events
+	while (this->m_isRunning)
+	{
+		struct epoll_event events[10]; // Array to store events
+		int num_events = epoll_wait(epoll_fd, events, 10, 150); // Wait for events // TODO: define timeout
 
-    if (num_events == -1) {
-        throw std::runtime_error("Error in epoll_wait");
-    }
-
-    // Process events
-	i = 0;
-	while (i < num_events) {
-		int fd = events[i].data.fd;
-
-		// If server socket has an event, accept new client connection
-		if (fd == this->m_socket) {
-			int clientSocket = acceptClient();
-			event.events = EPOLLIN; // Monitor for read events
-			event.data.fd = clientSocket;
-			if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clientSocket, &event) == -1) {
-				throw std::runtime_error("Error adding client socket to epoll set");
-			}
-		} else {
-			// Handle client request
-			HandleClient(fd);
-			close(fd); // Close client socket after handling request
+		if (num_events == -1) {
+			// close(epoll_fd);
+			std::cout << "socket_fd: " << this->m_socket << std::endl;
+			close(this->m_socket);
+			throw std::runtime_error("Error in epoll_wait");
 		}
-		i++;
+
+		// Process events
+		i = 0;
+		while (i < num_events) {
+			int fd = events[i].data.fd;
+
+			// If server socket has an event, accept new client connection
+			if (fd == this->m_socket) {
+				int clientSocket = acceptClient();
+				event.events = EPOLLIN; // Monitor for read events
+				event.data.fd = clientSocket;
+				if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, clientSocket, &event) == -1) {
+					throw std::runtime_error("Error adding client socket to epoll set");
+				}
+			} else {
+				// Handle client request
+				HandleClient(fd);
+				close(fd); // Close client socket after handling request
+			}
+			i++;
+		}
 	}
-}
 }
