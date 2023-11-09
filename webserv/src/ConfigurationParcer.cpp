@@ -6,97 +6,109 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:53:00 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/08 16:58:19 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/09 18:12:40 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Common_header.hpp"
 
-    ConfigurationParcer::ConfigurationParcer()
-    {
-        std::cout << "ConfigurationParcer object created" << std::endl;
-    }
+ConfigurationParser::ConfigurationParser()
+{
+    std::cout << "ConfigurationParcer object created" << std::endl;
+}
 
-    ConfigurationParcer::~ConfigurationParcer()
-    {
-        std::cout << "ConfigurationParcer object deleted" << std::endl;
-    }
-    
-    std::vector<std::string> ConfigurationParcer::readConfiguration(std::string config_file_name)
-    {       
-        std::ifstream config_file(config_file_name.c_str());
-        std::string buffer;
-        std::string line_buffer;
-        std::vector<std::string> tokens;
-          
-        if(!config_file.is_open())
+ConfigurationParser::~ConfigurationParser()
+{
+    std::cout << "ConfigurationParcer object deleted" << std::endl;
+}
+
+ std::vector<t_serv> ConfigurationParser::parseConfig(const std::string& filename) 
+ {
+        std::vector<t_serv> servers;
+        std::ifstream file(filename.c_str());
+        std::string line;
+        t_serv currentServer;
+        ParseState state = STATE_START;
+
+        while (std::getline(file, line)) 
         {
-            std::cerr << "Configuration file can't be open" << std::endl;
-            exit(1);
+            parseLine(line, currentServer, servers, state);
         }
-        while (std::getline(config_file, buffer))
-            line_buffer += buffer + "\n";
-        
-        char* temp_buffer = new char[line_buffer.length() + 1];
-        std::strcpy(temp_buffer, line_buffer.c_str());
-        
-        char* token = std::strtok(temp_buffer, "\n\t");
-        while(token != NULL)
-        {
-            std::string temp_token = token;
-            tokens.push_back(temp_token);
-            token = std::strtok(NULL, "\n\t");
-        }
-        for (size_t i = 0; i < tokens.size(); i++)
-        {
-            size_t j = tokens[i].find_first_not_of(" ");
-            
-            if(j != std::string::npos)
-                tokens[i].erase(0, j);
-            if(tokens[i].find("server") != std::string::npos)
-                tokens[i].erase(std::remove(tokens[i].begin(), tokens[i].end(), ' '), tokens[i].end());
-                // trim(tokens[i], ' ');                           
-        }
-        // for (size_t m = 0; m < tokens.size(); m++)   //for test purposes
-        //     std::cout << tokens[m] << std::endl;
-        delete[] temp_buffer;
-        return tokens;
-                   
-        
-    }
+        file.close();
+        return servers;
+ }
 
-    t_serv ConfigurationParcer::tokens_processing(std::vector<std::strings>& tokens, size_t & pos)
+     void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state) 
     {
-        t_serv server;
-        
-        
-    }
+        std::istringstream iss(line);
+        std::string token;
 
-
-
-    int ConfigurationParcer::configParsing(std::string config_file, std::vector<t_serv> & servers)
-    {
-        std::vector<std::string> tokens = readConfiguration(config_file);
-        for(size_t i = 0; i < tokens.size(); i++)
-        {
-            if (tokens[i] == "server" && tokens[i+1] == "{")        
-            {
-                t_serv server = tokens_processing(tokens, i+2); 
-                if(tokens[i] != "}")
-                {
-                    std::cerr << RED << "Error: configuration file has invalid format" << std::endl;
-                    exit (1);
-                }
-                servers.push_back(server);
+        while (iss >> token) {
+            switch (state) {
+                case STATE_START:
+                    if (token == "server") 
+                    {
+                        state = STATE_SERVER;
+                        currentServer = t_serv(); // current t_serv struct object reset;
+                    }
+                    break;
+                case STATE_SERVER:
+                    if (token == "listen:") 
+                    {
+                        iss >> token;
+                        currentServer.port.push_back(std::stoi(token));
+                    } 
+                    else if (token == "host:") 
+                    {
+                        iss >> currentServer.host;
+                    }
+                     else if (token == "server_name:") 
+                    {
+                        iss >> currentServer.name;
+                    }
+                    else if (token == "error_page:")
+                    {
+                        iss >> token;
+                        int errorCode = std::stoi(token);
+                        iss >> token; // Assuming it's a relative path to the error page
+                        currentServer.errorPages[errorCode] = token;
+                    }
+                    else if (token == "root:")
+                    {
+                        iss >> currentServer.Mroot;
+                    } 
+                    else if (token == "location:")
+                    {
+                        state = STATE_LOCATION;
+                    }
+                    break;
+                case STATE_LOCATION:
+                    if (token == "{") 
+                    {
+                        Location location;
+                        while (iss >> token && token != "}") 
+                        {
+                            if (token == "cgi_path:") 
+                            {
+                                iss >> token;
+                                location.cgiPath = token;
+                            }
+                            // Добавь обработку других параметров location, если необходимо
+                        }
+                        currentServer.loc.insert(std::make_pair("/", location)); // Assuming the location is "/"
+                    } 
+                    else if (token == "}") 
+                    {
+                        state = STATE_SERVER;
+                    }
+                    break;
+                // Добавь обработку других состояний, если необходимо
             }
-            else
-            {
-                std::cerr << RED << "Error: configuration file has invalid format" << std::endl;
-                exit (1);
-            }
         }
-        return 0;
-    }
-    
 
-    
+        //if (state == STATE_SERVER && !currentServer.port.empty()) 
+        if (state == STATE_SERVER && !currentServer.port.empty() && !currentServer.host.empty() && !currentServer.Mroot.empty())
+        {
+            servers.push_back(currentServer);
+        }
+    }

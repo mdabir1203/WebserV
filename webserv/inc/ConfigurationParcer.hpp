@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:50:54 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/08 16:56:37 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/09 16:44:27 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,18 @@
 
 #include <iostream>
 #include "Common_header.hpp"
+using namespace std;
 
-class ConfigurationParcer
+class ConfigurationParser
 {
-    private:
-    
-        std::vector<std::string> readConfiguration(std::string config_file_name);
-        
-        t_serv tokens_processing(std::vector<std::strings>& tokens, size_t & pos); 
-        
-    public:
+public:
+    ConfigurationParser();
+    ~ConfigurationParser();    
+    std::vector<t_serv> parseConfig(const std::string& filename);
 
-        ConfigurationParcer();
-        ~ConfigurationParcer();
-        
-        int configParsing(std::string config_file, std::vector<t_serv> & servers);
-    };
-
+private:
+    void parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state);
+   
+};
 
 #endif
