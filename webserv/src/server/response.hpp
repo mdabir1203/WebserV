@@ -1,7 +1,7 @@
 #ifndef RESPONSE_HPP
 #define RESPONSE_HPP
 
-#include "server.hpp"
+#include "Server.hpp"
 
 class HttpResponse {
 public:
