@@ -31,6 +31,7 @@
 *.out
 *.app
 
-#Clion Files
-*.idea
-*.iml
+# Debug files
+.idea
+.vscode
+*.dSYM
