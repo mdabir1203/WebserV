@@ -1,13 +1,6 @@
 #include "Server.hpp"
 #include "Response.hpp"
-
-enum HttpMethod {
-  GET,
-  POST,
-  PUT,
-  DELETE,
-  UNKNOWN
-};
+#include "HttpRequest.hpp"
 
 std::string ToString(HttpMethod method) {
   switch (method) {
@@ -23,59 +16,6 @@ std::string ToString(HttpMethod method) {
       return "UNKNOWN";
   }
 }
-
-class HttpRequest {
-public:
-  HttpRequest(const char* requestBuffer)
-      : method_(ParseMethod(requestBuffer)), path_(ParsePath(requestBuffer)),
-        headers_(ParseHeaders(requestBuffer)), body_(ParseBody(requestBuffer)) {}
-
-  HttpMethod method() const { return method_; }
-  const std::string& path() const { return path_; }
-  const std::map<std::string, std::string>& headers() const { return headers_; }
-  const std::string& body() const { return body_; }
-
-private:
-  HttpMethod method_;
-  std::string path_;
-  std::map<std::string, std::string> headers_;
-  std::string body_;
-
-
-  HttpMethod ParseMethod(const char* requestBuffer) {
-    (void)requestBuffer;
-  // For testing, always return GET
-  return GET;
-  }
-
-  std::string ParsePath(const char* requestBuffer) {
-    (void)requestBuffer;
-    // For testing, always return a specific path
-    return "/config_files/index.html";
-  }
-
-  std::map<std::string, std::string> ParseHeaders(const char* requestBuffer) {
-    (void)requestBuffer;
-    // For testing, always return a map with some specific headers
-    std::map<std::string, std::string> headers;
-    headers["Content-Type"] = "text/html";
-    headers["Connection"] = "keep-alive";
-    return headers;
-  }
-
-  std::string ParseBody(const char* requestBuffer) {
-    (void)requestBuffer;
-    // For testing, always return a specific body
-    return "This is a test body";
-  }
-};
-
-
-
-
-
-
-
 
 SocketServer* SocketServer::_server = NULL;
 
