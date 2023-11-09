@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:15 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/08 16:38:45 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/09 17:05:29 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,36 @@
 #include <vector>
 #include <fstream>
 #include <iomanip>
+#include <map>
+#include <algorithm>
+#include <sstream>
 
 
 
-/* ============ my typedefs ============ */
-typedef struct s_serv
-{
-	std::string								name;
-	std::string 							host;
-	std::vector<int>						port;
-	std::string								root;
 
+
+struct Location {
+    std::string cgiPath;
+    // Добавь сюда поля, связанные с location, если необходимо
+};
+
+typedef struct s_serv {
+    std::string name;
+    std::string host;
+    std::vector<int> port;
+    std::string Mroot;
+    std::map<int, std::string> errorPages;
+    std::multimap<std::string, Location> loc;
+    std::vector<std::string> ipPort;
 } t_serv;
+
+enum ParseState {
+    STATE_START,
+    STATE_SERVER,
+    STATE_LOCATION,
+    // STATE_ERROR_PAGE,
+    // Добавь здесь другие состояния, если необходимо
+};
 
 
 /* ========= my header files ======== */
