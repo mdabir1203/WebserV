@@ -45,8 +45,7 @@ int main(int ac, char** av)
 	{	
         std::vector<t_serv> parsedConfig = parser.parseConfig(config_file);
 
-
-		std::cout << BG_GREEN << parsedConfig.size() << RESET << ":\n";
+		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
         for (size_t i = 0; i < parsedConfig.size(); ++i)
 		{
 			std::cout << "Server " << i + 1 << ":\n";
@@ -65,10 +64,15 @@ int main(int ac, char** av)
 			for (std::map<int, std::string>::iterator it = parsedConfig[i].errorPages.begin(); it != parsedConfig[i].errorPages.end(); ++it) {
 				std::cout << "  " << it->first << ": " << it->second << "\n";
 			}
-
+			int j = 0;
 			std::cout << "Locations:\n";
-			for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it) {
+				for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it) {
 				std::cout << "  Path: " << it->first << ", CGI Path: " << it->second.cgiPath << "\n";
+
+				std::cout << "  Path: " << it->first << ", index: " << it->second.index << "\n";
+
+				std::cout << "  Path: " << it->first << ", root: " << it->second.root << "\n";
+				std::cout <<  j++ << "\n";
 			}
 
 			// std::cout << "IP Ports:";

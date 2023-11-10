@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:15 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/09 18:27:52 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/10 14:44:28 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@
 
 struct Location {
     std::string cgiPath;
-    // Добавь сюда поля, связанные с location, если необходимо
+    std::string root;
+    std::string index;
+
 };
 
 typedef struct s_serv {

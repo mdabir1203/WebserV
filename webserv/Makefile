@@ -35,6 +35,7 @@ CXX := c++
 RM := rm -f
 
 all: ${NAME}
+	./webserv
 
 ${NAME}: ${OBJS}
 	${CXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
