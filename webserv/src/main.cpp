@@ -22,13 +22,14 @@
 
 #include "../inc/Common_header.hpp"
 
-
-
-using namespace std;
+int def_timeout = 5;									
+int def_max_clients = 100;							
+int def_max_size_of_file = 1000000;					
+							
 std::vector<t_serv> parseConfig(const std::string& filename);
 
 int main(int ac, char** av)
-{
+{	
 	std::string			config_file;
 	ConfigurationParser parser;
 
@@ -49,8 +50,7 @@ int main(int ac, char** av)
         for (size_t i = 0; i < parsedConfig.size(); ++i)
 		{
 			std::cout << "Server " << i + 1 << ":\n";
-			std::cout << "Name: " << parsedConfig[i].name << "\n";
-			std::cout << "Host: " << parsedConfig[i].host << "\n";
+			std::cout << "Name: " << parsedConfig[i].server_name << "\n";
 			
 			std::cout << "Ports:";
 			for (size_t j = 0; j < parsedConfig[i].port.size(); ++j) {
