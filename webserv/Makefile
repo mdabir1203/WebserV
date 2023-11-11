@@ -8,7 +8,7 @@ INCLUDES_DIR := inc
 
 # SERVER := $(addprefix server/, test.cpp)
 
-SRCS := main.cpp ConfigurationParcer.cpp\
+SRCS := main.cpp ConfigurationParcer.cpp Exceptions.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})

@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:50:54 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/09 16:44:27 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/11 18:43:34 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ class ConfigurationParser
 {
 public:
     ConfigurationParser();
-    ~ConfigurationParser();    
+    ~ConfigurationParser();
+      
     std::vector<t_serv> parseConfig(const std::string& filename);
 
 private:
+    void checkConfigFile(std::string filename); 
     void parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state);
    
 };
