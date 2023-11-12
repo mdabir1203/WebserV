@@ -49,25 +49,23 @@ int main(int ac, char** av)
 		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
         for (size_t i = 0; i < parsedConfig.size(); ++i)
 		{
+			std::cout << "def_timeout " << def_timeout << ":\n";
+			std::cout << "def_max_clients " << def_max_clients << ":\n";
+			std::cout << "def_max_size_of_file " << def_max_size_of_file << ":\n";
+
 			std::cout << "Server " << i + 1 << ":\n";
-			std::cout << "Name: " << parsedConfig[i].server_name << "\n";
-			
-			std::cout << "Ports:";
-			for (size_t j = 0; j < parsedConfig[i].port.size(); ++j) {
-				std::cout << " " << parsedConfig[i].port[j];
-			}
+			std::cout << "Name: " << parsedConfig[i].server_name << "\n";			
+			std::cout << "Ports:" << " " << parsedConfig[i].port;
 			std::cout << "\n";
 
-			std::cout << "Root: " << parsedConfig[i].Mroot << "\n";
-
 			std::cout << "Error Pages:\n";
-			for (std::map<int, std::string>::iterator it = parsedConfig[i].errorPages.begin(); it != parsedConfig[i].errorPages.end(); ++it) {
+			for (std::map<int, std::string>::iterator it = parsedConfig[i].error_pages.begin(); it != parsedConfig[i].error_pages.end(); ++it) {
 				std::cout << "  " << it->first << ": " << it->second << "\n";
 			}
 			int j = 0;
 			std::cout << "Locations:\n";
 				for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it) {
-				std::cout << "  Path: " << it->first << ", CGI Path: " << it->second.cgiPath << "\n";
+				std::cout << "  Path: " << it->first << ", CGI Path: " << it->second.cgi_path << "\n";
 
 				std::cout << "  Path: " << it->first << ", index: " << it->second.index << "\n";
 

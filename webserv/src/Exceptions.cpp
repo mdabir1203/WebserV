@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:17:33 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/11 18:44:40 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/12 20:51:27 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,45 @@
 
 const char* Ex_CantOpenConfigFile::what() const throw()
 {
-    return ("Can't open config file");
+    return ("Error: Can't open configuration file");
 }
 
 const char* Ex_ConfigFileIsEmpty::what() const throw()
 {
-    return ("Empty configuration file");
+    return ("Error: Empty configuration file");
 }
 
+const char* Ex_InvalidArgument::what() const throw()
+{
+    return ("Error: Invalid glodal variable argument in configuration file");
+}
+  
+const char* Ex_LocUnclosBracket::what() const throw()
+{
+    return ("Error: there are unclosed bracket in location block in configuration file");
+}
 
+const char* Ex_InvalidServerVarPort::what() const throw()
+{
+    return ("Error: invalid variable \"port\" in configuration file");
+}
+
+const char* Ex_InvalidServerVarName::what() const throw()
+{
+    return ("Error: invalid variable \"server_name\" in configuration file");
+}
+
+const char* Ex_InvalidServerVarErrPageCode::what() const throw()
+{
+    return ("Error: invalid error page code in configuration file");
+}
+
+const char* Ex_InvalidServerVarErrPage::what() const throw()
+{
+    return ("Error: invalid error page in configuration file");
+}
+
+const char* Ex_InvalidRootPage::what() const throw()
+{
+    return ("Error: invalid root page in location of configuration file");
+}
