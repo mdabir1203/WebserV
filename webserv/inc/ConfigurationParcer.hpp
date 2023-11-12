@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:50:54 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/11 18:43:34 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/12 20:41:18 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,13 @@ public:
 private:
     void checkConfigFile(std::string filename); 
     void parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state);
-   
+    void handleGlobalVars(std::string &token, int specifier);
+    int handleServerVarPort(std::string &str);
+    std::string handleServerVarName(std::string &input);
+
+
+    int checkCodeErrorPage(std::string &str);
+    bool checkAdressErrorPage(std::string &filePath);
 };
 
 #endif
