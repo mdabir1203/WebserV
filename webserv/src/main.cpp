@@ -28,8 +28,8 @@ int main()
   // server.start();
   // std::cout << "Server is running: " << server.isRunning() << std::endl;
 
-  std::string request = "get / HTTP/1.1\r\nHost: localhost:8080\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n";
-  HttpRequestParser parser;
+  std::string request = "DELETE / HTTP/1.1\r\nHost: localhost:8080\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n";
+  RequestParserNew parser;
   parser.parse(request);
   return 0;
 }
