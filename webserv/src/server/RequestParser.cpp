@@ -41,6 +41,12 @@ void	RequestParserNew::parse(const std::string& input)
 	else if (this->_currentStateMachine == HEADER_FIELDS)
 	{
 		// parse header fields
+		if (this->_parseHeaderFields(input) == ERROR)
+		{
+			this->_errorCode = BAD_REQUEST;
+			std::cout << "Bad request" << std::endl; 
+			return ;
+		}
 		this->_currentStateMachine = REQUEST_BODY;
 	}
 	else if (this->_currentStateMachine == REQUEST_BODY)
@@ -105,15 +111,39 @@ int	RequestParserNew::_setMethod(const std::string& input)
 	return (SUCCESS);
 }
 
+
+
 //limits for the sizes? -> name and value
+
+// test my HTTPHeader Parser with request.
+
 int RequestParserNew::_parseHeaderFields(const std::string& input)
 {
+	HttpHeaderParser test;
+
+	std::string::const_iterator it = input.begin();
+
+	std::advance(it, 19);
+	for (; it != input.end(); ++it)
+	{
+		std::cout << "char: " << *it << std::endl;
+		test.parse(*it);
+		std::cout << test.isComplete() << std::endl;
+		if (test.isComplete())
+		{
+			std::cout << "Header name: " << test.getHeaderName() << std::endl;
+			std::cout << "Header value: " << test.getHeaderValue() << std::endl;
+			test.reset();
+		}
+	}
+	
+	
+	
 	// what error checking is needed?
 		//define or search for a rule set for the header fields
 		//mandatory fields
 		//useful fields
 		//ignore the rest
-	(void)input;
 	return (SUCCESS);
 }
 
@@ -133,4 +163,71 @@ int	RequestParserNew::_parseRequestBody(const std::string& input)
 	// what error checking is needed?
 	(void)input;
 	return (SUCCESS);
+}
+
+
+
+
+HttpHeaderParser::HttpHeaderParser() : state_(START) {}
+
+
+
+void HttpHeaderParser::parse(char c) {
+	std::cout << "state: " << state_ << std::endl;
+  if (state_ ==  START && c == ':') {
+      state_ = HEADER_NAME;
+  } else if (state_ == HEADER_NAME && (c == '\r' || c == '\n')) {
+      if (c == '\r' && !m_header_value.empty() && m_header_value[m_header_value.length() - 1] == '\n') {
+          // Folded header
+          m_header_value.erase(m_header_value.length() - 1);
+          state_ = HEADER_VALUE;
+      } else {
+          state_ = HEADER_DONE;
+      }
+  } else if (c != ' ' && c != '\t' && c != '\r' && c != '\n') {
+      if (state_ == START || state_ == DONE) {
+          m_header_name += c;
+      } else if (state_ == HEADER_VALUE) {
+          if (c == '"' && !m_header_value.empty() && m_header_value[m_header_value.length() - 1]!= '\\') {
+              // Start or end of a quoted string
+              if (m_header_value[m_header_value.length() - 1] == '"') {
+                 m_header_value.erase(m_header_value.length() - 1);
+              } else {
+                 m_header_value += c;
+              }
+          } else {
+              // Handle special characters
+              if (c == '\\' && !m_header_value.empty() && m_header_value[m_header_value.length() - 1]== '\\') {
+                 m_header_value.erase(m_header_value.length() - 1);
+              }
+              m_header_value += c;
+          }
+      }
+  }
+}
+
+
+
+
+
+bool HttpHeaderParser::isComplete() {
+   // Implement logic to check if parsing is complete
+   return state_ == HEADER_DONE;
+}
+
+std::string HttpHeaderParser::getHeaderName() {
+   // Implement logic to get header name
+   return m_header_name;
+}
+
+std::string HttpHeaderParser::getHeaderValue() {
+   // Implement logic to get header value
+   return m_header_value;
+}
+
+void HttpHeaderParser::reset() {
+   // Implement logic to reset the parser
+   state_ = START;
+   m_header_name.clear();
+   m_header_value.clear();
 }
