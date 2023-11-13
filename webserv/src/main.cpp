@@ -10,16 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include <iostream>
-
-// int main()
-// {
-//   int i = 0;
-//   while (i++ < 8)
-//     std::cout << "print here bullshitS" << std::endl;
-//   return (0);
-// }
-
 #include "../inc/Common_header.hpp"
 
 int def_timeout = 5;									
@@ -27,6 +17,63 @@ int def_max_clients = 100;
 int def_max_size_of_file = 1000000;					
 							
 std::vector<t_serv> parseConfig(const std::string& filename);
+
+/////////////////////////////////////////////////////////////// DEBUG  PRINTER ////////////////////////////////////////////////////////////////////////////
+
+void DEBUG_print_config_file( std::vector<t_serv> parsedConfig)
+{
+		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
+		std::cout << "== Global Variables ==\n";
+			std::cout << "def_timeout " << def_timeout << ":\n";
+			std::cout << "def_max_clients " << def_max_clients << ":\n";
+			std::cout << "def_max_size_of_file " << def_max_size_of_file << ":\n";
+			std::cout << "\n";
+        for (size_t i = 0; i < parsedConfig.size(); ++i)
+		{   
+            std::cout << "server #" << i + 1 << " {\n";
+            std::cout << "  port: " << parsedConfig[i].port << "\n";            
+			std::cout << "  server_name: " << parsedConfig[i].server_name << "\n";
+			std::cout << "\n";
+            
+            /* Error pages */
+            for (std::map<int, std::string>::iterator it = parsedConfig[i].error_pages.begin(); it != parsedConfig[i].error_pages.end(); ++it) 
+				std::cout << "  error_page " << it->first << " " << it->second << "\n";
+			std::cout << "\n";
+                
+            /* Locations */
+            for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it)
+			{	
+				std::cout <<  "  location "  << it->first << " { \n";
+				std::cout << "      root: " << it->second.root << "\n";
+				std::cout << "      index: " << it->second.index << "\n";
+				std::cout << "      cgi_ext: ";
+				for (std::vector<std::string>::const_iterator iter = it->second.cgi_extensions.begin(); iter != it->second.cgi_extensions.end(); ++iter)
+				{
+        			std::cout << *iter << " ";
+				}
+				std::cout << "\n";
+				std::cout << "      cgi_path: ";
+				for (std::vector<std::string>::const_iterator iter = it->second.cgi_paths.begin(); iter != it->second.cgi_paths.end(); ++iter)
+				{
+        			std::cout << *iter << " ";
+				}
+				std::cout << "\n";
+				std::cout << "      upload_dir: " << it->second.upload_dir << "\n";
+				std::cout << "      http_redirect: " << it->second.http_redirect << "\n";
+				std::cout << "      methods: ";
+				for (std::vector<std::string>::const_iterator iter = it->second.methods.begin(); iter != it->second.methods.end(); ++iter)
+				{
+        			std::cout << *iter << " ";
+				}
+				std::cout << "\n";
+				std::cout << "      autoindex: " << (bool)it->second.autoindex << "\n";
+				std::cout << "  } \n";
+    		}
+			std::cout << "} \n";
+		}
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 int main(int ac, char** av)
 {	
@@ -45,42 +92,7 @@ int main(int ac, char** av)
 	try
 	{	
         std::vector<t_serv> parsedConfig = parser.parseConfig(config_file);
-
-		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
-        for (size_t i = 0; i < parsedConfig.size(); ++i)
-		{
-			std::cout << "def_timeout " << def_timeout << ":\n";
-			std::cout << "def_max_clients " << def_max_clients << ":\n";
-			std::cout << "def_max_size_of_file " << def_max_size_of_file << ":\n";
-
-			std::cout << "Server " << i + 1 << ":\n";
-			std::cout << "Name: " << parsedConfig[i].server_name << "\n";			
-			std::cout << "Ports:" << " " << parsedConfig[i].port;
-			std::cout << "\n";
-
-			std::cout << "Error Pages:\n";
-			for (std::map<int, std::string>::iterator it = parsedConfig[i].error_pages.begin(); it != parsedConfig[i].error_pages.end(); ++it) {
-				std::cout << "  " << it->first << ": " << it->second << "\n";
-			}
-			int j = 0;
-			std::cout << "Locations:\n";
-				for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it) {
-				std::cout << "  Path: " << it->first << ", CGI Path: " << it->second.cgi_path << "\n";
-
-				std::cout << "  Path: " << it->first << ", index: " << it->second.index << "\n";
-
-				std::cout << "  Path: " << it->first << ", root: " << it->second.root << "\n";
-				std::cout <<  j++ << "\n";
-			}
-
-			// std::cout << "IP Ports:";
-			// for (size_t j = 0; j < parsedConfig[i].ipPort.size(); ++j) {
-			// 	std::cout << " " << parsedConfig[i].ipPort[j];
-			// }
-			std::cout << "\n";
-
-			std::cout << "\n";
-		}
+		DEBUG_print_config_file(parsedConfig);
     }
 	catch(const std::exception& e)
 	{

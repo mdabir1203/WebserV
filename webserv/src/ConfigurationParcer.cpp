@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:53:00 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/12 20:53:17 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/13 15:35:14 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ ConfigurationParser::~ConfigurationParser()
                         std::cout << token << std::endl;
                         if (token[0] == '/') 
                             token.erase(0, 1);
-                        if(checkAdressErrorPage(token) == true)
+                        if(checkFileExist(token, ERR_PAGE) == true)
                             currentServer.error_pages[errorCode] = token;
                     }
                     else if (token == "location")
@@ -164,22 +164,84 @@ ConfigurationParser::~ConfigurationParser()
                         {
                             iss >> token;                        
                             std::cout << PURPLE << "root: " << token << RESET << std::endl;
-                            if (token[0] == '/') 
+                            if (token[0] == '/')
                                 token.erase(0, 1);
-                            if(checkAdressRootPage(token) == true)
+                            if(directoryExists(token, ROOT_DIR) == true)
                                 current_location->root = token;
-                        }                    
-                        if(token == "cgi_path:")
-                        {   std::cout << PURPLE << " if(token == cgi_path:) " << token << RESET << std::endl;
-                            iss >> token;
-                            current_location->cgi_path = token;
-                            std::cout << PURPLE << token << RESET << std::endl;
+							std::cout << BG_BRIGHT_CYAN << "root: " << current_location->root << RESET << std::endl;
                         }
                         else if(token == "index:")
-                        {   std::cout << PURPLE << " if(token == cgi_path:) " << token << RESET << std::endl;
-                            iss >> token;
-                            current_location->index = token;
-                        }                                               
+                        {   
+							iss >> token;  
+							std::cout << PURPLE << " if(token == index: " << token << RESET << std::endl;
+                            if (token[0] == '/') 
+                            	token.erase(0, 1);
+                        	if(checkFileExist(token, INDEX_PAGE) == true)
+                            	current_location->index = token;                            
+                        }
+						else if(token == "cgi_ext:")
+                        {   
+							while (iss >> token)
+							{
+								if (token[0] != '.')
+									throw Ex_InvalidCgiExt();
+								current_location->cgi_extensions.push_back(token);
+								std::cout << PURPLE << " cgi_extensions " << current_location->cgi_extensions.back() << RESET << std::endl;								
+							} 
+						}
+						else if (token == "cgi_path:")
+						{   
+							while (iss >> token)
+							{
+								std::cout << PURPLE << "cgi_path: " << token << RESET << std::endl;
+								if(checkFileExist(token, CGI_EXEC) == true)
+									current_location->cgi_paths.push_back(token);
+							}								
+                        }
+						else if (token == "upload_dir:")
+						{    
+							iss >> token;            
+                            std::cout << PURPLE << "upload_dir: " << token << RESET << std::endl;
+                            if (token[0] == '/')
+                                token.erase(0, 1);                            
+							if(directoryExists(token, UPLOAD_DIR) == true)
+                                current_location->upload_dir = token;
+							std::cout << BG_BRIGHT_CYAN << "Upload_dir: " << current_location->upload_dir  << RESET << std::endl;
+                        }
+						else if (token == "http_redirect:")
+						{   
+							if(iss >> token)
+							{    
+								std::cout << PURPLE << "http_redirect: " << token << RESET << std::endl;
+								current_location->http_redirect = token;
+								std::cout << BG_BRIGHT_CYAN << "http_redirect: " << current_location->http_redirect  << RESET << std::endl;
+							}
+							else
+								current_location->http_redirect = "";
+                        }
+						else if(token == "methods:")
+                        {   
+							while (iss >> token)
+							{	
+								std::cout << PURPLE << "methods: " << token << RESET << std::endl;
+								if (token != "GET" && token != "POST" && token != "DELETE" && token != "PUT")
+									throw Ex_InvalidMethod();
+								current_location->methods.push_back(token);
+								std::cout << PURPLE << "methods: " << current_location->cgi_extensions.back() << RESET << std::endl;								
+							} 
+						}
+						else if(token == "autoindex:")
+                        {   
+							iss >> token;
+							std::cout << PURPLE << "autoindex: " << "\"" << token  << "\""<< RESET << std::endl;
+							if (token == "on")
+								current_location->autoindex = true;
+							else if (token == "off")
+								current_location->autoindex = false;
+							else
+								throw Ex_InvalidAutoindex();
+				
+						}						                                          
                     }
                     break;
             }
@@ -192,3 +254,15 @@ ConfigurationParser::~ConfigurationParser()
             }
         }
     }
+
+
+
+
+/*      				 
+                        iss >> token;                        
+                        std::cout << token << std::endl;
+                        if (token[0] == '/') 
+                            token.erase(0, 1);
+                        if(checkAdressErrorPage(token) == true)
+                            currentServer.error_pages[errorCode] = token;
+                    }*/

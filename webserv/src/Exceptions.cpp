@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:17:33 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/12 20:51:27 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/13 14:50:28 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,42 @@ const char* Ex_InvalidServerVarErrPage::what() const throw()
     return ("Error: invalid error page in configuration file");
 }
 
-const char* Ex_InvalidRootPage::what() const throw()
+const char* Ex_InvalidRootDir::what() const throw()
 {
-    return ("Error: invalid root page in location of configuration file");
+    return ("Error: invalid root directory in location unit of configuration file");
+}
+
+const char* Ex_InvalidCgiExec::what() const throw()
+{   
+        return ("Error: invalid CGI directory in location unit of configuration file");
+}
+
+const char* Ex_InvalidIndexPage::what() const throw()
+{   
+        return ("Error: invalid Index page in location unit of configuration file");
+}
+
+const char* Ex_InvalidRootPage::what() const throw()
+{   
+        return ("Error: invalid root page in location unit of configuration file");
+}
+
+const char* Ex_InvalidAutoindex::what() const throw()
+{   
+        return ("Error: invalid autoindex value in location unit of configuration file");
+}
+
+const char* Ex_InvalidMethod::what() const throw()
+{   
+        return ("Error: invalid method value in location unit of configuration file");
+}
+
+const char* Ex_InvalidCgiExt::what() const throw()
+{   
+        return ("Error: invalid CGI extension in location unit of configuration file");
+}
+
+const char* Ex_InvalidUploadDir::what() const throw()
+{   
+        return ("Error: invalid upload directory in location unit of configuration file");
 }

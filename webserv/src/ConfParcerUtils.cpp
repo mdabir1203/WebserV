@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 12:42:01 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/12 20:49:31 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/13 14:51:38 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ int ConfigurationParser::checkCodeErrorPage(std::string &str)
     return number;
 }
 
-bool ConfigurationParser::checkAdressErrorPage(std::string &filePath)
+bool ConfigurationParser::checkFileExist(std::string &filePath, int specifier)
 {
     std::string trimmedFilePath = filePath;
     size_t startPos = trimmedFilePath.find_first_not_of(" \t\n\r");
@@ -148,31 +148,52 @@ bool ConfigurationParser::checkAdressErrorPage(std::string &filePath)
     if (startPos != std::string::npos && endPos != std::string::npos)
         trimmedFilePath = trimmedFilePath.substr(startPos, endPos - startPos + 1);
 	else
-		throw Ex_InvalidServerVarErrPage();	
+    {
+        if(specifier == ERR_PAGE)
+            throw Ex_InvalidServerVarErrPage();
+        else if (specifier == ROOT_PAGE)
+            throw Ex_InvalidRootPage();
+        else if (specifier == INDEX_PAGE)
+            throw Ex_InvalidIndexPage();  
+        else if (specifier == CGI_EXEC)
+            throw Ex_InvalidCgiExec();                  
+    }		
     if (trimmedFilePath.empty())
-		throw Ex_InvalidServerVarErrPage();		
+    {
+        if(specifier == ERR_PAGE)
+            throw Ex_InvalidServerVarErrPage();
+        else if (specifier == ROOT_PAGE)
+            throw Ex_InvalidRootPage();
+        else if (specifier == INDEX_PAGE)
+            throw Ex_InvalidIndexPage();
+        else if (specifier == CGI_EXEC)
+            throw Ex_InvalidCgiExec();  
+    }	
     std::ifstream file(trimmedFilePath.c_str());
 	std::cout  << trimmedFilePath.c_str() << RESET << std::endl;
     if (!file.good()) 
-		throw Ex_InvalidServerVarErrPage();
+	{
+        if(specifier == ERR_PAGE)
+            throw Ex_InvalidServerVarErrPage();
+        else if (specifier == ROOT_PAGE)
+            throw Ex_InvalidRootPage();
+        else if (specifier == INDEX_PAGE)
+            throw Ex_InvalidIndexPage();
+        else if (specifier == CGI_EXEC)
+            throw Ex_InvalidCgiExec();  
+    }
 	return true;
 }
 
-bool ConfigurationParser::checkAdressRootPage(std::string &filePath)
+bool ConfigurationParser::directoryExists(const std::string& path, int specifier)
 {
-    std::string trimmedFilePath = filePath;
-    size_t startPos = trimmedFilePath.find_first_not_of(" \t\n\r");
-    size_t endPos = trimmedFilePath.find_last_not_of(" \t\n\r");
-
-    if (startPos != std::string::npos && endPos != std::string::npos)
-        trimmedFilePath = trimmedFilePath.substr(startPos, endPos - startPos + 1);
-	else
-		throw Ex_InvalidRootPage();	
-    if (trimmedFilePath.empty())
-		throw Ex_InvalidRootPage();			
-    std::ifstream file(trimmedFilePath.c_str());
-	std::cout  << trimmedFilePath.c_str() << RESET << std::endl;
-    if (!file.good()) 
-		throw Ex_InvalidRootPage();	
-	return true;
+    struct stat info;
+    if (stat(path.c_str(), &info) != 0)
+    {
+        if(specifier == ROOT_DIR)
+            throw Ex_InvalidRootDir();
+        else if(specifier == UPLOAD_DIR)
+            throw Ex_InvalidUploadDir();
+    }
+    return (info.st_mode & S_IFDIR) != 0;
 }

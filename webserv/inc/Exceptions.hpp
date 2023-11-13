@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:11:25 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/12 20:51:44 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/13 14:50:28 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,47 @@ class Ex_InvalidRootPage : public std::exception
         const char* what() const throw();
 };
 
+class Ex_InvalidRootDir : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
 
+class Ex_InvalidCgiExec : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_InvalidIndexPage : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_InvalidAutoindex : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_InvalidMethod : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_InvalidCgiExt : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_InvalidUploadDir : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
 
 
 #endif
