@@ -10,6 +10,7 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <map>
+#include <vector>
 #include <sstream>
 #include <sys/epoll.h>
 #include <signal.h>
