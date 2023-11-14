@@ -1,5 +1,6 @@
 #include "Server.hpp"
-#include <RequestParser.hpp>
+#include "RequestParser.hpp"
+#include "HttpHeaderFieldsParser.hpp"
 
 void signalHandler(int signum)
 {
@@ -40,5 +41,7 @@ for (std::string::iterator it = request.begin(); it != request.end(); ++it) {
     parser.parse(*it);
 }
 
+  std::cout << "Header name: " << parser.getHeaderName() << std::endl;
+  std::cout << "Header value: " << parser.getHeaderValue() << std::endl;
   return 0;
 }
