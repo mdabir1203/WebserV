@@ -1,4 +1,4 @@
-#include "HttpHeaderFieldsParser.hpp"
+#include "HeaderField.hpp"
 
 HttpHeaderParser::HttpHeaderParser() : state_(START) {}
 
