@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "../inc/Common_header.hpp"
-
-int def_timeout = 5;									
-int def_max_clients = 100;							
-int def_max_size_of_file = 1000000;					
 							
 std::vector<t_serv> parseConfig(const std::string& filename);
 
@@ -23,13 +19,12 @@ std::vector<t_serv> parseConfig(const std::string& filename);
 void DEBUG_print_config_file( std::vector<t_serv> parsedConfig)
 {
 		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
-		std::cout << "== Global Variables ==\n";
-			std::cout << "def_timeout " << def_timeout << ":\n";
-			std::cout << "def_max_clients " << def_max_clients << ":\n";
-			std::cout << "def_max_size_of_file " << def_max_size_of_file << ":\n";
-			std::cout << "\n";
         for (size_t i = 0; i < parsedConfig.size(); ++i)
-		{   
+		{   std::cout << "== Global Variables ==\n";
+			std::cout << "def_timeout " << parsedConfig[i].def_timeout << "\n";
+			std::cout << "def_max_clients " << parsedConfig[i].def_max_clients << ":\n";
+			std::cout << "def_max_size_of_file " << parsedConfig[i].def_max_size_of_file << ":\n";
+			std::cout << "\n";
             std::cout << "server #" << i + 1 << " {\n";
             std::cout << "  port: " << parsedConfig[i].port << "\n";            
 			std::cout << "  server_name: " << parsedConfig[i].server_name << "\n";
@@ -77,28 +72,16 @@ void DEBUG_print_config_file( std::vector<t_serv> parsedConfig)
 
 int main(int ac, char** av)
 {	
-	std::string			config_file;
 	ConfigurationParser parser;
-
-	if(ac == 1)
-		config_file = "src/config_files/default.conf";
-	else if (ac == 2)
-		config_file = av[1];
-	else
-	{
-		std::cerr << "Error: wrong number of arguments\n";
-		return 1;
-	}
 	try
 	{	
-        std::vector<t_serv> parsedConfig = parser.parseConfig(config_file);
+        std::vector<t_serv> parsedConfig = parser.parseConfig(ac, av);
 		DEBUG_print_config_file(parsedConfig);
     }
 	catch(const std::exception& e)
 	{
 		std::cerr << e.what() << '\n';
 		return 1;
-	}
-	
+	}	
 	return 0;
 }

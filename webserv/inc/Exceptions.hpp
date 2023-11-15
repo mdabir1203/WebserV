@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:11:25 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/13 14:50:28 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/15 21:30:11 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,22 @@ class Ex_InvalidUploadDir : public std::exception
         const char* what() const throw();
 };
 
+class Ex_WrongNumArguments : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_DoubleLocation : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
+
+class Ex_MissedVarInConfig : public std::exception 
+{   
+    public:
+        const char* what() const throw();
+};
 
 #endif
