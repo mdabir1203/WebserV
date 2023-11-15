@@ -1,26 +1,15 @@
 #ifndef HEADER_FIELDS_HPP
 # define HEADER_FIELDS_HPP
 
+#include "HeaderField.hpp"
 
-#include <map>
-#include <string>
-#include <cctype>
-#include <stdexcept>
-
-enum HTTPHeaderParserState
+HeaderFieldStateMachine::HeaderFieldStateMachine(void)
+                        : maxHeaderLength(8192), currentState(HEADER_NAME)
 {
-   HEADER_NAME,
-   HEADER_VALUE,
-   HEADER_LWS,
-   HEADER_END
-};
 
+}
 
-class HeaderFieldStateMachine {
-public:
-   HeaderFieldStateMachine(size_t maxLength = 8192) : currentState(HEADER_NAME), maxHeaderLength(maxLength) {}
-
-   void parseChar(char input) {
+void HeaderFieldStateMachine::parseChar(char input) {
       if (headerName.length() > maxHeaderLength || headerValue.length() > maxHeaderLength) {
          throw std::length_error("Header field is too long");
       }
@@ -79,20 +68,16 @@ public:
                }
                break;
       }
-   }
+}
 
-    const std::map<std::string, std::string>& getParsedHeaders() const {
-        return headers;
-    }
-   int currentState;
+const std::map<std::string, std::string>& HeaderFieldStateMachine::getParsedHeaders() const
+{
+   return headers;
+}
 
-   std::map<std::string, std::string> headers;
-private:
-
-   std::string headerName;
-   std::string headerValue;
-   const size_t maxHeaderLength;  // To prevent buffer overflow attacks
-
-};
+void HeaderFieldStateMachine::setCurrentState(const int state)
+{
+   currentState = state;
+}
 
 #endif /* HTTP_HEADER_FIELDS_PARSER_HPP */

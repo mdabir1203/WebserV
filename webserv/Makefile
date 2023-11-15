@@ -6,14 +6,14 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-SERVER := $(addprefix server/, Server.cpp Response.cpp HttpRequest.cpp RequestParser.cpp HttpHeaderFieldsParser.cpp)
+SERVER := $(addprefix server/, Server.cpp Response.cpp HttpRequest.cpp RequestParser.cpp HeaderField.cpp)
 
 SRCS := main.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-HEADER := $(addprefix inc/, Server.hpp Response.hpp HttpRequest.hpp RequestParser.hpp HttpHeaderFieldsParser.hpp)
+HEADER := $(addprefix inc/, Server.hpp Response.hpp HttpRequest.hpp RequestParser.hpp HeaderField.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
 

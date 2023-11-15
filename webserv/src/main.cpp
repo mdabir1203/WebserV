@@ -1,6 +1,5 @@
 #include "Server.hpp"
 #include "RequestParser.hpp"
-#include "HttpHeaderFieldsParser.hpp"
 
 void signalHandler(int signum)
 {
@@ -34,14 +33,14 @@ int main()
   // parser.parse(request);
   // parser.parse(request);
 
-  std::string request = "Host: localhost:8080\r\nUser-Agent: curl/7.68.0\r\nAccept: */*\r\n";
+//   std::string request = "Host: localhost:8080\r\nUser-Agent: curl/7.68.0\r\nAccept: */*\r\n";
 
-  HttpHeaderParser parser;
-for (std::string::iterator it = request.begin(); it != request.end(); ++it) {
-    parser.parse(*it);
-}
+//   HttpHeaderParser parser;
+// for (std::string::iterator it = request.begin(); it != request.end(); ++it) {
+//     parser.parse(*it);
+// }
 
-  std::cout << "Header name: " << parser.getHeaderName() << std::endl;
-  std::cout << "Header value: " << parser.getHeaderValue() << std::endl;
-  return 0;
+//   std::cout << "Header name: " << parser.getHeaderName() << std::endl;
+//   std::cout << "Header value: " << parser.getHeaderValue() << std::endl;
+//   return 0;
 }
