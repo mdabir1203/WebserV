@@ -13,17 +13,17 @@
 #include "Common_header.hpp"
 
 void ConfigurationParser::checkConfigFile(std::string filename)
-{   
-    std::ifstream fin(filename);
-    if(!fin.is_open())
+{
+    FILE* fin = fopen(filename.c_str(), "r");
+    if (!fin)
     {
         throw Ex_CantOpenConfigFile();
     }
-    if (fin.peek() == std::ifstream::traits_type::eof())
+    if (fgetc(fin) == EOF)
     {
         throw Ex_ConfigFileIsEmpty();
     }
-    fin.close();
+    fclose(fin);
 }
 
 int ConfigurationParser::handleGlobalVars(std::string &token, int specifier) 
@@ -39,9 +39,13 @@ int ConfigurationParser::handleGlobalVars(std::string &token, int specifier)
             return 1000000;	
 		std::istringstream stream(token);
     	if (!(stream >> number))
-        	throw Ex_InvalidArgument();		
-    	if (stream >> leftover)
+        {
+        	throw Ex_InvalidArgument();	
+        }
+        if (stream >> leftover)
+        {
         	throw Ex_InvalidArgument();
+        }
 		if(specifier == TIMEOUT && (number < 0 || number > 60))
 			throw Ex_InvalidArgument();
 		else if(specifier == MAX_CLIENTS && (number < 0 || number > 200))
