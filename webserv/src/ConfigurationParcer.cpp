@@ -112,7 +112,7 @@ void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServ
                 {                        
                     iss >> token;
                     checkCodeErrorPage(token);
-                    int errorCode = std::stoi(token);
+                    int errorCode = std::atoi(token.c_str());
                     iss >> token;                        
                     if (token[0] == '/') 
                         token.erase(0, 1);
