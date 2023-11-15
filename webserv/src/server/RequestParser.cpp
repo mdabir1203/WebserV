@@ -1,5 +1,4 @@
 #include "RequestParser.hpp"
-#include "HttpHeaderFieldsParser.hpp"
 
 void skipSpaces(std::istringstream& iss);
 
@@ -120,25 +119,25 @@ int	RequestParserNew::_setMethod(const std::string& input)
 
 int RequestParserNew::_parseHeaderFields(const std::string& input)
 {
-	std::string::size_type endOfHeaderField = input.find("\r\n");
+	// std::string::size_type endOfHeaderField = input.find("\r\n");
 
-	std::string::const_iterator it = input.begin();
+	// std::string::const_iterator it = input.begin();
 
-	std::advance(it, 19);
-	for (; it != input.end(); ++it)
-	{
-		std::cout << "char: " << *it << std::endl;
-		test.parse(*it);
-		std::cout << test.isComplete() << std::endl;
-		if (test.isComplete())
-		{
-			std::cout << "Header name: " << test.getHeaderName() << std::endl;
-			std::cout << "Header value: " << test.getHeaderValue() << std::endl;
-			test.reset();
-		}
-	}
+	// std::advance(it, 19);
+	// for (; it != input.end(); ++it)
+	// {
+	// 	std::cout << "char: " << *it << std::endl;
+	// 	test.parse(*it);
+	// 	std::cout << test.isComplete() << std::endl;
+	// 	if (test.isComplete())
+	// 	{
+	// 		std::cout << "Header name: " << test.getHeaderName() << std::endl;
+	// 		std::cout << "Header value: " << test.getHeaderValue() << std::endl;
+	// 		test.reset();
+	// 	}
+	// }
 	
-	
+	(void)input;
 	
 	// what error checking is needed?
 		//define or search for a rule set for the header fields

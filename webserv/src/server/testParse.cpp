@@ -5,6 +5,7 @@
 #include <map>
 #include <cctype>
 #include <cstddef>
+#include <cstring>
 
 
 #include "HeaderField.hpp"
@@ -66,14 +67,14 @@ void testHeadersWithMultipleValues() {
     assert(parser.getParsedHeaders().at("set-cookie") == "id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT");
     std::cout << "Test Headers with Multiple Values: Passed\n";
 
-    parser.currentState = HEADER_NAME;
+    parser.setCurrentState(HEADER_NAME);
     for (size_t i = 0; i < headers2.length(); ++i) {
     std::cout << headers2[i] << std::flush ;
     parser.parseChar(headers2[i]);
     
 }
 
-    std::cout << "map-Vlaue:" << parser.headers.at("set-cookie") << std::endl;
+    std::cout << "map-Vlaue:" << parser.getParsedHeaders().at("set-cookie") << std::endl;
 
     assert(parser.getParsedHeaders().at("set-cookie") == "id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT, id=12345; Expires=Thu, 22 Oct 2015 07:28:00 GMT");
     std::cout << "Test Headers with Multiple Values: Passed\n";
