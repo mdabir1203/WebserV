@@ -120,7 +120,7 @@ int	RequestParserNew::_setMethod(const std::string& input)
 
 int RequestParserNew::_parseHeaderFields(const std::string& input)
 {
-	HttpHeaderParser test;
+	std::string::size_type endOfHeaderField = input.find("\r\n");
 
 	std::string::const_iterator it = input.begin();
 
