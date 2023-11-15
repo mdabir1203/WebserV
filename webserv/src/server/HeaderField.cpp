@@ -3,12 +3,31 @@
 
 #include "HeaderField.hpp"
 
+
+//TODO: decide for size limit of header fields
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
-                        : maxHeaderLength(8192), currentState(HEADER_NAME)
+                        : maxHeaderLength(8192), currentState(HEADER_NAME), positionInInput(0)
 {
 
 }
 
+//this function should read one header line of the input and if neccessary continue reading with the next chunk of data
+int   HeaderFieldStateMachine::parseOneHeaderLine(const std::string& input)
+{
+   try
+   {
+      while (positionInInput < input.length() && currentState != HEADER_END)
+         parseChar(input[positionInInput++]);
+   }
+   catch(const std::exception& e)
+   {
+      std::cerr << e.what() << std::endl;
+      return (BAD_REQUEST);
+   }
+   return (OK);
+}
+
+//currently not able to handle multiple occurences of the same header_field_name
 void HeaderFieldStateMachine::parseChar(char input) {
       if (headerName.length() > maxHeaderLength || headerValue.length() > maxHeaderLength) {
          throw std::length_error("Header field is too long");
@@ -45,7 +64,7 @@ void HeaderFieldStateMachine::parseChar(char input) {
                } else if (input == '\n') {
                   // Remove trailing whitespace
                   headerValue.erase(headerValue.find_last_not_of(" \t") + 1);
-                  // Check for existing header and append with a comma if necessary
+                  // Check for existing header and append with a comma if necessary --> Multiple occurences Problem <--
                   if (headers.find(headerName) != headers.end()) {
                      headers[headerName] += ", " + headerValue;
                   } else {
@@ -78,6 +97,19 @@ const std::map<std::string, std::string>& HeaderFieldStateMachine::getParsedHead
 void HeaderFieldStateMachine::setCurrentState(const int state)
 {
    currentState = state;
+}
+
+void  HeaderFieldStateMachine::reset()
+{
+   currentState = HEADER_NAME;
+   headerName.clear();
+   headerValue.clear();
+   headers.clear();
+}
+
+void  HeaderFieldStateMachine::setInputPosition(const size_t position)
+{
+   positionInInput = position;
 }
 
 #endif /* HTTP_HEADER_FIELDS_PARSER_HPP */
