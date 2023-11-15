@@ -6,13 +6,11 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 12:42:01 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/13 14:51:38 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/15 21:52:31 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Common_header.hpp"
-
-extern int def_timeout;
 
 void ConfigurationParser::checkConfigFile(std::string filename)
 {   
@@ -28,13 +26,17 @@ void ConfigurationParser::checkConfigFile(std::string filename)
     fin.close();
 }
 
-void ConfigurationParser::handleGlobalVars(std::string &token, int specifier) 
+int ConfigurationParser::handleGlobalVars(std::string &token, int specifier) 
 {	
 		int number;
 		char leftover;
 		
-		if (token.empty())
-        	return;				
+		if ((token.empty() || token == "timeout:") && specifier == TIMEOUT)            
+        	return 5;
+        else if ((token.empty() || token == "max_clients:")&& specifier == MAX_CLIENTS)
+            return 200;
+        else if ((token.empty() || token == "max_size_of_file:") && specifier == MAX_SIZE_OF_FILE)
+            return 1000000;	
 		std::istringstream stream(token);
     	if (!(stream >> number))
         	throw Ex_InvalidArgument();		
@@ -46,13 +48,7 @@ void ConfigurationParser::handleGlobalVars(std::string &token, int specifier)
 			throw Ex_InvalidArgument();
 		else if(specifier == MAX_SIZE_OF_FILE && (number < 0 || number > 1000000))
 			throw Ex_InvalidArgument();
-		if(specifier == TIMEOUT)
-			def_timeout = number;
-		else if(specifier == MAX_CLIENTS)
-			def_max_clients = number;
-		else if(specifier == MAX_SIZE_OF_FILE)
-			def_max_size_of_file = number;
-		return ;		
+		return number;		
 }
 
 int ConfigurationParser::handleServerVarPort(std::string &str) 
@@ -60,24 +56,17 @@ int ConfigurationParser::handleServerVarPort(std::string &str)
     int number; 
     std::size_t index = 0;
 
-    while (index < str.length() && std::isspace(static_cast<unsigned char>(str[index]))) 
-        ++index;
-
-    if (index == str.length())
+    if (str.length() == 0)
         throw Ex_InvalidServerVarPort();
-
     while (index < str.length()) 
 	{
         if (!std::isdigit(static_cast<unsigned char>(str[index]))) 
 			throw Ex_InvalidServerVarPort();
         ++index;
     }
-
-    number = std::atoi(str.c_str());
-	
+    number = std::atoi(str.c_str());	
     if (number < 0 || number > 65535)
 		throw Ex_InvalidServerVarPort();
-
 	return number;
 }
 
@@ -113,12 +102,12 @@ std::string ConfigurationParser::handleServerVarName(std::string &input)
 int ConfigurationParser::checkCodeErrorPage(std::string &str) 
 {   
     int number; 
-    std::string::iterator it = str.begin(); // Создаем итератор на начало строки
+    std::string::iterator it = str.begin();
 
     while (std::isspace(static_cast<unsigned char>(*it))) 
         ++it;
 
-    if (it == str.end()) // Проверяем, достигли ли конца строки
+    if (it == str.end()) 
         throw Ex_InvalidServerVarErrPageCode();
 
     while (it != str.end()) 
@@ -127,15 +116,12 @@ int ConfigurationParser::checkCodeErrorPage(std::string &str)
             throw Ex_InvalidServerVarErrPageCode();
         ++it;
     }
-
-    number = std::atoi(str.c_str()); // Преобразуем строку в число
-
+    number = std::atoi(str.c_str());
     if(number != 404 && number != 403 && number != 400 && number != 405 && number != 410 
         && number != 413 && number != 500 && number != 502)
     {
         throw Ex_InvalidServerVarErrPageCode();
     }
-
     return number;
 }
 
@@ -193,7 +179,23 @@ bool ConfigurationParser::directoryExists(const std::string& path, int specifier
         if(specifier == ROOT_DIR)
             throw Ex_InvalidRootDir();
         else if(specifier == UPLOAD_DIR)
-            throw Ex_InvalidUploadDir();
+        {
+            if(mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
+                throw Ex_InvalidUploadDir();
+        }
     }
     return (info.st_mode & S_IFDIR) != 0;
+}
+
+void ConfigurationParser::check_for_double_location(t_serv& currentServer, std::string location_name)
+{
+    for (std::multimap<std::string, Location>::iterator it = currentServer.loc.begin(); it != currentServer.loc.end(); ++it)
+    {std::cout << "it->first " << it->first << std::endl;
+        if(it->first == location_name)
+        {   
+            
+            throw Ex_DoubleLocation();
+        }
+            
+    }
 }

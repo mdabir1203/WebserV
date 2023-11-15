@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 13:06:15 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/13 15:16:52 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/15 18:11:43 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,12 @@
 #include <cstring>
 #include <cstdlib>
 #include <sys/stat.h>
+#include <iostream>
 
-extern  int def_timeout;									
-extern  int def_max_clients;							
-extern  int def_max_size_of_file;
+
+//extern  int def_timeout;									
+// extern  int def_max_clients;							
+// extern  int def_max_size_of_file;
 
 /* ========== Locations =========== */
 typedef struct Location {
@@ -52,6 +54,9 @@ typedef struct Location {
 typedef struct s_serv {
     int port;
     std::string server_name;
+    int def_timeout;
+    int def_max_clients;
+    int def_max_size_of_file;
     std::map<int, std::string> error_pages;
     std::multimap<std::string, Location> loc;
 
