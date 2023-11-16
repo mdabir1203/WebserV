@@ -3,15 +3,19 @@
 
 #include "HeaderField.hpp"
 
+
 //TODO: decide for size limit of header fields
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
-                        : maxHeaderLength(8192), currentState(HEADER_NAME), positionInInput(0), paramterLength(0), lastChar('\0')
+                        : maxHeaderLength(8192), currentState(HEADER_METHOD), positionInInput(0), paramterLength(0), lastChar('\0'), isHttpVersionRight(false)
 {
-   stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderName;
-   stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderOWS;
-   stateTransitionArray[2] = &HeaderFieldStateMachine::handleStateHeaderValue;
-   stateTransitionArray[3] = &HeaderFieldStateMachine::handleStateHeaderPairDone;
-   stateTransitionArray[4] = &HeaderFieldStateMachine::handleStateHeaderBody;
+   stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
+   stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
+   stateTransitionArray[2] = &HeaderFieldStateMachine::handleStateHeaderHttpVersion;
+   stateTransitionArray[3] = &HeaderFieldStateMachine::handleStateHeaderName;
+   stateTransitionArray[4] = &HeaderFieldStateMachine::handleStateHeaderOWS;
+   stateTransitionArray[5] = &HeaderFieldStateMachine::handleStateHeaderValue;
+   stateTransitionArray[6] = &HeaderFieldStateMachine::handleStateHeaderPairDone;
+   stateTransitionArray[7] = &HeaderFieldStateMachine::handleStateHeaderBody;
 }
 
 //this function should read one header line of the input and if neccessary continue reading with the next chunk of data
@@ -45,6 +49,21 @@ void HeaderFieldStateMachine::parseChar(char input)
 const std::map<std::string, std::string>& HeaderFieldStateMachine::getParsedHeaders() const
 {
    return headers;
+}
+
+const std::string& HeaderFieldStateMachine::getHeaderMethod() const
+{
+   return headerMethod;
+}
+
+const std::string& HeaderFieldStateMachine::getHeaderUri() const
+{
+   return headerUri;
+}
+
+const bool& HeaderFieldStateMachine::getIsHttpVersionRight() const
+{
+   return isHttpVersionRight;
 }
 
 void HeaderFieldStateMachine::setCurrentState(const int state)

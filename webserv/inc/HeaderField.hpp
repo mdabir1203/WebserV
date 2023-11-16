@@ -8,9 +8,18 @@
 #include <string>
 #include <cctype>
 #include <stdexcept>
+#include <set>
+
+#define HEADER_URI_MAX_LENGTH 8000
+#define HEADER_METHOD_MAX_LENGTH 6
+#define HEADER_HTTP_VERSION_MAX_LENGTH 8
+#define HEADER_HTTP_VERSION_STRING "HTTP/1.1"
 
 enum HTTPHeaderParserState // do not move without changing the function pointer array
 {
+   HEADER_METHOD,
+   HEADER_URI,
+   HEADER_HTTP_VERSION,
    HEADER_NAME,
    HEADER_OWS,
    HEADER_VALUE,
@@ -26,6 +35,9 @@ public:
    int   parseOneHeaderLine(const std::string& input);
    void  parseChar(char input);
    const std::map<std::string, std::string>& getParsedHeaders() const;
+   const std::string& getHeaderMethod() const;
+   const std::string& getHeaderUri() const;
+   const bool& getIsHttpVersionRight() const;
    void  setCurrentState(const int state);
    void  setInputPosition(const size_t position);
    void  reset(void);
@@ -40,11 +52,19 @@ private:
    size_t                               paramterLength;
    char                                 lastChar;
 
-   // Define the function pointer type
-   typedef void (HeaderFieldStateMachine::*StateHandler)(char);
+   std::string                          headerMethod;
+   std::string                          headerUri;
+   bool                                 isHttpVersionRight;
 
-   // Define the array of function pointers
-   StateHandler stateTransitionArray[5];// number of trnasition fuctions
+   typedef void (HeaderFieldStateMachine::*StateHandler)(char); // maybe static?
+   StateHandler stateTransitionArray[8];// number of trnasition fuctions
+
+   //header request line parsing
+   void  handleStateHeaderMethod(char c);
+   void  handleStateHeaderUri(char c);
+   void  handleStateHeaderHttpVersion(char c);
+
+   //header fields parsing
    void  stateTransition(int state, int nextState);
    void	handleStateHeaderName(char c);
    void	handleStateHeaderOWS(char c);
