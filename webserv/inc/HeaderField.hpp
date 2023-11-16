@@ -9,14 +9,15 @@
 #include <cctype>
 #include <stdexcept>
 
-enum HTTPHeaderParserState
+enum HTTPHeaderParserState // do not move without changing the function pointer array
 {
    HEADER_NAME,
+   HEADER_OWS,
    HEADER_VALUE,
-   HEADER_LWS,
+   HEADER_PAIR_DONE,
+   HEADER_BODY,
    HEADER_END
 };
-
 
 class HeaderFieldStateMachine {
 public:
@@ -36,6 +37,20 @@ private:
    std::string                          headerValue;
    std::map<std::string, std::string>   headers;
    size_t                               positionInInput;
+   size_t                               paramterLength;
+   char                                 lastChar;
+
+   // Define the function pointer type
+   typedef void (HeaderFieldStateMachine::*StateHandler)(char);
+
+   // Define the array of function pointers
+   StateHandler stateTransitionArray[5];// number of trnasition fuctions
+   void  stateTransition(int state, int nextState);
+   void	handleStateHeaderName(char c);
+   void	handleStateHeaderOWS(char c);
+   void  handleStateHeaderValue(char c);
+   void  handleStateHeaderPairDone(char c);
+   void  handleStateHeaderBody(char c);
 };
 
 #endif /* HEADER_FIELD_HPP */
