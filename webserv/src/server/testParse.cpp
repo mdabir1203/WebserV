@@ -56,12 +56,19 @@ void testHeadersWithMultipleValues() {
 
     parser.setCurrentState(HEADER_NAME);
     parser.setInputPosition(0);
-    parser.parseOneHeaderLine(headers2);
 
-    std::cout << "map-Vlaue:" << parser.getParsedHeaders().at("set-cookie") << std::endl;
+    bool caught = false;
+    if (parser.parseOneHeaderLine(headers2) != OK)
+        caught = true;
 
-    assert(parser.getParsedHeaders().at("set-cookie") == "id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT, id=12345; Expires=Thu, 22 Oct 2015 07:28:00 GMT");
-    std::cout << "Test Headers with Multiple Values: Passed\n";
+    assert(caught);
+    std::cout << "Test Duplicate Header Name: Passed\n";
+
+    // parser.parseOneHeaderLine(headers2);
+    // std::cout << "map-Vlaue:" << parser.getParsedHeaders().at("set-cookie") << std::endl;
+
+    // assert(parser.getParsedHeaders().at("set-cookie") == "id=a3fWa; Expires=Wed, 21 Oct 2015 07:28:00 GMT, id=12345; Expires=Thu, 22 Oct 2015 07:28:00 GMT");
+    // std::cout << "Test Headers with Multiple Values: Passed\n";
 
 
 }
@@ -94,15 +101,43 @@ void testUnexpectedCharactersAfterHeaderLine() {
     std::cout << "Test Unexpected Characters after Header Line: Passed\n";
 }
 
-// Additional test cases would be similarly structured...
 
+void testMultipleHeaderFieds() {
+    HeaderFieldStateMachine parser;
+    std::string header = "Content-Type: text/html\r\nContent-Length: 88\r\n";
+    bool caught = false;
+
+    parser.parseOneHeaderLine(header);
+
+
+    assert(parser.getParsedHeaders().at("content-type") == "text/html");
+    assert(parser.getParsedHeaders().at("content-length") == "88");
+    std::cout << "Test Multiple Header Fields: Passed\n";
+}
+
+void testNoHeaderFields() {
+    HeaderFieldStateMachine parser;
+    std::string header = "\r\n";
+    bool caught = false;
+
+    if (parser.parseOneHeaderLine(header) != OK)
+        caught = true;
+
+    assert(!caught);
+    std::cout << "Test No Header Fields: Passed\n";
+
+}
+
+// Additional test cases would be similarly structured...
 int main() {
     testValidHeader();
     testInvalidHeaderName();
     testLeadingAndTrailingWhitespace();
-    // testHeadersWithMultipleValues();
+    testHeadersWithMultipleValues();
     testBufferOverflowProtection();
-    // testUnexpectedCharactersAfterHeaderLine();
+    testUnexpectedCharactersAfterHeaderLine();
+    testMultipleHeaderFieds();
+    testNoHeaderFields();
 
     // ... call other test functions
     

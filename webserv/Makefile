@@ -6,7 +6,7 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-SERVER := $(addprefix server/, Server.cpp Response.cpp HttpRequest.cpp RequestParser.cpp HeaderField.cpp)
+SERVER := $(addprefix server/, Server.cpp Response.cpp HttpRequest.cpp RequestParser.cpp HeaderField.cpp transition.cpp)
 
 SRCS := main.cpp \
 		${SERVER}
