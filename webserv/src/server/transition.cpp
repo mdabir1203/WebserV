@@ -36,6 +36,8 @@ bool isHeaderFieldAllowed(const std::string& input, int headerMethod)
    if (input.empty())
       return (false);
    hash = input.length() + input[0];
+   if (hash < 103 || hash > 133)
+	  return (false);
    switch (hash)
    {
       case 111:
