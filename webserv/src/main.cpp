@@ -1,6 +1,5 @@
 #include "Server.hpp"
 #include "RequestParser.hpp"
-#include "HeaderField.hpp"
 
 
 #include <cassert>

@@ -1,22 +1,33 @@
-#ifndef REQUEST_PARSER_NEW_HPP
-# define REQUEST_PARSER_NEW_HPP
+#ifndef REQUEST_PARSER_HPP
+# define REQUEST_PARSER_HPP
 
-# include "Server.hpp"
+#include "Server.hpp"
+#include "RequestParser.hpp"
 
-enum ParseState
+#include <map>
+#include <string>
+#include <cctype>
+#include <stdexcept>
+#include <set>
+
+#define HEADER_URI_MAX_LENGTH 8000
+#define HEADER_METHOD_MAX_LENGTH 6
+#define HEADER_HTTP_VERSION_MAX_LENGTH 8
+#define HEADER_HTTP_VERSION_STRING "HTTP/1.1"
+
+enum HTTPHeaderParserState // do not move without changing the function pointer array
 {
-	REQUEST_LINE,
-	// METHOD,
-	// REQUEST_URI,
-	// HTTP_VERSION,
-	HEADER_FIELDS,
-	// HEADER_NAME,
-	// HEADER_VALUE,
-	REQUEST_BODY,
-	ERROR, // Bad request
-	SUCCESS,
-	DONE
+   HEADER_METHOD,
+   HEADER_URI,
+   HEADER_HTTP_VERSION,
+   HEADER_NAME,
+   HEADER_OWS,
+   HEADER_VALUE,
+   HEADER_PAIR_DONE,
+   HEADER_BODY,
+   HEADER_END
 };
+
 
 enum HttpMethod
 {
@@ -26,6 +37,7 @@ enum HttpMethod
 	UNKNOWN
 };
 
+
 enum ErrorCodes
 {
 	OK,
@@ -34,37 +46,54 @@ enum ErrorCodes
 };
 
 
-class RequestParserNew
-{
-	public:
-		RequestParserNew(void);
-		RequestParserNew(const RequestParserNew &src);
-		~RequestParserNew(void);
-		RequestParserNew &operator=(const RequestParserNew &rhs);
 
-		void parse(const std::string& request); // needs to be looped
+class HeaderFieldStateMachine {
+public:
+   HeaderFieldStateMachine(void);
 
-		struct HttpRequestData
-		{
-			int			method;
-			std::string requestUri;
-			std::map<std::string, std::string> headerFields;
-			std::string requestBody;
-    	};
-		HttpRequestData storedHttpRequest;
+   int   parseOneHeaderLine(const std::string& input);
+   void  parseChar(char input);
+   const std::map<std::string, std::vector<std::string> >& getParsedHeaders() const;
+   int getHeaderMethod() const;
+   const std::string& getHeaderUri() const;
+   const bool& getIsHttpVersionRight() const;
+   void  setCurrentState(const int state);
+   void  setInputPosition(const size_t position);
+   void  reset(void);
 
-	private:
-		int						_currentStateMachine;
-		int						_errorCode;
-		std::string::size_type	_currentPositionInInput;
-		std::string				_parameter;
-		std::string				_value;
+private:
+   const size_t                         maxHeaderLength;  // To prevent buffer overflow attacks
+   int                                  currentState;
+   std::string                          headerName;
+   std::string                          headerValue;
+   std::map<std::string, std::vector<std::string> > headers;
+   size_t                               positionInInput;
+   size_t                               paramterLength;
+   char                                 lastChar;
 
-		int	_parseRequestLine(const std::string& input);
-		int _setMethod(const std::string& input);
-		int _parseHeaderFields(const std::string& input);
-		int	_setHeaderPair(const std::string& name, const std::string& value);
-		int	_parseRequestBody(const std::string& input);
+   int                                  headerMethod;
+   std::string                          headerUri;
+   bool                                 isHttpVersionRight;
+
+   const char**                         headerFieldsForMethod[3]; // [GET, POST, DELETE]
+
+   typedef void (HeaderFieldStateMachine::*StateHandler)(char); // maybe static?
+   StateHandler stateTransitionArray[8];// number of trnasition fuctions
+
+   //header request line parsing
+   void  handleStateHeaderMethod(char c);
+   bool  setMethod(const std::string& input);
+   void  handleStateHeaderUri(char c);
+   void  handleStateHeaderHttpVersion(char c);
+
+   //header fields parsing
+   void  stateTransition(int state, int nextState);
+   void	handleStateHeaderName(char c);
+   void	handleStateHeaderOWS(char c);
+   void  handleStateHeaderValue(char c);
+   void  handleStateHeaderPairDone(char c);
+   void  handleStateHeaderBody(char c);
+   void  storeHeaderPair(void);
 };
 
-#endif /* REQUEST_PARSER_NEW_HPP */
+#endif /* REQUEST_PARSER_HPP */

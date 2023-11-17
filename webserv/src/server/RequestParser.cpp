@@ -1,166 +1,89 @@
 #include "RequestParser.hpp"
 
-void skipSpaces(std::istringstream& iss);
-
-RequestParserNew::RequestParserNew(void) : _currentStateMachine(REQUEST_LINE), _errorCode(OK), _currentPositionInInput(0), _parameter(""), _value("")
+//TODO: decide for size limit of header fields
+HeaderFieldStateMachine::HeaderFieldStateMachine(void)
+                        : maxHeaderLength(8192), currentState(HEADER_METHOD),
+                        positionInInput(0), paramterLength(0), lastChar('\0'),
+                        headerMethod(0), isHttpVersionRight(false)
 {
-
+   stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
+   stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
+   stateTransitionArray[2] = &HeaderFieldStateMachine::handleStateHeaderHttpVersion;
+   stateTransitionArray[3] = &HeaderFieldStateMachine::handleStateHeaderName;
+   stateTransitionArray[4] = &HeaderFieldStateMachine::handleStateHeaderOWS;
+   stateTransitionArray[5] = &HeaderFieldStateMachine::handleStateHeaderValue;
+   stateTransitionArray[6] = &HeaderFieldStateMachine::handleStateHeaderPairDone;
+   stateTransitionArray[7] = &HeaderFieldStateMachine::handleStateHeaderBody;
 }
 
-RequestParserNew::RequestParserNew(const RequestParserNew &src)
+//this function should read one header line of the input and if neccessary continue reading with the next chunk of data
+int   HeaderFieldStateMachine::parseOneHeaderLine(const std::string& input)
 {
-	*this = src;
+   try
+   {
+      while (positionInInput < input.length() && currentState != HEADER_END)
+      {
+         // std::cout << "current state: " << currentState << std::endl;
+         // std::cout << "current char: " << input[positionInInput] << std::endl;
+         parseChar(input[positionInInput]);
+         lastChar = input[positionInInput];
+         positionInInput++;
+      }
+   }
+   catch(const std::exception& e)
+   {
+      std::cerr << e.what() << std::endl;
+      return (BAD_REQUEST);
+   }
+   return (OK);
 }
 
-RequestParserNew::~RequestParserNew(void)
+//currently not able to handle multiple occurences of the same header_field_name
+void HeaderFieldStateMachine::parseChar(char input)
 {
-
+   (this->*stateTransitionArray[currentState])(input);
 }
 
-RequestParserNew &RequestParserNew::operator=(const RequestParserNew &rhs)
+const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
 {
-	if (this == &rhs)
-		return (*this);
-	//copy data
-	return (*this);
+   return headers;
 }
 
-void	RequestParserNew::parse(const std::string& input)
+int HeaderFieldStateMachine::getHeaderMethod() const
 {
-	if (this->_currentStateMachine == REQUEST_LINE)
-	{
-		if (this->_parseRequestLine(input) == ERROR)
-		{
-			this->_errorCode = BAD_REQUEST;
-			std::cout << "Bad request" << std::endl; 
-			return ;
-		}
-		// parse request line
-		this->_currentStateMachine = HEADER_FIELDS;
-	}
-	else if (this->_currentStateMachine == HEADER_FIELDS)
-	{
-		// parse header fields
-		if (this->_parseHeaderFields(input) == ERROR)
-		{
-			this->_errorCode = BAD_REQUEST;
-			std::cout << "Bad request" << std::endl; 
-			return ;
-		}
-		this->_currentStateMachine = REQUEST_BODY;
-	}
-	else if (this->_currentStateMachine == REQUEST_BODY)
-	{
-		// parse request body
-		this->_currentStateMachine = DONE;
-	}
+   return headerMethod;
 }
 
-//how to continue if the request is chunked? -> smaller groups of processing with individual states
-//where to set limits for the sizes? -> URI size
-//What extra checking is required for the URI -> charcaters with special meaning like '?'
-int	RequestParserNew::_parseRequestLine(const std::string& input) // reduce code duplication
+const std::string& HeaderFieldStateMachine::getHeaderUri() const
 {
-    std::istringstream iss(input);
-
-	// Read method
-	if (!std::getline(iss, this->_parameter, ' ')) // case sensitive!
-		return (ERROR); // Internal server error or bad request?
-	if (this->_setMethod(this->_parameter) == ERROR)
-		return (ERROR);
-	std::cout << "Method: " << this->storedHttpRequest.method << std::endl;
-	skipSpaces(iss);
-
-    // Read URI
-	if (!std::getline(iss, this->storedHttpRequest.requestUri, ' ')) // not case sensitive?
-		return (ERROR); // Internal server error or bad request?
-	std::cout << "Request URI: " << this->storedHttpRequest.requestUri << std::endl;
-	skipSpaces(iss);
-
-    // Read HTTP version
-	if (!std::getline(iss, this->_parameter, '\r')) // case sensitive?
-		return (ERROR); // Internal server error or bad request?
-	if (this->_parameter != "HTTP/1.1") // is this case sensitive?
-		return (ERROR);
-
-    // Check for CRLF or EOF
-	if (!iss.eof() && iss.get() != '\n')
-		return (ERROR);
-	return (SUCCESS);
+   return headerUri;
 }
 
-void skipSpaces(std::istringstream& iss)
+const bool& HeaderFieldStateMachine::getIsHttpVersionRight() const
 {
-    while (iss.peek() == ' ')
-        iss.get();
+   return isHttpVersionRight;
 }
 
-int	RequestParserNew::_setMethod(const std::string& input)
+void HeaderFieldStateMachine::setCurrentState(const int state)
 {
-	if (input == "GET")
-		this->storedHttpRequest.method = GET;
-	else if (input == "POST")
-		this->storedHttpRequest.method = POST;
-	else if (input == "DELETE")
-		this->storedHttpRequest.method = DELETE;
-	else
-	{
-		this->_errorCode = NOT_IMPLEMENTED;
-		return (ERROR);
-	}
-	return (SUCCESS);
+   currentState = state;
 }
 
-
-
-//limits for the sizes? -> name and value
-
-// test my HTTPHeader Parser with request.
-
-int RequestParserNew::_parseHeaderFields(const std::string& input)
+void  HeaderFieldStateMachine::reset()
 {
-	// std::string::size_type endOfHeaderField = input.find("\r\n");
-
-	// std::string::const_iterator it = input.begin();
-
-	// std::advance(it, 19);
-	// for (; it != input.end(); ++it)
-	// {
-	// 	std::cout << "char: " << *it << std::endl;
-	// 	test.parse(*it);
-	// 	std::cout << test.isComplete() << std::endl;
-	// 	if (test.isComplete())
-	// 	{
-	// 		std::cout << "Header name: " << test.getHeaderName() << std::endl;
-	// 		std::cout << "Header value: " << test.getHeaderValue() << std::endl;
-	// 		test.reset();
-	// 	}
-	// }
-	
-	(void)input;
-	
-	// what error checking is needed?
-		//define or search for a rule set for the header fields
-		//mandatory fields
-		//useful fields
-		//ignore the rest
-	return (SUCCESS);
+   currentState = HEADER_NAME;
+   headerName.clear();
+   headerValue.clear();
+   headers.clear();
 }
 
-int	RequestParserNew::_setHeaderPair(const std::string& name, const std::string& value)
+void  HeaderFieldStateMachine::setInputPosition(const size_t position)
 {
-	// store it in a map
-	// storedHttpRequest.headerFields[name] = value;
-	(void)name;
-	(void)value;
-	return (SUCCESS);
+   positionInInput = position;
 }
 
-//when do we need it?
-//where do we store it?
-int	RequestParserNew::_parseRequestBody(const std::string& input)
+void HeaderFieldStateMachine::stateTransition(int state, int nextState)
 {
-	// what error checking is needed?
-	(void)input;
-	return (SUCCESS);
+   (void)state;
+   this->currentState = nextState;
 }

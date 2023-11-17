@@ -1,6 +1,6 @@
 #include "Server.hpp"
 #include "Response.hpp"
-#include "HttpRequest.hpp"
+#include "RequestParser.hpp"
 
 SocketServer* SocketServer::_server = NULL;
 
@@ -113,7 +113,7 @@ void SocketServer::HandleClient(int clientSocket)
 		throw std::runtime_error("Error in recv()");
 	}
 	// Temporarily parse the HTTP request
-	HttpRequest request(requestBuffer);
+	//HttpRequest request(requestBuffer); // TODO: Send our parser here 
 	// Generate and send the HTTP response
 	HttpResponse httpResponse(200, "text/html; charset=utf-8", ART);
 	// Send the response
