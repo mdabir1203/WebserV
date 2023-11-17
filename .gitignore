@@ -35,3 +35,7 @@
 .idea
 .vscode
 *.dSYM
+
+# Compiled 
+test
+webserv

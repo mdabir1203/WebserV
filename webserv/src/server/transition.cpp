@@ -27,32 +27,96 @@ void trimTrailingOWS(std::string& str)
 	else
 	{
 		str.clear();
-		throw std::runtime_error("Empty header value");
 	}
+}
+
+bool isHeaderFieldAllowed(const std::string& input, int headerMethod)
+{
+   size_t hash = 0;
+   if (input.empty())
+      return (false);
+   hash = input.length() + input[0];
+   switch (hash)
+   {
+      case 111:
+        if (headerMethod == POST && input == "content-type")
+            return (true);
+		break ;
+      case 113:
+        if (headerMethod == POST && input == "content-length")
+            return (true);
+		break ;
+      case 108:
+        if (input == "host")
+            return (true);
+		break ;
+      case 103:
+        if (headerMethod == GET && input == "accept")
+            return (true);
+		break ;
+      case 110:
+        if (input == "authorization")
+            return (true);
+		break ;
+      case 105:
+        if (input == "cookie")
+            return (true);
+		break ;
+      case 133:
+        if (headerMethod == POST && input == "transfer-encoding")
+            return (true);
+		break ;
+      case 112:
+        if (input == "cache-control")
+            return (true);
+		break ;
+      case 109:
+        if (input == "connection")
+            return (true);
+		break ;
+      case 107:
+        if (headerMethod != GET && input == "expect")
+            return (true);
+		break ;
+      case 127:
+        if (input == "user-agent")
+            return (true);
+		break ;
+    }
+    return (false);
 }
 
 /*-----------------------header request line parsing----------------------*/
 
-bool isAllowedMethod(const std::string& method)
+bool	HeaderFieldStateMachine::setMethod(const std::string& input)
 {
-	return (method == "GET" || method == "POST" || method == "DELETE");
+	if (input == "GET")
+		headerMethod = GET;
+	else if (input == "POST")
+		headerMethod = POST;
+	else if (input == "DELETE")
+		headerMethod = DELETE;
+	else
+		return (false);
+	return (true);
 }
 
 void	HeaderFieldStateMachine::handleStateHeaderMethod(char c)
 {
-	if (c == ' ' && !headerMethod.empty() && isAllowedMethod(headerMethod))
+	if (c == ' ' && !headerValue.empty() && setMethod(headerValue))
 	{
 		paramterLength = 0;
+		headerValue.clear();
 		stateTransition(HEADER_METHOD, HEADER_URI);
 	}
-	else if (c == ' ' && headerMethod.empty())
+	else if (c == ' ' && headerValue.empty())
 	{
 		throw std::runtime_error("Empty header method");
 	}
 	else if (paramterLength < HEADER_METHOD_MAX_LENGTH)
 	{
 		paramterLength++;
-		headerMethod.push_back(c);
+		headerValue.push_back(c);
 	}
 	else if (paramterLength > HEADER_METHOD_MAX_LENGTH)
 	{
@@ -213,13 +277,7 @@ void	HeaderFieldStateMachine::handleStateHeaderValue(char c)
 	else if (c == '\n' && lastChar == '\r' && !headerValue.empty()) //TODO: handle duplicate header fields
 	{
 		// End of line, transition states
-		trimTrailingOWS(headerValue);
-		// std::cout << "headerName: " << headerName << std::endl;
-		// std::cout << "headerValue: " << headerValue << std::endl;
-		if (headers.find(headerName) == headers.end())
-			headers[headerName] = headerValue;
-		else
-			throw std::runtime_error("Duplicate header field");
+		storeHeaderPair();
 		headerName.clear();
 		headerValue.clear();
 		paramterLength = 0;
@@ -242,6 +300,26 @@ void	HeaderFieldStateMachine::handleStateHeaderValue(char c)
 	{
 		throw std::runtime_error("Invalid character in header value");
 	}
+}
+
+bool	isOnlyOnceAllowed(const std::string& headerName)
+{
+	return (headerName == "host" || headerName == "authorization" || headerName == "user-agent");
+}
+
+void	HeaderFieldStateMachine::storeHeaderPair(void)
+{
+	trimTrailingOWS(headerValue);
+	if (headerValue.empty() && headerName != "host")
+		throw std::runtime_error("Empty header value");
+	// std::cout << "headerName: " << headerName << std::endl;
+	// std::cout << "headerValue: " << headerValue << std::endl;
+	// std::cout << "headerMethod: " << headerMethod << std::endl;
+	if (!isHeaderFieldAllowed(headerName, headerMethod))
+		return ; // not needed for the current method
+	if (isOnlyOnceAllowed(headerName) && headers.find(headerName) != headers.end())
+		throw std::runtime_error("Duplicate header field");
+	headers[headerName].push_back(headerValue); 
 }
 
 void	HeaderFieldStateMachine::handleStateHeaderPairDone(char c)

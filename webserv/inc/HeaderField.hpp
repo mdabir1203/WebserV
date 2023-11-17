@@ -34,8 +34,8 @@ public:
 
    int   parseOneHeaderLine(const std::string& input);
    void  parseChar(char input);
-   const std::map<std::string, std::string>& getParsedHeaders() const;
-   const std::string& getHeaderMethod() const;
+   const std::map<std::string, std::vector<std::string> >& getParsedHeaders() const;
+   int getHeaderMethod() const;
    const std::string& getHeaderUri() const;
    const bool& getIsHttpVersionRight() const;
    void  setCurrentState(const int state);
@@ -47,20 +47,23 @@ private:
    int                                  currentState;
    std::string                          headerName;
    std::string                          headerValue;
-   std::map<std::string, std::string>   headers;
+   std::map<std::string, std::vector<std::string> > headers;
    size_t                               positionInInput;
    size_t                               paramterLength;
    char                                 lastChar;
 
-   std::string                          headerMethod;
+   int                                  headerMethod;
    std::string                          headerUri;
    bool                                 isHttpVersionRight;
+
+   const char**                         headerFieldsForMethod[3]; // [GET, POST, DELETE]
 
    typedef void (HeaderFieldStateMachine::*StateHandler)(char); // maybe static?
    StateHandler stateTransitionArray[8];// number of trnasition fuctions
 
    //header request line parsing
    void  handleStateHeaderMethod(char c);
+   bool  setMethod(const std::string& input);
    void  handleStateHeaderUri(char c);
    void  handleStateHeaderHttpVersion(char c);
 
@@ -71,6 +74,7 @@ private:
    void  handleStateHeaderValue(char c);
    void  handleStateHeaderPairDone(char c);
    void  handleStateHeaderBody(char c);
+   void  storeHeaderPair(void);
 };
 
 #endif /* HEADER_FIELD_HPP */
