@@ -6,14 +6,14 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-SERVER := $(addprefix server/, Server.cpp Response.cpp HttpRequest.cpp RequestParser.cpp HeaderField.cpp transition.cpp)
+SERVER := $(addprefix server/, Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp)
 
 SRCS := main.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-HEADER := $(addprefix inc/, Server.hpp Response.hpp HttpRequest.hpp RequestParser.hpp HeaderField.hpp)
+HEADER := $(addprefix inc/, Server.hpp Response.hpp RequestParser.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
 
@@ -54,6 +54,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+testparser:
+	g++ src/server/testParse.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -o test -I inc
+	./test
+
+.PHONY: all clean fclean re testparser
 
 .NOTPARALLEL:
