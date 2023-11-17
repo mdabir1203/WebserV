@@ -3,9 +3,9 @@
 HttpResponse::HttpResponse(int statusCode, const std::string& contentType, const std::string& content)
 			: statusCode(statusCode), contentType(contentType), content(content)
 {
-	
 }
 
+//TODO: put server field like -> server: webserv/42.0
 int	HttpResponse::WriteToBuffer(char* buffer, size_t bufferSize) const
 {
     std::ostringstream oss;
