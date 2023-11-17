@@ -34,9 +34,9 @@ int main()
   // }
 
 
-  // SocketServer server(8080);
-  // server.start();
-  // std::cout << "Server is running: " << server.isRunning() << std::endl;
+  SocketServer server(8080);
+  server.start();
+  std::cout << "Server is running: " << server.isRunning() << std::endl;
 
   //std::string request = "DELETE / HTTP/1.1\r\nHost: localhost:8080\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n";
   // RequestParserNew parser;
