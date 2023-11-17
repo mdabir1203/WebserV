@@ -12,8 +12,6 @@ std::string ToString(HttpMethod method)
 		return "GET";
 		case POST:
 		return "POST";
-		case PUT:
-		return "PUT";
 		case DELETE:
 		return "DELETE";
 		default:

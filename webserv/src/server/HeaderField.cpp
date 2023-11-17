@@ -3,10 +3,11 @@
 
 #include "HeaderField.hpp"
 
-
 //TODO: decide for size limit of header fields
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
-                        : maxHeaderLength(8192), currentState(HEADER_METHOD), positionInInput(0), paramterLength(0), lastChar('\0'), isHttpVersionRight(false)
+                        : maxHeaderLength(8192), currentState(HEADER_METHOD),
+                        positionInInput(0), paramterLength(0), lastChar('\0'),
+                        headerMethod(0), isHttpVersionRight(false)
 {
    stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
    stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
@@ -46,12 +47,12 @@ void HeaderFieldStateMachine::parseChar(char input)
    (this->*stateTransitionArray[currentState])(input);
 }
 
-const std::map<std::string, std::string>& HeaderFieldStateMachine::getParsedHeaders() const
+const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
 {
    return headers;
 }
 
-const std::string& HeaderFieldStateMachine::getHeaderMethod() const
+int HeaderFieldStateMachine::getHeaderMethod() const
 {
    return headerMethod;
 }
