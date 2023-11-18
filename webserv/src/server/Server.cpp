@@ -1,6 +1,8 @@
 #include "Server.hpp"
 #include "Response.hpp"
 #include "RequestParser.hpp"
+#include "Methods.hpp"
+
 
 SocketServer* SocketServer::_server = NULL;
 
@@ -118,8 +120,13 @@ void SocketServer::HandleClient(int clientSocket)
 	}
 	// Temporarily parse the HTTP request
 	HeaderFieldStateMachine parser;
+	HttpResponse response;
 	
 	parser.parseOneHeaderLine(requestBuffer);
+
+	Methods methodHandler;
+
+	methodHandler.handleMethod(parser, clientSocket, response); //TODO: rapid request spamming leads to server failure
 
 	// ----- ------- Testing Parer ------------  -----------
 	// std::cout << "Method: " << ToString((HttpMethod)parser.getHeaderMethod()) << std::endl;
@@ -143,11 +150,11 @@ void SocketServer::HandleClient(int clientSocket)
 
 	//HttpRequest request(requestBuffer); // TODO: Send our parser here 
 	// Generate and send the HTTP response
-	HttpResponse httpResponse(200, "text/html; charset=utf-8", ART);
-	// Send the response
-	char responseBuffer[8192];
-	int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
-	send(clientSocket, responseBuffer, bytesWritten, 0);
+	// HttpResponse httpResponse(200, "text/html; charset=utf-8", ART);
+	// // Send the response
+	// char responseBuffer[8192];
+	// int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
+	// send(clientSocket, responseBuffer, bytesWritten, 0);
 	close(clientSocket);
 }
 

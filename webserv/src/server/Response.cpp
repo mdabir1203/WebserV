@@ -1,5 +1,10 @@
 #include "Response.hpp"
 
+HttpResponse::HttpResponse()
+            : statusCode(0), contentType(""), content("")
+{
+}
+
 HttpResponse::HttpResponse(int statusCode, const std::string& contentType, const std::string& content)
 			: statusCode(statusCode), contentType(contentType), content(content)
 {
