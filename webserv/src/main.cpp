@@ -15,6 +15,7 @@ void signalHandler(int signum)
 {
   (void)signum;
   SocketServer::getServer()->stop();
+  _exit(signum);
 }
 
 int main()
@@ -33,10 +34,77 @@ int main()
   //   return 1;
   // }
 
+  try
+  {
+    SocketServer server(8080);
+    server.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 1: " << e.what() << std::endl;
+  }
 
-  SocketServer server(8080);
-  server.start();
-  std::cout << "Server is running: " << server.isRunning() << std::endl;
+  try
+  {
+    SocketServer server2(8081);
+    server2.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 2: " << e.what() << std::endl;
+  }
+
+  try
+  {
+    SocketServer server3(8082);
+    server3.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 3: " << e.what() << std::endl;
+  }
+
+  try
+  {
+    SocketServer server4(8083);
+    server4.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 4: " << e.what() << std::endl;
+  }
+
+  try
+  {
+    SocketServer server5(8084);
+    server5.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 5: " << e.what() << std::endl;
+  }
+
+  try
+  {
+    SocketServer server6(8085);
+    server6.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 6: " << e.what() << std::endl;
+  }
+
+  try
+  {
+    SocketServer server7(8086);
+    server7.start();
+  }
+  catch (const std::exception &e)
+  {
+    std::cerr << "Server 7: " << e.what() << std::endl;
+  }
+
+  // std::cout << "Server is running: " << server.isRunning() << std::endl;
 
   //std::string request = "DELETE / HTTP/1.1\r\nHost: localhost:8080\r\nUser-Agent: curl/7.64.1\r\nAccept: */*\r\n\r\n";
   // RequestParserNew parser;

@@ -71,8 +71,8 @@ private:
    size_t                               paramterLength;
    char                                 lastChar;
 
-   int                                  headerMethod;
    std::string                          headerUri;
+   int                                  headerMethod;
    bool                                 isHttpVersionRight;
 
    const char**                         headerFieldsForMethod[3]; // [GET, POST, DELETE]

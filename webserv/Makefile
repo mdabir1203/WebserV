@@ -6,14 +6,14 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-SERVER := $(addprefix server/, Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp)
+SERVER := $(addprefix server/, Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
 
 SRCS := main.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-HEADER := $(addprefix inc/, Server.hpp Response.hpp RequestParser.hpp)
+HEADER := $(addprefix inc/, Server.hpp Response.hpp RequestParser.hpp Methods.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
 
@@ -25,7 +25,7 @@ CXXFLAGS += -std=c++98 -pedantic -g -O2
 # CXXFLAGS := -Wall -Wextra -std=c++98 -pedantic -g -O0
 # CXXFLAGS += -g -O0
 # CXXFLAGS += -fsanitize=thread
-CXXFLAGS += -fsanitize=address
+# CXXFLAGS += -fsanitize=address
 
 #Add includes
 CXXFLAGS += ${INCLUDES}
