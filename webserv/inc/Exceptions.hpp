@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 18:11:25 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/15 21:30:11 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/19 14:52:33 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,118 +16,15 @@
 #include <string>
 #include <exception>
 
-class Ex_CantOpenConfigFile : public std::exception 
-{   
+class ErrorException : public std::exception
+{
+    private:
+        std::string _message;
     public:
-        const char* what() const throw();
+        ErrorException(std::string message) throw();       
+        virtual const char* what() const throw();
+        virtual ~ErrorException() throw() {}
 };
 
-class Ex_ConfigFileIsEmpty : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidArgument : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_LocUnclosBracket : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidServerVarPort : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidServerVarName : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidServerVarErrPageCode : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidServerVarErrPage : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidRootPage : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidRootDir : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidCgiExec : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidIndexPage : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidAutoindex : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidMethod : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidCgiExt : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_InvalidUploadDir : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_WrongNumArguments : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_DoubleLocation : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
-
-class Ex_MissedVarInConfig : public std::exception 
-{   
-    public:
-        const char* what() const throw();
-};
 
 #endif

@@ -47,11 +47,7 @@ void DEBUG_print_config_file( std::vector<t_serv> parsedConfig)
         			std::cout << *iter << " ";
 				}
 				std::cout << "\n";
-				std::cout << "      cgi_path: ";
-				for (std::vector<std::string>::const_iterator iter = it->second.cgi_paths.begin(); iter != it->second.cgi_paths.end(); ++iter)
-				{
-        			std::cout << *iter << " ";
-				}
+				std::cout << "      cgi_path: " << it->second.cgi_path;
 				std::cout << "\n";
 				std::cout << "      upload_dir: " << it->second.upload_dir << "\n";
 				std::cout << "      http_redirect: " << it->second.http_redirect << "\n";
