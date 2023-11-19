@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:53:00 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/19 15:03:22 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/19 17:22:34 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,24 +195,16 @@ void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServ
                             current_location->upload_dir = current_location->root + "/" + token;
                     }
                     else if (token == "http_redirect:")
-                    {   
-                        if(iss >> token)
-                        {
-                            token = checkToken(iss, token, false); 
-                            current_location->http_redirect = token;
-                        }
-                        else
-                            current_location->http_redirect = "";
-                        
+                    {                          
+                        iss >> token;
+                        token = checkToken(iss, token, false); 
+                        current_location->http_redirect = token;
+                        if (token.empty() == true)
+                            current_location->http_redirect = "";                        
                     }
                     else if(token == "methods:")
                     {   
-                        while (iss >> token)
-                        {
-                            if (token != "GET" && token != "POST" && token != "DELETE")
-                                throw ErrorException("Error: invalid method value in location unit of configuration file");
-                            current_location->methods.push_back(token);
-                        } 
+                        current_location->methods = handleMethods(iss);
                     }
                     else if(token == "autoindex:")
                     {   
