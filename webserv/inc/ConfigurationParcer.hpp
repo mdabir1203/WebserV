@@ -1,21 +1,9 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ConfigurationParcer.hpp                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/07 18:50:54 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/19 17:18:04 by aputiev          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef CONFIGURATIONPARCER_HPP
 # define CONFIGURATIONPARCER_HPP
 
 #include <iostream>
 #include "Common_header.hpp"
-using namespace std;
+using namespace std; //TODO: remove
 
 class ConfigurationParser
 {

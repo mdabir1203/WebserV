@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ConfParcerUtils.cpp                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/12 12:42:01 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/19 17:16:29 by aputiev          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "Common_header.hpp"
 
 void ConfigurationParser::checkConfigFile(std::string filename)
