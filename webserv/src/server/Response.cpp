@@ -228,7 +228,7 @@ std::string getReasonPhrase(const int statusCode)
     }
 }
 
-void HttpResponse::sendBasicHeaderResponse(const int clientSocket) //TODO:: Implement MSG_DONTWAIT flag
+void HttpResponse::sendBasicHeaderResponse(const int clientSocket, const int method) //TODO:: Implement MSG_DONTWAIT flag
 {
 	std::string header;
 
@@ -239,14 +239,26 @@ void HttpResponse::sendBasicHeaderResponse(const int clientSocket) //TODO:: Impl
 	header += "HTTP/1.1 ";
     header +=  convertNumberToString(statusCode) + getReasonPhrase(statusCode) + "\r\n";
 	header += "Date: " + date + "\r\n";
-	// header += "Server: " + response.server + "\r\n";
-	header += "Content-Length: " + convertNumberToString(contentLength) + "\r\n";
-	header += "Content-Type: text/html; charset=utf-8\r\n";
-	// header += "content-type: text/plain\r\n";
-	// header += "Content-Type: " + response.contentType + "\r\n";
-	// header += "Last-Modified: " + response.lastModified + "\r\n";
-	// header += "Connection: " + response.connection + "\r\n";
-	// header += "Cache-Control: " + response.cacheControl + "\r\n";
+    if (method == GET)
+    {	// header += "Server: " + response.server + "\r\n";
+        header += "Content-Length: " + convertNumberToString(contentLength) + "\r\n";
+        header += "Content-Type: text/html; charset=utf-8\r\n";
+        // header += "content-type: text/plain\r\n";
+        // header += "Content-Type: " + response.contentType + "\r\n";
+        // header += "Last-Modified: " + response.lastModified + "\r\n";
+        // header += "Connection: " + response.connection + "\r\n";
+        // header += "Cache-Control: " + response.cacheControl + "\r\n";
+    }
+    else if (method == POST)
+    {
+        // header += "Content-Length: " + convertNumberToString(contentLength) + "\r\n";
+        // header += "Content-Type: text/html; charset=utf-8\r\n";
+    }
+    else if (method == DELETE)
+    {
+        // header += "Content-Length: " + convertNumberToString(contentLength) + "\r\n";
+        // header += "Content-Type: text/html; charset=utf-8\r\n";
+    }
 	header += "\r\n";
 
 	if (send(clientSocket, header.c_str(), header.size(), 0) == -1)

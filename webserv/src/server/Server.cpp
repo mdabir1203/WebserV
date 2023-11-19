@@ -122,7 +122,12 @@ void SocketServer::HandleClient(int clientSocket)
 	HeaderFieldStateMachine parser;
 	HttpResponse response;
 	
-	parser.parseRequestHeaderChunk(requestBuffer);
+	if (parser.parseRequestHeaderChunk(requestBuffer) == BAD_REQUEST)
+	{
+		response.setStatusCode(400);
+		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		return ;
+	}
 	parser.parseURI();
 
 	Methods methodHandler;
@@ -135,7 +140,7 @@ void SocketServer::HandleClient(int clientSocket)
 	{
 		std::cerr << "Error processing request: " << e.what() << std::endl; //TODO: send back 500 error
 		response.setStatusCode(500);
-		response.sendBasicHeaderResponse(clientSocket);
+		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 	}
 	// ----- ------- Testing Parer ------------  -----------
 	// std::cout << "Method: " << ToString((HttpMethod)parser.getHeaderMethod()) << std::endl;
