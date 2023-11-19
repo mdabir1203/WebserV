@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:50:54 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/19 13:12:05 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/19 17:18:04 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ private:
     int handleGlobalSettings(std::istringstream& iss, std::string &token, int specifier);
     std::string checkToken(std::istringstream& iss, std::string &token, bool check_empty);
     std::vector<std::string> handleCgiExt(std::istringstream& iss);
+    std::vector<std::string> handleMethods(std::istringstream& iss);
     
 };
 

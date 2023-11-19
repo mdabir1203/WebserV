@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 12:42:01 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/19 14:56:30 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/19 17:16:29 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,27 +343,27 @@ std::vector<std::string> ConfigurationParser::handleCgiExt(std::istringstream& i
     return vektor;    
 }
 
-// std::string ConfigurationParser::handleCgiPath(std::istringstream& iss, std::string root_dir)
-// {   
-//     std::string token;
-//     std::string temp;
-//     std::vector<std::string>  vektor;
-//     bool flag_stop = false;
+std::vector<std::string> ConfigurationParser::handleMethods(std::istringstream& iss)
+{   
+    std::string token;
+    std::string temp;
+    std::vector<std::string>  vektor;
+    bool flag_stop = false;
     
-//     while (iss >> token && flag_stop == false)
-//     {  //std::cout <<  YELLOW << "token cgi_ext: " << token << RESET << std::endl;
-//         temp = token;
-//         if (token.back() == ';') 
-//         {
-//             token.pop_back();
-//             flag_stop = true;
-//         }
-//         if (directoryExists(token, CGI_DIR) == false)
-//                 throw ErrorException("CGI script execution file not found");
-//         else
-//             vektor.push_back(token);
-//     }
-//     if (temp.find(';') == std::string::npos)
-//         throw ErrorException("Semicolon missed");   
-//     return vektor;    
-// }
+    while (iss >> token && flag_stop == false)
+    {  //std::cout <<  YELLOW << "token cgi_ext: " << token << RESET << std::endl;
+        temp = token;
+        if (token.back() == ';') 
+        {
+            token.pop_back();
+            flag_stop = true;
+        }
+        if (token != "GET" && token != "POST" && token != "DELETE")
+                throw ErrorException("Invalid method"); 
+        else
+            vektor.push_back(token);
+    }
+    if (temp.find(';') == std::string::npos)
+        throw ErrorException("Semicolon missed");   
+    return vektor;    
+}
