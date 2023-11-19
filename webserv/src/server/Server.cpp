@@ -122,12 +122,21 @@ void SocketServer::HandleClient(int clientSocket)
 	HeaderFieldStateMachine parser;
 	HttpResponse response;
 	
-	parser.parseOneHeaderLine(requestBuffer);
+	parser.parseRequestHeaderChunk(requestBuffer);
+	parser.parseURI();
 
 	Methods methodHandler;
 
-	methodHandler.handleMethod(parser, clientSocket, response); //TODO: rapid request spamming leads to server failure
-
+	try
+	{
+		methodHandler.handleMethod(parser, clientSocket, response); //TODO: rapid request spamming leads to server failure
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "Error processing request: " << e.what() << std::endl; //TODO: send back 500 error
+		response.setStatusCode(500);
+		response.sendBasicHeaderResponse(clientSocket);
+	}
 	// ----- ------- Testing Parer ------------  -----------
 	// std::cout << "Method: " << ToString((HttpMethod)parser.getHeaderMethod()) << std::endl;
 	// std::cout << "Uri: " << parser.getHeaderUri() << std::endl;

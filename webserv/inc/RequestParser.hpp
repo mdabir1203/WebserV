@@ -51,8 +51,10 @@ class HeaderFieldStateMachine {
 public:
    HeaderFieldStateMachine(void);
 
-   int   parseOneHeaderLine(const std::string& input);
+   int   parseRequestHeaderChunk(const std::string& input);
    void  parseChar(char input);
+   void  parseURI(void);
+
    const std::map<std::string, std::vector<std::string> >& getParsedHeaders() const;
    int getHeaderMethod() const;
    const std::string& getHeaderUri() const;
