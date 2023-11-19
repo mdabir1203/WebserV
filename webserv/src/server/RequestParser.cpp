@@ -17,7 +17,7 @@ HeaderFieldStateMachine::HeaderFieldStateMachine(void)
 }
 
 //this function should read one header line of the input and if neccessary continue reading with the next chunk of data
-int   HeaderFieldStateMachine::parseOneHeaderLine(const std::string& input)
+int   HeaderFieldStateMachine::parseRequestHeaderChunk(const std::string& input)
 {
    try
    {
@@ -42,6 +42,12 @@ int   HeaderFieldStateMachine::parseOneHeaderLine(const std::string& input)
 void HeaderFieldStateMachine::parseChar(char input)
 {
    (this->*stateTransitionArray[currentState])(input);
+}
+
+void HeaderFieldStateMachine::parseURI(void) //TODO: implement actual URI parsing && matching according to config file
+{
+   // headerUri = "/workspaces/WebserV/webserv/src/config_files/index.html";
+   headerUri = "/workspaces/WebserV/webserv/src/config_files/index copy.html";
 }
 
 const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
