@@ -8,7 +8,7 @@ INCLUDES_DIR := inc
 
 SERVER := $(addprefix server/, Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
 
-SRCS := main.cpp \
+SRCS := main.cpp ConfigurationParcer.cpp Exceptions.cpp ConfParcerUtils.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
@@ -35,6 +35,7 @@ CXX := c++
 RM := rm -f
 
 all: ${NAME}
+	./webserv
 
 ${NAME}: ${OBJS}
 	${CXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
