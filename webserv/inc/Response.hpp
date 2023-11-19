@@ -4,6 +4,7 @@
 # include "Server.hpp"
 #include <ctime>
 #include <cerrno>
+#include "RequestParser.hpp"
 
 class HttpResponse
 {
@@ -11,7 +12,7 @@ class HttpResponse
 		HttpResponse();
 		HttpResponse(int statusCode, const std::string& contentType, const std::string& content);
 		int WriteToBuffer(char* buffer, size_t bufferSize) const;
-		void sendBasicHeaderResponse(const int clientSocket);
+		void sendBasicHeaderResponse(const int clientSocket, const int method);
 
 		std::string convertNumberToString(const long int number);
 		
