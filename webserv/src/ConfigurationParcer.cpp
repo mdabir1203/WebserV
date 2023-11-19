@@ -6,7 +6,7 @@
 /*   By: aputiev <aputiev@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 18:53:00 by aputiev           #+#    #+#             */
-/*   Updated: 2023/11/15 22:00:02 by aputiev          ###   ########.fr       */
+/*   Updated: 2023/11/19 15:03:22 by aputiev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ std::vector<t_serv> ConfigurationParser::parseConfig(int ac, char **av)
         std::vector<t_serv> servers;
         std::string			filename;       
         std::string 		line;
-        t_serv 				currentServer;
+        t_serv 				currentServer(5, 200 , 1000000);
         ParseState state = STATE_START;  
         
 	    if(ac == 1)
@@ -38,9 +38,9 @@ std::vector<t_serv> ConfigurationParser::parseConfig(int ac, char **av)
 	    else if (ac == 2)
 		    filename = av[1];
 	    else
-		   throw Ex_WrongNumArguments();
+		   throw ErrorException("Error: Error: wrong number of arguments");
         std::ifstream file(filename.c_str());   /* Checks if file can be opened and if it's empty */      
-        checkConfigFile(filename.c_str());  	/* read file line by line */															
+        checkConfigFile(filename.c_str());                                       	/* read file line by line */															
         while (std::getline(file, line))						/* read file line by line */
             parseLine(line, currentServer, servers, state); 	/* read line*/
         file.close();
@@ -62,85 +62,67 @@ void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServ
     static int			flag_server_end = 0;
 	
     while (iss >> token)
-    { 
-       //std::cout << GREEN << "token: " << token << RESET << std::endl;
+    {
+        check_is_token_allowed(token);
+        std::cout << GREEN << "token: " << token << RESET << std::endl;
         switch (state)
         {
             case STATE_START:
-                if (token == "timeout:") 
-                {
-                    iss >> token;          
-                    def_timeout = handleGlobalVars(token, TIMEOUT);     
-                }
+                if(token == "timeout:") 
+                    def_timeout = handleGlobalSettings(iss, token, TIMEOUT);
                 else if (token == "max_clients:")
-                {
-                    iss >> token;
-                    def_max_clients = handleGlobalVars(token, MAX_CLIENTS);
-                } 
-                else if (token == "max_size_of_file:") 
-                {
-                    iss >> token;
-                    def_max_size_of_file = handleGlobalVars(token, MAX_SIZE_OF_FILE);
-                }
-                if (token == "server")
+                    def_max_clients = handleGlobalSettings(iss, token, MAX_CLIENTS);
+                else if (token == "max_size_of_file:")
+                    def_max_size_of_file = handleGlobalSettings(iss, token, MAX_SIZE_OF_FILE);
+                else if (token == "server")
                 {   
                     state = STATE_SERVER;
-                    currentServer = t_serv();
+                    currentServer = t_serv(def_timeout, def_max_clients, def_max_size_of_file);
                     iss >> token;
                     flag_server_end = 0;
                     if(token == "{")
                         flag_open_server_bracket = 1;
-				}                
+                }        
                 break;
             case STATE_SERVER:
                 if(token == "{")
                     flag_open_server_bracket = 1;
                 else if (token == "port:")
-                {
-                    iss >> token;
-                    currentServer.port = handleServerVarPort(token);
-                    currentServer.def_timeout = def_timeout;
-                    currentServer.def_max_clients = def_max_clients;
-                    currentServer.def_max_size_of_file = def_max_size_of_file;
+                {                     
+                    currentServer.port = handleServerVarPort(iss, token);
                 } 
                 else if (token == "server_name:")
                 {   
-                    iss >> token; 
-                    currentServer.server_name = handleServerVarName(token);
+                    currentServer.server_name = handleServerVarName(iss, token);
                 }
                 else if (token == "error_page")
                 {                        
+                    int errorCode = checkCodeErrorPage(iss, token);
                     iss >> token;
-                    checkCodeErrorPage(token);
-                    int errorCode = std::atoi(token.c_str());
-                    iss >> token;                        
-                    if (token[0] == '/') 
-                        token.erase(0, 1);
+                    token = checkToken(iss, token, true);
                     if(checkFileExist(token, ERR_PAGE) == true)
                         currentServer.error_pages[errorCode] = token;
                 }
                 else if (token == "location")
-                {                
-                    iss >> token;
-                    location_name = token;
-                    check_for_double_location(currentServer, location_name);
+                {         
+                    location_name = check_for_double_location(iss, currentServer);
                     if (iss >> token && token == "{")                
                         flag_open_location_bracket = 1;
                     state = STATE_LOCATION;
                 }
                 else if ((token == "}" && flag_open_server_bracket == 0))
-                    throw Ex_LocUnclosBracket(); 
+                    throw ErrorException("Unclosed brackets found"); 
                 else if (token == "}" && flag_open_server_bracket == 1 && flag_open_location_bracket == 0)
                     flag_open_server_bracket = 0;
                 else if (token == "<server_end>")
                 {   
                     flag_server_end = 1;
                     if((flag_open_server_bracket == 1 || flag_open_location_bracket == 1) && state == STATE_SERVER)                       
-                        throw Ex_LocUnclosBracket();
+                        throw ErrorException("Unclosed brackets found");
                     if ( (checkIfServerDataEnough(currentServer) == true) && flag_open_server_bracket == 0 && flag_open_location_bracket == 0 && flag_server_end == 1)
                     {   
                         servers.push_back(currentServer);
-                        currentServer = t_serv();
+                        currentServer = t_serv(def_timeout, def_max_clients, def_max_size_of_file);
                     }
                 }
                 break;
@@ -148,11 +130,12 @@ void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServ
                 if (token == "{")
                     flag_open_location_bracket = 1;
                 else if ((token == "}" && flag_open_location_bracket == 0))
-                    throw Ex_LocUnclosBracket(); 
+                    throw ErrorException("Unclosed brackets found"); 
                 else if (token == "}" && flag_open_location_bracket == 1)
                 {   
-                    state = STATE_SERVER;
+                    state = STATE_SERVER;                    
                     currentServer.loc.insert(std::make_pair(location_name, *current_location)); 
+
                     flag_open_location_bracket = 0;
                     fl_location_created = 0;                       
                 }
@@ -174,70 +157,74 @@ void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServ
                     }
                     if(token == "root:")
                     {
-                        iss >> token;                        
-                        if (token[0] == '/')
-                            token.erase(0, 1);
+                        iss >> token;
+                        token = checkToken(iss, token, true);
                         if(directoryExists(token, ROOT_DIR) == true)
-                            current_location->root = token;
+                        {
+                            if (location_name == "/")
+                                current_location->root = token;
+                            else 
+                                 current_location->root = token + location_name;
+                        }
                     }
                     else if(token == "index:")
                     {   
-                        iss >> token;  
-                        if (token[0] == '/') 
-                            token.erase(0, 1);
-                        if(checkFileExist(token, INDEX_PAGE) == true)
-                            current_location->index = token;                            
+                        iss >> token;
+                        token = checkToken(iss, token, true);
+                        if(checkFileExist( (current_location->root + "/" + token), INDEX_PAGE) == true)
+                            current_location->index = (current_location->root + "/" + token);                            
                     }
                     else if(token == "cgi_ext:")
-                    {   
-                        while (iss >> token)
-                        {
-                            if (token[0] != '.')
-                                throw Ex_InvalidCgiExt();
-                            current_location->cgi_extensions.push_back(token);
-                        } 
+                    {     
+                        current_location->cgi_extensions = handleCgiExt(iss);        
                     }
                     else if (token == "cgi_path:")
                     {   
-                        while (iss >> token)
+                        iss >> token;                       
+                        token = checkToken(iss, token, true);                        
+                        if(directoryExists((current_location->root + "/" + token), CGI_DIR) == true)
                         {
-                            if(checkFileExist(token, CGI_EXEC) == true)
-                                current_location->cgi_paths.push_back(token);
-                        }								
+                            current_location->cgi_path = current_location->root + "/" + token;
+                        }			
                     }
                     else if (token == "upload_dir:")
                     {    
-                        iss >> token;            
-                        if (token[0] == '/')
-                            token.erase(0, 1);                            
-                        if(directoryExists(token, UPLOAD_DIR) == true)
-                            current_location->upload_dir = token;
+                        iss >> token; 
+                        token = checkToken(iss, token, false);                              
+                        if(directoryExists((current_location->root + "/" + token), UPLOAD_DIR) == true)
+                            current_location->upload_dir = current_location->root + "/" + token;
                     }
                     else if (token == "http_redirect:")
                     {   
                         if(iss >> token)
+                        {
+                            token = checkToken(iss, token, false); 
                             current_location->http_redirect = token;
+                        }
                         else
                             current_location->http_redirect = "";
+                        
                     }
                     else if(token == "methods:")
                     {   
                         while (iss >> token)
                         {
                             if (token != "GET" && token != "POST" && token != "DELETE")
-                                throw Ex_InvalidMethod();
+                                throw ErrorException("Error: invalid method value in location unit of configuration file");
                             current_location->methods.push_back(token);
                         } 
                     }
                     else if(token == "autoindex:")
                     {   
                         iss >> token;
+                        token = checkToken(iss, token, false); 
+                        std::cout << "token autoi: " << token << std::endl;
                         if (token == "on")
                             current_location->autoindex = true;
                         else if (token == "off")
                             current_location->autoindex = false;
                         else
-                            throw Ex_InvalidAutoindex();            
+                            throw ErrorException("Error: invalid autoindex value in location unit of configuration file");            
                     }					                                          
                 }
                 break;
@@ -249,11 +236,11 @@ bool ConfigurationParser::checkIfServerDataEnough(t_serv& currentServer)
 {   
     std::multimap<std::string, Location>::iterator it = currentServer.loc.find("/");
 
-    if((currentServer.port != 0) && !currentServer.server_name.empty() && (it != currentServer.loc.end()))
+    if((currentServer.port != 0) && (it != currentServer.loc.end()))
     {     
         if(!(it->second.root.empty()) && !(it->second.index.empty()))            
             return true;
     }
-    throw Ex_MissedVarInConfig();
+    throw ErrorException("Error: missed variable in configuration file");
     return false;
 }
