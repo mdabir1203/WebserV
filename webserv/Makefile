@@ -6,20 +6,20 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-# SERVER := $(addprefix server/, test.cpp)
+SERVER := $(addprefix server/, Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
 
 SRCS := main.cpp ConfigurationParcer.cpp Exceptions.cpp ConfParcerUtils.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-# HEADER := $(addprefix includes/, Server.hpp)
+HEADER := $(addprefix inc/, Server.hpp Response.hpp RequestParser.hpp Methods.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
 
 #Production flags
 CXXFLAGS := -Wall -Wextra -Werror
-CXXFLAGS += -std=c++98
+CXXFLAGS += -std=c++98 -pedantic -g -O2
 
 #Development flags
 # CXXFLAGS := -Wall -Wextra -std=c++98 -pedantic -g -O0
@@ -55,6 +55,10 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+testparser:
+	g++ src/server/testParse.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -o test -I inc
+	./test
+
+.PHONY: all clean fclean re testparser
 
 .NOTPARALLEL:
