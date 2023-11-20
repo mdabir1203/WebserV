@@ -21,44 +21,31 @@
 #include "Colors.hpp"
 #include "Exceptions.hpp"
 
-using namespace std; //TODO: remove
-
-//extern  int def_timeout;									
-// extern  int def_max_clients;							
-// extern  int def_max_size_of_file;
-
 /* ========== Locations =========== */
 typedef struct Location {
     std::string path;
     std::string root;
     std::string index;
-    std::vector<std::string> cgi_extensions;
+    std::vector<std::string>    cgi_extensions;
     std::string cgi_path;
     std::string upload_dir;
     std::string http_redirect;
-    std::vector<std::string>  methods;
+    std::vector<std::string>    methods;
     bool autoindex;
 }t_Location;
 
 /* ========== Servers =========== */
 typedef struct s_serv {
-    int port;
+    int         port;
     std::string server_name;
-    int def_timeout;
-    int def_max_clients;
-    int def_max_size_of_file;
-    std::map<int, std::string> error_pages;
-    std::multimap<std::string, Location> loc;
+    int         def_timeout;
+    int         def_max_clients;
+    int         def_max_size_of_file;
+    std::map<int, std::string>          	error_pages;
+    std::multimap<std::string, Location>	loc;
 
     //Default constructor:
-    s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file) : port(0), server_name("default"), error_pages(), loc() {
-        std::cout << "t_serv default constructor called"  << std::endl;
-        std::cout << "Port: " << port << std::endl;
-        std::cout << "Server Name: \"" << server_name << "\""<< std::endl;
-         def_timeout = Def_timeout;
-         def_max_clients = Def_max_clients;
-         def_max_size_of_file = Def_max_size_of_file;
-    }
+    s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file);
 } t_serv;
 
 enum ParseState {

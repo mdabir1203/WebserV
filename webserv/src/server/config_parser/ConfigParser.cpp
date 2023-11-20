@@ -18,15 +18,22 @@ static void initializeInvalidCodesList(std::set<int>& InvalidCodesList)
     InvalidCodesList.insert(503);
 }
 
+s_serv::s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file) : port(0), server_name("default"), error_pages(), loc() {
+    // std::cout << "t_serv default constructor called"  << std::endl;
+    def_timeout          = Def_timeout;
+    def_max_clients      = Def_max_clients;
+    def_max_size_of_file = Def_max_size_of_file;
+}
+
 ConfigParser::ConfigParser()
 {
     initializeInvalidCodesList(InvalidCodesList);
-    std::cout << "ConfigurationParcer object created" << std::endl;
+    //std::cout << "ConfigurationParcer object created" << std::endl;
 }
 
 ConfigParser::~ConfigParser()
 {
-    std::cout << "ConfigurationParcer object deleted" << std::endl;
+    //std::cout << "ConfigurationParcer object deleted" << std::endl;
 }
 
 std::vector<t_serv> ConfigParser::parseConfig(int ac, char **av) 
@@ -43,12 +50,12 @@ std::vector<t_serv> ConfigParser::parseConfig(int ac, char **av)
 		    filename = av[1];
 	    else
 		   throw ErrorException("Error: Error: wrong number of arguments");
-        std::ifstream file(filename.c_str());   /* Checks if file can be opened and if it's empty */      
-        checkConfigFile(filename.c_str());                                       	/* read file line by line */															
-        while (std::getline(file, line))						/* read file line by line */
-            parseLine(line, currentServer, servers, state); 	/* read line*/
+        std::ifstream file(filename.c_str());    
+        checkConfigFile(filename.c_str());														
+        while (std::getline(file, line))
+            parseLine(line, currentServer, servers, state); 
         file.close();
-        return servers;							               	/* return vector of servers */
+        return servers;
 }
 
 void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state) 
@@ -56,19 +63,19 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
     std::istringstream	iss(line);
     std::string 		token;
     static 				std::string location_name;
-    static 				Location* current_location;
-    static int 			def_timeout = 5;
-    static int 			def_max_clients = 200;
-    static int 			def_max_size_of_file = 1000000;
-    static int 			flag_open_server_bracket = 0;
-    static int 			flag_open_location_bracket = 0;
-    static int 			fl_location_created = 0;
-    static int			flag_server_end = 0;
+    static 				Location*   current_location;
+    static int 			def_timeout                 = 5;
+    static int 			def_max_clients             = 200;
+    static int 			def_max_size_of_file        = 1000000;
+    static int 			flag_open_server_bracket    = 0;
+    static int 			flag_open_location_bracket  = 0;
+    static int 			fl_location_created         = 0;
+    static int			flag_server_end             = 0;
 	
     while (iss >> token)
     {
         check_is_token_allowed(token);
-        std::cout << GREEN << "token: " << token << RESET << std::endl;
+        //std::cout << GREEN << "token: " << token << RESET << std::endl;
         switch (state)
         {
             case STATE_START:
@@ -136,10 +143,9 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                 else if ((token == "}" && flag_open_location_bracket == 0))
                     throw ErrorException("Unclosed brackets found"); 
                 else if (token == "}" && flag_open_location_bracket == 1)
-                {   
-                    state = STATE_SERVER;                    
+                { 
+                    state = STATE_SERVER;              
                     currentServer.loc.insert(std::make_pair(location_name, *current_location)); 
-
                     flag_open_location_bracket = 0;
                     fl_location_created = 0;                       
                 }
@@ -155,8 +161,10 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                 {   
                     if(fl_location_created == 0)
                     {
-                        Location location;
-                        current_location = &location;
+                    //     Location location;
+                    //     current_location = &location;
+                        Location* location = new Location();
+                        current_location = location;
                         fl_location_created = 1;
                     }
                     if(token == "root:")
@@ -214,7 +222,6 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                     {   
                         iss >> token;
                         token = checkToken(iss, token, false); 
-                        std::cout << "token autoi: " << token << std::endl;
                         if (token == "on")
                             current_location->autoindex = true;
                         else if (token == "off")

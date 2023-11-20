@@ -148,7 +148,6 @@ bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
             throw ErrorException("Error: invalid CGI directory in location unit of configuration file");  
     }	
     std::ifstream file(trimmedFilePath.c_str());
-	std::cout   << trimmedFilePath.c_str() << RESET << std::endl;
     if (!file.good()) 
 	{
         if(specifier == ERR_PAGE)
@@ -166,7 +165,6 @@ bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
 bool ConfigParser::directoryExists(const std::string& path, int specifier)
 {
     struct stat info;
-    std::cout << "!!!path: " << path << std::endl;
     if(path[0] == '.')
         throw ErrorException("Error: adress shouldn't start with dot");
     if (stat(path.c_str(), &info) != 0)
@@ -239,7 +237,6 @@ void ConfigParser::check_is_token_allowed(std::string &token)
             return;
         }
     }
-	std::cout << RED << "\"" << token << "\"" << RESET;
   	throw ErrorException("Error: invalid variable in configuration file");  
 }
 
@@ -307,7 +304,7 @@ std::vector<std::string> ConfigParser::handleCgiExt(std::istringstream& iss)
     bool flag_stop = false;
     
     while (iss >> token && flag_stop == false)
-    {  //std::cout <<  YELLOW << "token cgi_ext: " << token << RESET << std::endl;
+    {
         temp = token;
         if (!token.empty() && token[token.length() - 1] == ';') 
         {
@@ -333,7 +330,7 @@ std::vector<std::string> ConfigParser::handleMethods(std::istringstream& iss)
     bool flag_stop = false;
     
     while (iss >> token && flag_stop == false)
-    {  //std::cout <<  YELLOW << "token cgi_ext: " << token << RESET << std::endl;
+    {
         temp = token;
         if (!token.empty() && token[token.length() - 1] == ';') 
         {
