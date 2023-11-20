@@ -1,19 +1,35 @@
-#include "Common_header.hpp"
+#include "ConfigParser.hpp"
 
 
 // Location* current_location;
 
-ConfigurationParser::ConfigurationParser()
+/* ===================  HELPERS =================== */
+static void initializeInvalidCodesList(std::set<int>& InvalidCodesList)
 {
+    InvalidCodesList.insert(200);
+    InvalidCodesList.insert(201);
+    InvalidCodesList.insert(204);
+    InvalidCodesList.insert(400);
+    InvalidCodesList.insert(401);
+    InvalidCodesList.insert(403);
+    InvalidCodesList.insert(404);
+    InvalidCodesList.insert(500);
+    InvalidCodesList.insert(502);
+    InvalidCodesList.insert(503);
+}
+
+ConfigParser::ConfigParser()
+{
+    initializeInvalidCodesList(InvalidCodesList);
     std::cout << "ConfigurationParcer object created" << std::endl;
 }
 
-ConfigurationParser::~ConfigurationParser()
+ConfigParser::~ConfigParser()
 {
     std::cout << "ConfigurationParcer object deleted" << std::endl;
 }
 
-std::vector<t_serv> ConfigurationParser::parseConfig(int ac, char **av) 
+std::vector<t_serv> ConfigParser::parseConfig(int ac, char **av) 
 {      
         std::vector<t_serv> servers;
         std::string			filename;       
@@ -35,7 +51,7 @@ std::vector<t_serv> ConfigurationParser::parseConfig(int ac, char **av)
         return servers;							               	/* return vector of servers */
 }
 
-void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state) 
+void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state) 
 {
     std::istringstream	iss(line);
     std::string 		token;
@@ -212,7 +228,7 @@ void ConfigurationParser::parseLine(const std::string& line, t_serv& currentServ
     }
 }
 
-bool ConfigurationParser::checkIfServerDataEnough(t_serv& currentServer)
+bool ConfigParser::checkIfServerDataEnough(t_serv& currentServer)
 {   
     std::multimap<std::string, Location>::iterator it = currentServer.loc.find("/");
 

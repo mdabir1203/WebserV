@@ -1,6 +1,6 @@
-#include "Common_header.hpp"
+#include "ConfigParser.hpp"
 
-void ConfigurationParser::checkConfigFile(std::string filename)
+void ConfigParser::checkConfigFile(std::string filename)
 {  
     int open_bracket = 0;
     bool empty_bracket = false;
@@ -48,7 +48,7 @@ void ConfigurationParser::checkConfigFile(std::string filename)
 
 
 
-int ConfigurationParser::handleServerVarPort(std::istringstream& iss, std::string &token) 
+int ConfigParser::handleServerVarPort(std::istringstream& iss, std::string &token) 
 {	
     int number; 
     std::size_t index = 0;
@@ -67,7 +67,7 @@ int ConfigurationParser::handleServerVarPort(std::istringstream& iss, std::strin
 	return number;
 }
 
-std::string ConfigurationParser::handleServerVarName(std::istringstream& iss, std::string &token) 
+std::string ConfigParser::handleServerVarName(std::istringstream& iss, std::string &token) 
 {	
     //std::cout <<RED<< "tokken" << token << "\n" << RESET << std::endl;
     iss >> token;
@@ -92,7 +92,7 @@ std::string ConfigurationParser::handleServerVarName(std::istringstream& iss, st
         throw ErrorException("Variable server_name must consist at least one a-z character");
 }
 
-int ConfigurationParser::checkCodeErrorPage(std::istringstream& iss, std::string &str) 
+int ConfigParser::checkCodeErrorPage(std::istringstream& iss, std::string &str) 
 {   
     int number; 
     std::string::iterator it = str.begin();
@@ -109,18 +109,12 @@ int ConfigurationParser::checkCodeErrorPage(std::istringstream& iss, std::string
         ++it;
     }
     number = std::atoi(str.c_str());
-	const int* codes = INVALID_CODES_LIST;
-	for (size_t i = 0; codes[i] != 0; i++)
-	{
-		if (codes[i] == number)
-		{
-			return number;
-		}
-	}	
+    if (InvalidCodesList.find(number) != InvalidCodesList.end())
+        return number;
    throw ErrorException("Error: invalid error page code in configuration file");
 }
 
-bool ConfigurationParser::checkFileExist(const std::string &filePath, int specifier)
+bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
 {
     std::string trimmedFilePath = filePath;
     size_t startPos = trimmedFilePath.find_first_not_of(" \t\n\r");
@@ -169,7 +163,7 @@ bool ConfigurationParser::checkFileExist(const std::string &filePath, int specif
 	return true;
 }
 
-bool ConfigurationParser::directoryExists(const std::string& path, int specifier)
+bool ConfigParser::directoryExists(const std::string& path, int specifier)
 {
     struct stat info;
     std::cout << "!!!path: " << path << std::endl;
@@ -194,7 +188,7 @@ bool ConfigurationParser::directoryExists(const std::string& path, int specifier
     return (info.st_mode & S_IFDIR) != 0;
 }
 
-std::string ConfigurationParser::check_for_double_location(std::istringstream& iss, t_serv& currentServer)
+std::string ConfigParser::check_for_double_location(std::istringstream& iss, t_serv& currentServer)
 {   
     std::string location_name;
     iss >> location_name;
@@ -211,7 +205,7 @@ std::string ConfigurationParser::check_for_double_location(std::istringstream& i
     return location_name;
 }
 
-void ConfigurationParser::check_is_token_allowed(std::string &token)
+void ConfigParser::check_is_token_allowed(std::string &token)
 {
 	const char* validParams[] = {
         "timeout:", "timeout:;",
@@ -250,7 +244,7 @@ void ConfigurationParser::check_is_token_allowed(std::string &token)
 }
 
 
-int ConfigurationParser::handleGlobalSettings(std::istringstream& iss, std::string &token, int specifier)
+int ConfigParser::handleGlobalSettings(std::istringstream& iss, std::string &token, int specifier)
 {
     int number;
 
@@ -276,7 +270,7 @@ int ConfigurationParser::handleGlobalSettings(std::istringstream& iss, std::stri
     return number;    
 }
  
-std::string ConfigurationParser::checkToken(std::istringstream& iss, std::string &token, bool check_empty)
+std::string ConfigParser::checkToken(std::istringstream& iss, std::string &token, bool check_empty)
 {   
     std::string temp;
     if (check_empty == true)
@@ -284,9 +278,9 @@ std::string ConfigurationParser::checkToken(std::istringstream& iss, std::string
         if (token.empty())
             throw ErrorException("Empty variable");
     }
-    if (token.back() == ';') 
+    if (!token.empty() && token[token.length() - 1] == ';') 
     {
-        token.pop_back();
+        token.erase(token.length() - 1);
         return token;
     }
     else if (token.find(';') == std::string::npos)
@@ -305,7 +299,7 @@ std::string ConfigurationParser::checkToken(std::istringstream& iss, std::string
     return temp;
 }
 
-std::vector<std::string> ConfigurationParser::handleCgiExt(std::istringstream& iss)
+std::vector<std::string> ConfigParser::handleCgiExt(std::istringstream& iss)
 {   
     std::string token;
     std::string temp;
@@ -315,9 +309,9 @@ std::vector<std::string> ConfigurationParser::handleCgiExt(std::istringstream& i
     while (iss >> token && flag_stop == false)
     {  //std::cout <<  YELLOW << "token cgi_ext: " << token << RESET << std::endl;
         temp = token;
-        if (token.back() == ';') 
+        if (!token.empty() && token[token.length() - 1] == ';') 
         {
-            token.pop_back();
+            token.erase(token.length() - 1);
             flag_stop = true;
         }
         if (token != ".py" && token != ".php" && token != ".pl" && 
@@ -331,7 +325,7 @@ std::vector<std::string> ConfigurationParser::handleCgiExt(std::istringstream& i
     return vektor;    
 }
 
-std::vector<std::string> ConfigurationParser::handleMethods(std::istringstream& iss)
+std::vector<std::string> ConfigParser::handleMethods(std::istringstream& iss)
 {   
     std::string token;
     std::string temp;
@@ -341,9 +335,9 @@ std::vector<std::string> ConfigurationParser::handleMethods(std::istringstream& 
     while (iss >> token && flag_stop == false)
     {  //std::cout <<  YELLOW << "token cgi_ext: " << token << RESET << std::endl;
         temp = token;
-        if (token.back() == ';') 
+        if (!token.empty() && token[token.length() - 1] == ';') 
         {
-            token.pop_back();
+            token.erase(token.length() - 1);
             flag_stop = true;
         }
         if (token != "GET" && token != "POST" && token != "DELETE")

@@ -1,8 +1,5 @@
-#ifndef COMMON_HEADER_HPP
-# define COMMON_HEADER_HPP
-
-
-
+#ifndef CONFIG_PARSER_HPP
+# define CONFIG_PARSER_HPP
 
 /* ====== std lib header files ====== */
 #include <iostream>
@@ -19,7 +16,12 @@
 #include <cstdlib>
 #include <sys/stat.h>
 #include <iostream>
+#include <set>
 
+#include "Colors.hpp"
+#include "Exceptions.hpp"
+
+using namespace std; //TODO: remove
 
 //extern  int def_timeout;									
 // extern  int def_max_clients;							
@@ -59,16 +61,11 @@ typedef struct s_serv {
     }
 } t_serv;
 
-
-
-
-
 enum ParseState {
     STATE_START,
     STATE_SERVER,
-    STATE_LOCATION,
+    STATE_LOCATION
 };
-
 
 #define TIMEOUT 1
 #define MAX_CLIENTS 2
@@ -85,11 +82,31 @@ enum ParseState {
 #define PATH 13
 #define CGI_DIR 14
 
-#define INVALID_CODES_LIST ({ int codes[] = { 200, 201, 204, 400, 401, 403, 404, 500, 502, 503 }; codes; })
+class ConfigParser
+{
+    public:
+        ConfigParser();
+        ~ConfigParser();
+        
+        std::vector<t_serv> parseConfig(int ac, char **av);
 
-/* ========= my header files ======== */
-#include "Colors.hpp"
-#include "ConfigurationParcer.hpp"
-#include "Exceptions.hpp"
+    private:
+        void                        checkConfigFile(std::string filename); 
+        void                        parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state);
+        int                         handleServerVarPort(std::istringstream& iss, std::string &token);
+        std::string                 handleServerVarName(std::istringstream& iss, std::string &input);
+        bool                        directoryExists(const std::string& path, int specifier);
+        int                         checkCodeErrorPage(std::istringstream& iss, std::string &str);
+        bool                        checkFileExist(const std::string &filePath, int specifier);
+        bool                        checkIfServerDataEnough(t_serv& currentSever);
+        std::string                 check_for_double_location(std::istringstream& iss, t_serv& currentServer);
+        void                        check_is_token_allowed(std::string &token);
+        int                         handleGlobalSettings(std::istringstream& iss, std::string &token, int specifier);
+        std::string                 checkToken(std::istringstream& iss, std::string &token, bool check_empty);
+        std::vector<std::string>    handleCgiExt(std::istringstream& iss);
+        std::vector<std::string>    handleMethods(std::istringstream& iss);
 
-#endif
+        std::set<int>   InvalidCodesList;
+};
+
+#endif /* CONFIG_PARSER_HPP */
