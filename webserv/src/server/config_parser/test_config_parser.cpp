@@ -59,7 +59,8 @@ int main(int ac, char** av)
 	ConfigParser parser;
 	try
 	{	
-        std::vector<t_serv> parsedConfig = parser.parseConfig(ac, av);
+		parser.parseConfig(ac, av);
+        std::vector<t_serv> parsedConfig = parser.getServers();
 		DEBUG_print_config_file(parsedConfig);
     }
 	catch(const std::exception& e)

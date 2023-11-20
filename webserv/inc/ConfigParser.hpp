@@ -75,7 +75,8 @@ class ConfigParser
         ConfigParser();
         ~ConfigParser();
         
-        std::vector<t_serv> parseConfig(int ac, char **av);
+        void         parseConfig(int ac, char **av);
+        std::vector<t_serv> getServers() const;
 
     private:
         void                        checkConfigFile(std::string filename); 
@@ -94,6 +95,8 @@ class ConfigParser
         std::vector<std::string>    handleMethods(std::istringstream& iss);
 
         std::set<int>   InvalidCodesList;
+
+        std::vector<t_serv> servers;
 };
 
 #endif /* CONFIG_PARSER_HPP */

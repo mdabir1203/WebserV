@@ -36,9 +36,13 @@ ConfigParser::~ConfigParser()
     //std::cout << "ConfigurationParcer object deleted" << std::endl;
 }
 
-std::vector<t_serv> ConfigParser::parseConfig(int ac, char **av) 
+std::vector<t_serv> ConfigParser::getServers() const
+{
+    return servers;
+}
+
+void    ConfigParser::parseConfig(int ac, char **av) 
 {      
-        std::vector<t_serv> servers;
         std::string			filename;       
         std::string 		line;
         t_serv 				currentServer(5, 200 , 1000000);
@@ -55,7 +59,7 @@ std::vector<t_serv> ConfigParser::parseConfig(int ac, char **av)
         while (std::getline(file, line))
             parseLine(line, currentServer, servers, state); 
         file.close();
-        return servers;
+        return ;
 }
 
 void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state) 
@@ -145,7 +149,9 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                 else if (token == "}" && flag_open_location_bracket == 1)
                 { 
                     state = STATE_SERVER;              
-                    currentServer.loc.insert(std::make_pair(location_name, *current_location)); 
+                    currentServer.loc.insert(std::make_pair(location_name, *current_location)); //TODO: if possible remove copying the allocated memory
+                    delete current_location;
+                    current_location = NULL;
                     flag_open_location_bracket = 0;
                     fl_location_created = 0;                       
                 }
@@ -154,7 +160,9 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                     flag_open_location_bracket = 0;
                     flag_open_server_bracket = 0;
                     state = STATE_SERVER;
-                    currentServer.loc.insert(std::make_pair(location_name, *current_location)); 
+                    currentServer.loc.insert(std::make_pair(location_name, *current_location)); //TODO: if possible remove copying the allocated memory
+                    delete current_location;
+                    current_location = NULL;
                     fl_location_created = 0;    
                 }
                 else if (token != "{" && token != "}" && flag_open_location_bracket == 1)
