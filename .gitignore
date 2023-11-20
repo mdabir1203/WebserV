@@ -36,6 +36,7 @@
 .vscode
 *.dSYM
 
-# Compiled 
+# Other
+obj
 test
-webserv
+webserv/webserv

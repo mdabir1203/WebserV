@@ -1,6 +1,7 @@
 #ifndef EXCEPTIONS_HPP
 # define EXCEPTIONS_HPP
 
+#include <Colors.hpp>
 #include <string>
 #include <exception>
 
