@@ -5,6 +5,8 @@ void ConfigParser::checkConfigFile(std::string filename)
     int open_bracket = 0;
     bool empty_bracket = false;
     int i = 0;
+    bool serverFound = false;
+    bool serverEndFound = false;
     
     FILE* fin = fopen(filename.c_str(), "r");
     if (!fin)
@@ -15,6 +17,7 @@ void ConfigParser::checkConfigFile(std::string filename)
     {
         throw ErrorException("Error: Empty configuration file");
     }
+
     std::string line;
     std::ifstream file(filename.c_str());
     while (std::getline(file, line))
@@ -39,8 +42,16 @@ void ConfigParser::checkConfigFile(std::string filename)
                 empty_bracket = false;
             }
             i++;            
-        }       
+        }
+        if (line.find("server") != std::string::npos)
+            serverFound = true;
+        if (line.find("<server_end>") != std::string::npos)
+            serverEndFound = true;   
     }
+    if (!serverFound || !serverEndFound)
+    {
+        throw ErrorException("Error: Configuration file must consist at least one server block");
+    }    
     if(open_bracket != 0)
         throw ErrorException("Unclosed brackets found");
     fclose(fin);
