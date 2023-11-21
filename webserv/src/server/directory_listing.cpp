@@ -19,12 +19,6 @@ bool Methods::isDefaultDirectoryPageExisting(const std::string& path, HttpRespon
     return (false);
 }
 
-bool    Methods::isDirectoryListingEnabled(const std::string& path) const
-{
-    (void)path;
-    return (true); // TODO: implement correct check for autoindex on/off
-}
-
 bool    Methods::isDirectoryLocked(const std::string& path) const //TODO: only need if delete and post can modify folders??
 {
     (void)path;

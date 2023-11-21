@@ -4,7 +4,7 @@
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
                         : maxHeaderLength(8192), currentState(HEADER_METHOD),
                         positionInInput(0), paramterLength(0), lastChar('\0'),
-                        headerMethod(0), isHttpVersionRight(false)
+                        headerMethod(0), isHttpVersionRight(false), isAutoindex(false), isCGIRequest(false)
 {
    stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
    stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
@@ -51,6 +51,9 @@ void HeaderFieldStateMachine::parseURI(void) //TODO: implement actual URI parsin
    // headerUri = "/workspaces/WebserV/webserv/src/config_files/method_test.html";
    // headerUri = "";
    headerUri = "/workspaces/WebserV/webserv/var/www/dogs.com";
+
+   //TODO: check if URI has autoindex on/off
+   isAutoindex = true;
 }
 
 const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
@@ -95,4 +98,14 @@ void HeaderFieldStateMachine::stateTransition(int state, int nextState)
 {
    (void)state;
    this->currentState = nextState;
+}
+
+bool HeaderFieldStateMachine::isDirectoryListing(void) const
+{
+   return (this->isAutoindex);
+}
+
+bool HeaderFieldStateMachine::isCGI(void) const
+{
+   return (this->isCGIRequest);
 }

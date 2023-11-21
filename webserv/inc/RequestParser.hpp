@@ -63,6 +63,10 @@ public:
    void  setInputPosition(const size_t position);
    void  reset(void);
 
+   bool  isDirectoryListing(void) const;
+	bool  isCGI(void) const;
+
+
 private:
    const size_t                         maxHeaderLength;  // To prevent buffer overflow attacks
    int                                  currentState;
@@ -76,6 +80,9 @@ private:
    std::string                          headerUri;
    int                                  headerMethod;
    bool                                 isHttpVersionRight;
+
+   bool                                 isAutoindex;
+   bool                                 isCGIRequest;
 
    const char**                         headerFieldsForMethod[3]; // [GET, POST, DELETE]
 
