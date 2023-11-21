@@ -48,13 +48,13 @@ void ConfigParser::checkConfigFile(std::string filename)
         if (line.find("<server_end>") != std::string::npos)
             serverEndFound = true;   
     }
+    fclose(fin);
     if (!serverFound || !serverEndFound)
     {
         throw ErrorException("Error: Configuration file must consist at least one server block");
     }    
     if(open_bracket != 0)
         throw ErrorException("Unclosed brackets found");
-    fclose(fin);
 }
 
 
