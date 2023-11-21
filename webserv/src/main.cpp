@@ -15,7 +15,7 @@ void signalHandler(int signum)
 {
   (void)signum;
   SocketServer::getServer()->stop();
-  _exit(signum);
+  _exit(signum); //TODO: forbidden
 }
 
 int main()

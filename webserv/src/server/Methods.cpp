@@ -119,19 +119,19 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	}
 	else if (isCGI(parser.getHeaderUri()))
 	{
-		if (!(fileInfo.st_mode & S_IXUSR)) // File is a cgi script and is not executable
-		{
-			response.setStatusCode(403);
-			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
-			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
-			return ;
-		}
-		else
+		if ((fileInfo.st_mode & S_IXUSR))
 		{
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod()); //after execution started
 			std::cout << " GET method processed 200 - CGI" << std::endl;
 			//TODO: execute cgi script
+			return ;
+		}
+		else // File is a cgi script and is not executable
+		{
+			response.setStatusCode(403);
+			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
 			return ;
 		}
 	}
