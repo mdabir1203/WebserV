@@ -1,10 +1,10 @@
-#include "../inc/Common_header.hpp"
+#include "ConfigParser.hpp"
 							
 std::vector<t_serv> parseConfig(const std::string& filename);
 
 /////////////////////////////////////////////////////////////// DEBUG  PRINTER ////////////////////////////////////////////////////////////////////////////
 
-void DEBUG_print_config_file( std::vector<t_serv> parsedConfig)
+void DEBUG_print_config_file(std::vector<t_serv>& parsedConfig)
 {
 		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
         for (size_t i = 0; i < parsedConfig.size(); ++i)
@@ -56,10 +56,11 @@ void DEBUG_print_config_file( std::vector<t_serv> parsedConfig)
 
 int main(int ac, char** av)
 {	
-	ConfigurationParser parser;
+	ConfigParser parser;
 	try
 	{	
-        std::vector<t_serv> parsedConfig = parser.parseConfig(ac, av);
+		parser.parseConfig(ac, av);
+        std::vector<t_serv> parsedConfig = parser.getServers();
 		DEBUG_print_config_file(parsedConfig);
     }
 	catch(const std::exception& e)

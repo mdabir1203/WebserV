@@ -6,14 +6,18 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-SERVER := $(addprefix server/, Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
+CONFIG_PARSER := $(addprefix config_parser/, ConfigParser.cpp ConfigParserUtils.cpp Exceptions.cpp)
 
-SRCS := main.cpp ConfigurationParcer.cpp Exceptions.cpp ConfParcerUtils.cpp \
+SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
+								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
+
+SRCS := main.cpp \
 		${SERVER}
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-HEADER := $(addprefix inc/, Server.hpp Response.hpp RequestParser.hpp Methods.hpp)
+HEADER := $(addprefix inc/, Colors.hpp ConfigParser.hpp Exceptions.hpp \
+							Server.hpp Response.hpp RequestParser.hpp Methods.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
 
@@ -35,7 +39,6 @@ CXX := c++
 RM := rm -f
 
 all: ${NAME}
-	./webserv
 
 ${NAME}: ${OBJS}
 	${CXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
@@ -55,10 +58,14 @@ fclean: clean
 
 re: fclean all
 
-testparser:
-	g++ src/server/testParse.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -o test -I inc
-	./test
+test_request_parser:
+	c++ src/server/testParse.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -I inc -g -O0 -o test_request_parser.out
+	./test_request_parser.out
 
-.PHONY: all clean fclean re testparser
+test_config_parser:
+	c++ src/server/config_parser/test_config_parser.cpp src/server/config_parser/ConfigParser.cpp src/server/config_parser/ConfigParserUtils.cpp src/server/config_parser/Exceptions.cpp -g -O0 -I inc -o test_config_parser.out
+	# ./test_config_parser.out
+
+.PHONY: all clean fclean re test_request_parser test_config_parser
 
 .NOTPARALLEL:
