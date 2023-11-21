@@ -9,7 +9,7 @@ INCLUDES_DIR := inc
 CONFIG_PARSER := $(addprefix config_parser/, ConfigParser.cpp ConfigParserUtils.cpp Exceptions.cpp)
 
 SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
-								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
+								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp directory_listing.cpp)
 
 SRCS := main.cpp \
 		${SERVER}

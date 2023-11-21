@@ -124,8 +124,9 @@ void SocketServer::HandleClient(int clientSocket)
 	
 	if (parser.parseRequestHeaderChunk(requestBuffer) == BAD_REQUEST)
 	{
-		response.setStatusCode(400);
-		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		//TODO: be careful with "Broken Pipe error" -> What to do then?
+		// response.setStatusCode(400);
+		// response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 		return ;
 	}
 	parser.parseURI();
@@ -138,9 +139,10 @@ void SocketServer::HandleClient(int clientSocket)
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << "Error processing request: " << e.what() << std::endl; //TODO: send back 500 error
-		response.setStatusCode(500);
-		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		std::cerr << "Error processing request in HandleClient: " << e.what() << std::endl; //TODO: send back 500 error
+		//TODO: be careful with "Broken Pipe error" -> What to do then?
+		// response.setStatusCode(500);
+		// response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 	}
 	// ----- ------- Testing Parer ------------  -----------
 	// std::cout << "Method: " << ToString((HttpMethod)parser.getHeaderMethod()) << std::endl;

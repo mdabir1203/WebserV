@@ -15,6 +15,13 @@
 #include <sys/epoll.h>
 #include <signal.h>
 #include <string.h>
+#include <cerrno>
+#include <arpa/inet.h>
+#include <sys/wait.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 
 
 #define ART "⠀⠀⠀⠀⠀⠀⠀⠀⢀⣞⣆⢀⣠⢶⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀\n" \
