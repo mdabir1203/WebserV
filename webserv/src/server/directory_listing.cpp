@@ -1,9 +1,22 @@
 #include "Methods.hpp"
 
-bool    Methods::isDefaultDirectoryPageExisting(const std::string& path) const //Check this before directory listing
+void Methods::setDefaultDirectoryPage(const std::string& defaultPagePath)
 {
-    (void)path; //TODO: modify the path to be send??
-    return (false); // TODO: implement correct check for index.html
+    this->defaultDirectoryPage = defaultPagePath;
+}
+
+bool Methods::isDefaultDirectoryPageExisting(const std::string& path, HttpResponse& response)
+{
+    struct stat fileInfo;
+
+    setDefaultDirectoryPage(path + "/index.html");
+    if (stat(defaultDirectoryPage.c_str(), &fileInfo) == 0 && S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IRUSR))
+    {
+        response.contentLength = fileInfo.st_size;
+        return (true);
+    }
+    defaultDirectoryPage.clear();
+    return (false);
 }
 
 bool    Methods::isDirectoryListingEnabled(const std::string& path) const

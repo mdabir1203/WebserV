@@ -139,14 +139,14 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	{
 		if (S_ISDIR(fileInfo.st_mode)) //TODO: handle directory listing -> file listing according to server config || index.html || 403 Forbidden
 		{
-			// if (isDefaultDirectoryPageExisting(parser.getHeaderUri()))
-			// {
-			// 	response.setStatusCode(200);
-			// 	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-			// 	sendFile(clientSocket, parser.getHeaderUri() + "/index.html");
-			// 	std::cout << " GET method processed 200 - Directory" << std::endl;
-			// 	return ;
-			// }
+			if (isDefaultDirectoryPageExisting(parser.getHeaderUri(), response))
+			{
+				response.setStatusCode(200);
+				response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+				sendFile(clientSocket, defaultDirectoryPage);
+				std::cout << " GET method processed 200 - Directory default page" << std::endl;
+				return ;
+			}
 			// else if (isDirectoryLocked(parser.getHeaderUri())) //by another process
 			// {
 			// 	response.setStatusCode(403); //internal server error?
@@ -158,7 +158,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			if ((fileInfo.st_mode & S_IRUSR) && isDirectoryListingEnabled(parser.getHeaderUri()))
 			{
 				sendDirectoryListing(parser.getHeaderUri(), response, clientSocket);
-				std::cout << " GET method processed 200 - Directory" << std::endl;
+				std::cout << " GET method processed 200 - Directory Listing" << std::endl;
 				return ;
 			}
 			response.setStatusCode(403); // no listing an no default page
