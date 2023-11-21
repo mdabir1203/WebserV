@@ -65,6 +65,8 @@ test_request_parser:
 test_config_parser:
 	c++ src/server/config_parser/test_config_parser.cpp src/server/config_parser/ConfigParser.cpp src/server/config_parser/ConfigParserUtils.cpp src/server/config_parser/Exceptions.cpp -g -O0 -I inc -o test_config_parser.out
 	# ./test_config_parser.out
+create_delete_file:
+	touch /workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe
 
 .PHONY: all clean fclean re test_request_parser test_config_parser
 

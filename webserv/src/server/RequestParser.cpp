@@ -49,8 +49,13 @@ void HeaderFieldStateMachine::parseURI(void) //TODO: implement actual URI parsin
    // headerUri = "/workspaces/WebserV/webserv/src/config_files/index.html";
    // headerUri = "/workspaces/WebserV/webserv/src/config_files/index copy.html";
    // headerUri = "/workspaces/WebserV/webserv/src/config_files/method_test.html";
+   // headerUri = "/workspaces/WebserV/webserv/var/www/dogs.com";
+   if (headerMethod == DELETE)
+      headerUri = "/workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe";
+   else if (headerMethod == GET)
+      headerUri = "/workspaces/WebserV/webserv/src/config_files/method_test.html";
+
    // headerUri = "";
-   headerUri = "/workspaces/WebserV/webserv/var/www/dogs.com";
 
    //TODO: check if URI has autoindex on/off
    isAutoindex = true;

@@ -191,8 +191,54 @@ void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int client
 
 void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
 {
-	(void)parser;
-	response.setStatusCode(204);
-	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-	std::cout << " DELETE method processed" << std::endl;
+	struct stat fileInfo;
+
+	if (stat(parser.getHeaderUri().c_str(), &fileInfo) != 0) 
+	{
+		if (errno == EACCES) //TODO: allowed?
+			response.setStatusCode(403);
+		else
+			response.setStatusCode(404);
+		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		std::cout << " Delete method processed 404" << std::endl; // TODO:Provide error page 404
+		return ;
+	}
+	else if (S_ISDIR(fileInfo.st_mode))
+	{
+		response.setStatusCode(405);
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+		std::cout << " DELETE method processed 405 - Directory" << std::endl;
+		return ;
+	}
+	else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IWUSR) && parser.getHeaderUri() == "/workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe") //TODO: remove hardcoded path when URI parsing is implemented
+	{
+		if (std::remove(parser.getHeaderUri().c_str()) == 0)
+		{
+			response.setStatusCode(204);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " DELETE method processed 204 - File" << std::endl;
+			return ;
+		}
+		else if (errno == EACCES)
+		{
+			response.setStatusCode(403);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " DELETE method processed 403 - File" << std::endl;
+			return ;
+		}
+		else
+		{
+			response.setStatusCode(500);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " DELETE method processed 500 - File" << std::endl;
+			return ;
+		}
+	}
+	else if (!(fileInfo.st_mode & S_IWUSR))
+	{
+		response.setStatusCode(403);
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+		std::cout << " DELETE method processed 403 - File" << std::endl;
+		return ;
+	}
 }
