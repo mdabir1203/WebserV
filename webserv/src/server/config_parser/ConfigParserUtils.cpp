@@ -10,11 +10,11 @@ void ConfigParser::checkConfigFile(std::string filename)
     
     FILE* fin = fopen(filename.c_str(), "r");
     if (!fin)
-    {
+    {   fclose(fin);
         throw ErrorException("Error: Can't open configuration file");
     }
     if (fgetc(fin) == EOF)
-    {
+    {   fclose(fin);
         throw ErrorException("Error: Empty configuration file");
     }
 
