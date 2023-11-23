@@ -32,6 +32,7 @@ typedef struct Location {
     std::string http_redirect;
     std::vector<std::string>    methods;
     bool autoindex;
+    ~Location();
 }t_Location;
 
 /* ========== Servers =========== */
@@ -46,6 +47,7 @@ typedef struct s_serv {
 
     //Default constructor:
     s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file);
+    ~s_serv();   
 } t_serv;
 
 enum ParseState {
@@ -83,16 +85,17 @@ class ConfigParser
         void                        parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state);
         int                         handleServerVarPort(std::istringstream& iss, std::string &token);
         std::string                 handleServerVarName(std::istringstream& iss, std::string &input);
-        bool                        directoryExists(const std::string& path, int specifier);
+        bool                        directoryExists(const std::string& path, int specifier, Location* current_location);
         int                         checkCodeErrorPage(std::istringstream& iss, std::string &str);
-        bool                        checkFileExist(const std::string &filePath, int specifier);
+        bool                        checkFileExist(const std::string &filePath, int specifier, Location* current_location);
         bool                        checkIfServerDataEnough(t_serv& currentSever);
         std::string                 check_for_double_location(std::istringstream& iss, t_serv& currentServer);
         void                        check_is_token_allowed(std::string &token);
         int                         handleGlobalSettings(std::istringstream& iss, std::string &token, int specifier);
-        std::string                 checkToken(std::istringstream& iss, std::string &token, bool check_empty);
-        std::vector<std::string>    handleCgiExt(std::istringstream& iss);
-        std::vector<std::string>    handleMethods(std::istringstream& iss);
+        std::string                 checkToken(std::istringstream& iss, std::string &token, bool check_empty, Location* current_location);
+        std::vector<std::string>    handleCgiExt(std::istringstream& iss, Location* current_location);
+        std::vector<std::string>    handleMethods(std::istringstream& iss, Location* current_location);
+        bool                        containsOnlyDigitsAndWhitespace(const std::string& str);                
 
         std::set<int>   InvalidCodesList;
 

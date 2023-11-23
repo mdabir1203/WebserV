@@ -18,22 +18,36 @@ static void initializeInvalidCodesList(std::set<int>& InvalidCodesList)
     InvalidCodesList.insert(503);
 }
 
+Location::~Location()
+{
+    //std::cout << BG_BLUE << "~Location destructor called" << RESET << std::endl;
+}
+
+
+
 s_serv::s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file) : port(0), server_name("default"), error_pages(), loc() {
-    // std::cout << "t_serv default constructor called"  << std::endl;
+    // std::cout << GREEN << "t_serv default constructor called" << RESET << std::endl;
     def_timeout          = Def_timeout;
     def_max_clients      = Def_max_clients;
     def_max_size_of_file = Def_max_size_of_file;
 }
 
+s_serv::~s_serv()
+{   
+    //std::cout << GREEN << "t_serv destructor called" << RESET << std::endl;
+}
+
+
 ConfigParser::ConfigParser()
-{
+{  
     initializeInvalidCodesList(InvalidCodesList);
-    //std::cout << "ConfigurationParcer object created" << std::endl;
+    //std::cout << YELLOW << "ConfigurationParcer object created" << RESET << std::endl;
 }
 
 ConfigParser::~ConfigParser()
-{
-    //std::cout << "ConfigurationParcer object deleted" << std::endl;
+{   
+    //delete &servers;
+    //std::cout << YELLOW <<  "ConfigurationParcer object deleted" << RESET << std::endl;
 }
 
 std::vector<t_serv> ConfigParser::getServers() const
@@ -114,8 +128,8 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                 {                        
                     int errorCode = checkCodeErrorPage(iss, token);
                     iss >> token;
-                    token = checkToken(iss, token, true);
-                    if(checkFileExist(token, ERR_PAGE) == true)
+                    token = checkToken(iss, token, true, nullptr);
+                    if(checkFileExist(token, ERR_PAGE, nullptr) == true)
                         currentServer.error_pages[errorCode] = token;
                 }
                 else if (token == "location")
@@ -169,8 +183,6 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                 {   
                     if(fl_location_created == 0)
                     {
-                    //     Location location;
-                    //     current_location = &location;
                         Location* location = new Location();
                         current_location = location;
                         fl_location_created = 1;
@@ -178,8 +190,8 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                     if(token == "root:")
                     {
                         iss >> token;
-                        token = checkToken(iss, token, true);
-                        if(directoryExists(token, ROOT_DIR) == true)
+                        token = checkToken(iss, token, true, current_location);
+                        if(directoryExists(token, ROOT_DIR, current_location) == true)
                         {
                             if (location_name == "/")
                                 current_location->root = token;
@@ -190,19 +202,19 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                     else if(token == "index:")
                     {   
                         iss >> token;
-                        token = checkToken(iss, token, true);
-                        if(checkFileExist( (current_location->root + "/" + token), INDEX_PAGE) == true)
+                        token = checkToken(iss, token, true, current_location);
+                        if(checkFileExist((current_location->root + "/" + token), INDEX_PAGE, current_location) == true)
                             current_location->index = (current_location->root + "/" + token);                            
                     }
                     else if(token == "cgi_ext:")
                     {     
-                        current_location->cgi_extensions = handleCgiExt(iss);        
+                        current_location->cgi_extensions = handleCgiExt(iss, current_location);        
                     }
                     else if (token == "cgi_path:")
                     {   
                         iss >> token;                       
-                        token = checkToken(iss, token, true);                        
-                        if(directoryExists((current_location->root + "/" + token), CGI_DIR) == true)
+                        token = checkToken(iss, token, true, current_location);                        
+                        if(directoryExists((current_location->root + "/" + token), CGI_DIR, current_location) == true)
                         {
                             current_location->cgi_path = current_location->root + "/" + token;
                         }			
@@ -210,32 +222,36 @@ void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std
                     else if (token == "upload_dir:")
                     {    
                         iss >> token; 
-                        token = checkToken(iss, token, false);                              
-                        if(directoryExists((current_location->root + "/" + token), UPLOAD_DIR) == true)
+                        token = checkToken(iss, token, false, current_location);                              
+                        if(directoryExists((current_location->root + "/" + token), UPLOAD_DIR, current_location) == true)
                             current_location->upload_dir = current_location->root + "/" + token;
                     }
                     else if (token == "http_redirect:")
                     {                          
                         iss >> token;
-                        token = checkToken(iss, token, false); 
+                        token = checkToken(iss, token, false, current_location); 
                         current_location->http_redirect = token;
                         if (token.empty() == true)
                             current_location->http_redirect = "";                        
                     }
                     else if(token == "methods:")
                     {   
-                        current_location->methods = handleMethods(iss);
+                        current_location->methods = handleMethods(iss, current_location);
                     }
                     else if(token == "autoindex:")
                     {   
                         iss >> token;
-                        token = checkToken(iss, token, false); 
+                        token = checkToken(iss, token, false, current_location); 
                         if (token == "on")
                             current_location->autoindex = true;
                         else if (token == "off")
                             current_location->autoindex = false;
                         else
-                            throw ErrorException("Error: invalid autoindex value in location unit of configuration file");            
+                        {
+                            if(current_location)
+            					delete current_location;
+							throw ErrorException("Error: invalid autoindex value in location unit of configuration file");            
+                        }                            
                     }					                                          
                 }
                 break;
@@ -255,3 +271,4 @@ bool ConfigParser::checkIfServerDataEnough(t_serv& currentServer)
     throw ErrorException("Error: missed variable in configuration file");
     return false;
 }
+

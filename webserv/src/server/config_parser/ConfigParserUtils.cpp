@@ -1,5 +1,6 @@
 #include "ConfigParser.hpp"
 
+/* Checks if configuration file is according to requirements */
 void ConfigParser::checkConfigFile(std::string filename)
 {  
     int open_bracket = 0;
@@ -10,11 +11,12 @@ void ConfigParser::checkConfigFile(std::string filename)
     
     FILE* fin = fopen(filename.c_str(), "r");
     if (!fin)
-    {   fclose(fin);
+    {
         throw ErrorException("Error: Can't open configuration file");
     }
     if (fgetc(fin) == EOF)
-    {   fclose(fin);
+    {   
+        fclose(fin);
         throw ErrorException("Error: Empty configuration file");
     }
 
@@ -25,7 +27,10 @@ void ConfigParser::checkConfigFile(std::string filename)
         i = 0;
         while(line[i] != '\0' && line[i] != '\n')
         {   if(line[i] == '#')
+            {
+                fclose(fin);
                 throw ErrorException("Error: comments are not allowed");
+            }                
             else if(line[i] == '{')
             {
                 open_bracket++;
@@ -35,7 +40,10 @@ void ConfigParser::checkConfigFile(std::string filename)
             {
                 open_bracket--;
                 if(empty_bracket == true)
+                {
+                    fclose(fin);
                     throw ErrorException("Error: empty brackets in configuration file");
+                }                    
             }
             else if( line[i] != ' ' && line[i] != '\t')
             {
@@ -57,21 +65,16 @@ void ConfigParser::checkConfigFile(std::string filename)
         throw ErrorException("Unclosed brackets found");
 }
 
-
-
+/* Handles server port value */
 int ConfigParser::handleServerVarPort(std::istringstream& iss, std::string &token) 
 {	
     int number; 
     std::size_t index = 0;
     
     iss >> token;
-    token = checkToken(iss, token, true);
-    while (index < token.length()) 
-	{
-        if (!std::isdigit(static_cast<unsigned char>(token[index]))) 
-			throw ErrorException("Error: invalid variable \"port\" in configuration file");
-        ++index;
-    }
+    if (!containsOnlyDigitsAndWhitespace(token))
+        throw ErrorException("Error: invalid variable \"port\" in configuration file");
+    token = checkToken(iss, token, true, nullptr);
     number = std::atoi(token.c_str());	
     if (number < 0 || number > 65535)
 		throw ErrorException("Error: invalid variable \"port\" in configuration file");
@@ -86,7 +89,7 @@ std::string ConfigParser::handleServerVarName(std::istringstream& iss, std::stri
 	bool containsLetter = false;
     std::string temp;
 
-    temp = checkToken(iss, token, false);
+    temp = checkToken(iss, token, false, nullptr);
     if (token.empty())
         temp = "default";
     for (size_t i = 0; i < temp.length(); ++i)
@@ -125,7 +128,7 @@ int ConfigParser::checkCodeErrorPage(std::istringstream& iss, std::string &str)
    throw ErrorException("Error: invalid error page code in configuration file");
 }
 
-bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
+bool ConfigParser::checkFileExist(const std::string &filePath, int specifier, Location* current_location)
 {
     std::string trimmedFilePath = filePath;
     size_t startPos = trimmedFilePath.find_first_not_of(" \t\n\r");
@@ -138,6 +141,8 @@ bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
         trimmedFilePath = trimmedFilePath.substr(startPos, endPos - startPos + 1);
 	else
     {
+        if(current_location)
+            delete current_location;
         if(specifier == ERR_PAGE)
             throw ErrorException("Error: invalid error page in configuration file");
         else if (specifier == ROOT_PAGE)
@@ -149,6 +154,8 @@ bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
     }		
     if (trimmedFilePath.empty())
     {
+        if(current_location)
+            delete current_location;
         if(specifier == ERR_PAGE)
             throw ErrorException("Error: invalid error page in configuration file");
         else if (specifier == ROOT_PAGE)
@@ -161,6 +168,8 @@ bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
     std::ifstream file(trimmedFilePath.c_str());
     if (!file.good()) 
 	{
+        if(current_location)
+            delete current_location;
         if(specifier == ERR_PAGE)
             throw ErrorException("Error: invalid error page in configuration file");
         else if (specifier == ROOT_PAGE)
@@ -173,21 +182,19 @@ bool ConfigParser::checkFileExist(const std::string &filePath, int specifier)
 	return true;
 }
 
-bool ConfigParser::directoryExists(const std::string& path, int specifier)
+bool ConfigParser::directoryExists(const std::string& path, int specifier, Location* current_location)
 {
     struct stat info;
     if(path[0] == '.')
         throw ErrorException("Error: adress shouldn't start with dot");
     if (stat(path.c_str(), &info) != 0)
     {
-        if(specifier == ROOT_DIR)
-        {   
+         if(current_location)
+                delete current_location;
+        if(specifier == ROOT_DIR)       
             throw ErrorException("Root directory not found");
-        }
-        else if(specifier == CGI_DIR)
-        {   
+        else if(specifier == CGI_DIR) 
             throw ErrorException("CGI directory not found");
-        }
         else if(specifier == UPLOAD_DIR)
         {   
             if(mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH) != 0)
@@ -262,8 +269,12 @@ int ConfigParser::handleGlobalSettings(std::istringstream& iss, std::string &tok
     else if ((token.empty())&& specifier == MAX_CLIENTS)
         return 200;
     else if ((token.empty()) && specifier == MAX_SIZE_OF_FILE)
-        return 1000000;	
-    token = checkToken(iss, token, false);
+        return 1000000;
+    if (!containsOnlyDigitsAndWhitespace(token))
+    {
+        throw ErrorException("Invalid global variable argument in configuration file");
+    }
+    token = checkToken(iss, token, false, nullptr);
     std::istringstream stream(token);
     if (!(stream >> number))
     {
@@ -278,7 +289,7 @@ int ConfigParser::handleGlobalSettings(std::istringstream& iss, std::string &tok
     return number;    
 }
  
-std::string ConfigParser::checkToken(std::istringstream& iss, std::string &token, bool check_empty)
+std::string ConfigParser::checkToken(std::istringstream& iss, std::string &token, bool check_empty, Location* current_location)
 {   
     std::string temp;
     if (check_empty == true)
@@ -300,14 +311,16 @@ std::string ConfigParser::checkToken(std::istringstream& iss, std::string &token
                 break ;
         }
         if (token.find(';') == std::string::npos)
+        {   
+            if(current_location)
+                delete current_location;
             throw ErrorException("Semicolon missed");
+        }
     }
-    // std::cout <<RED<< "tok" << token << "\n" << RESET << std::endl;
-    // std::cout <<RED<< "tok" << temp << "\n" << RESET << std::endl;
     return temp;
 }
 
-std::vector<std::string> ConfigParser::handleCgiExt(std::istringstream& iss)
+std::vector<std::string> ConfigParser::handleCgiExt(std::istringstream& iss, Location* current_location)
 {   
     std::string token;
     std::string temp;
@@ -324,16 +337,25 @@ std::vector<std::string> ConfigParser::handleCgiExt(std::istringstream& iss)
         }
         if (token != ".py" && token != ".php" && token != ".pl" && 
             token != ".rb" && token != ".sh")
+            {   
+                if(current_location)
+                    delete current_location;
                 throw ErrorException("Invalid CGI extension type"); 
+            }
+                
         else
             vektor.push_back(token);
     }
     if (temp.find(';') == std::string::npos)
+    {
+        if(current_location)
+                delete current_location;
         throw ErrorException("Semicolon missed");   
+    }        
     return vektor;    
 }
 
-std::vector<std::string> ConfigParser::handleMethods(std::istringstream& iss)
+std::vector<std::string> ConfigParser::handleMethods(std::istringstream& iss, Location* current_location)
 {   
     std::string token;
     std::string temp;
@@ -349,11 +371,32 @@ std::vector<std::string> ConfigParser::handleMethods(std::istringstream& iss)
             flag_stop = true;
         }
         if (token != "GET" && token != "POST" && token != "DELETE")
-                throw ErrorException("Invalid method"); 
+        {
+            if(current_location)
+                delete current_location;
+            throw ErrorException("Invalid method"); 
+        }     
         else
             vektor.push_back(token);
     }
     if (temp.find(';') == std::string::npos)
-        throw ErrorException("Semicolon missed");   
+    {
+        if(current_location)
+            delete current_location;
+        throw ErrorException("Semicolon missed");
+    }
+           
     return vektor;    
+}
+
+bool ConfigParser::containsOnlyDigitsAndWhitespace(const std::string& str)
+{
+    for (std::string::const_iterator it = str.begin(); it != (str.end()-1); ++it)
+    {
+        if (!isdigit(*it) && !isspace(*it))
+            return false;
+    }
+    if(str[str.length()-1] != ';')
+        return false;
+    return true;
 }
