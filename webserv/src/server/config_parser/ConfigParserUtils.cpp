@@ -92,6 +92,13 @@ std::string ConfigParser::handleServerVarName(std::istringstream& iss, std::stri
         throw ErrorException("Variable server_name must consist at least one a-z character");
 }
 
+bool isErrorCodeValidForErrorPage(int code)
+{
+    if (code >= 100 && code <= 599)
+        return true;
+    return false;
+}
+
 int ConfigParser::checkCodeErrorPage(std::istringstream& iss, std::string &str) 
 {   
     int number; 

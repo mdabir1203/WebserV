@@ -44,7 +44,7 @@ typedef struct s_serv {
     std::map<int, std::string>          	error_pages;
     std::multimap<std::string, Location>	loc;
 
-    //Default constructor:
+    //Constructor:
     s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file);
 } t_serv;
 
