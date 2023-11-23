@@ -1,33 +1,30 @@
 #include "ConfigParser.hpp"
 
-
-// Location* current_location;
-
 /* ===================  HELPERS =================== */
-static void initializeInvalidCodesList(std::set<int>& InvalidCodesList)
-{
-    InvalidCodesList.insert(200);
-    InvalidCodesList.insert(201);
-    InvalidCodesList.insert(204);
-    InvalidCodesList.insert(400);
-    InvalidCodesList.insert(401);
-    InvalidCodesList.insert(403);
-    InvalidCodesList.insert(404);
-    InvalidCodesList.insert(500);
-    InvalidCodesList.insert(502);
-    InvalidCodesList.insert(503);
-}
+// static void initializeInvalidCodesList(std::set<int>& InvalidCodesList)
+// {
+//     InvalidCodesList.insert(200);
+//     InvalidCodesList.insert(201);
+//     InvalidCodesList.insert(204);
+//     InvalidCodesList.insert(400);
+//     InvalidCodesList.insert(401);
+//     InvalidCodesList.insert(403);
+//     InvalidCodesList.insert(404);
+//     InvalidCodesList.insert(500);
+//     InvalidCodesList.insert(502);
+//     InvalidCodesList.insert(503);
+// }
 
 s_serv::s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file) : port(0), server_name("default"), error_pages(), loc() {
     // std::cout << "t_serv default constructor called"  << std::endl;
-    def_timeout          = Def_timeout;
-    def_max_clients      = Def_max_clients;
-    def_max_size_of_file = Def_max_size_of_file;
+    // def_timeout          = Def_timeout;
+    // def_max_clients      = Def_max_clients;
+    // def_max_size_of_file = Def_max_size_of_file;
 }
 
 ConfigParser::ConfigParser()
 {
-    initializeInvalidCodesList(InvalidCodesList);
+    //initializeInvalidCodesList(InvalidCodesList);
     //std::cout << "ConfigurationParcer object created" << std::endl;
 }
 
@@ -36,50 +33,50 @@ ConfigParser::~ConfigParser()
     //std::cout << "ConfigurationParcer object deleted" << std::endl;
 }
 
-std::vector<t_serv> ConfigParser::getServers() const
-{
-    return servers;
-}
+// std::vector<t_serv> ConfigParser::getServers() const
+// {
+//     return servers;
+// }
 
-void    ConfigParser::parseConfig(int ac, char **av) 
+void    ConfigParser::parseConfig(const std::string& configpath) 
 {      
-        std::string			filename;       
         std::string 		line;
-        t_serv 				currentServer(5, 200 , 1000000);
-        ParseState state = STATE_START;  
-        
-	    if(ac == 1)
-		    filename = "src/config_files/default.conf";
-	    else if (ac == 2)
-		    filename = av[1];
-	    else
-		   throw ErrorException("Error: Error: wrong number of arguments");
-        std::ifstream file(filename.c_str());    
-        checkConfigFile(filename.c_str());														
+        ParseState state = STATE_START;        
+
+        std::ifstream file(configpath.c_str());
+        if(file.is_open() == false)
+            throw runtime_error("Error: cannot open configuration file");
+        checkConfigFile(configpath.c_str());														
         while (std::getline(file, line))
-            parseLine(line, currentServer, servers, state); 
+            parseLine(line, webserverconfig, state);
         file.close();
         return ;
 }
 
-void ConfigParser::parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state) 
-{
-    std::istringstream	iss(line);
-    std::string 		token;
-    static 				std::string location_name;
-    static 				Location*   current_location;
-    static int 			def_timeout                 = 5;
-    static int 			def_max_clients             = 200;
-    static int 			def_max_size_of_file        = 1000000;
-    static int 			flag_open_server_bracket    = 0;
-    static int 			flag_open_location_bracket  = 0;
-    static int 			fl_location_created         = 0;
-    static int			flag_server_end             = 0;
+void ConfigParser::parseLine(const std::string& line, WebServerConfig &webserverconfig, ParseState& state) 
+{   
+    bool 
+    // std::istringstream	iss(line);
+    // std::string 		token;
+    // static 				std::string location_name;
+    // static 				Location*   current_location;
+    // static int 			def_timeout                 = 5;
+    // static int 			def_max_clients             = 200;
+    // static int 			def_max_size_of_file        = 1000000;
+    // static int 			flag_open_server_bracket    = 0;
+    // static int 			flag_open_location_bracket  = 0;
+    // static int 			fl_location_created         = 0;
+    // static int			flag_server_end             = 0;
 	
-    while (iss >> token)
+    while (line[i])
     {
-        check_is_token_allowed(token);
         //std::cout << GREEN << "token: " << token << RESET << std::endl;
+        if(line[i] == )
+
+
+
+
+
         switch (state)
         {
             case STATE_START:

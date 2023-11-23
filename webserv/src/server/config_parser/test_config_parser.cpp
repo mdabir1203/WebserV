@@ -56,10 +56,18 @@ void DEBUG_print_config_file(std::vector<t_serv>& parsedConfig)
 
 int main(int ac, char** av)
 {	
-	ConfigParser parser;
+	std::string			configpath;
+	WebServerConfig webserverconfig;
+	ConfigParser parser(webserverconfig);
+	if(ac == 1)
+		configpath = "src/config_files/default.conf";
+	else if (ac == 2)
+		configpath = av[1];
+	else
+		throw ErrorException("Error: Error: wrong number of arguments");
 	try
 	{	
-		parser.parseConfig(ac, av);
+		parser.parseConfig(configpath);
         std::vector<t_serv> parsedConfig = parser.getServers();
 		DEBUG_print_config_file(parsedConfig);
     }
