@@ -27,7 +27,10 @@
 #include <bitset>
 #include "RequestParser.hpp"
 
-class WebServerConfig 
+#include "ServerConfig.hpp"
+#include "IConfig.hpp"
+
+class WebServerConfig : public IConfig
 {
 	public:
 	WebServerConfig();
@@ -45,6 +48,8 @@ class WebServerConfig
     // size_t maxHeaderFieldsSize; // init to custom start value
 
     //addServerConfig() //set the defaultErrorPages Reference
+
+    void setClientMaxBodySize(const std::string& value);
 };
 
 #endif

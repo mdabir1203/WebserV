@@ -6,7 +6,7 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-CONFIG_PARSER := $(addprefix config_parser/, ConfigParser.cpp ConfigParserUtils.cpp Exceptions.cpp)
+CONFIG_PARSER := $(addprefix config_parser/, NewConfigParser.cpp ConfigParserUtils.cpp Exceptions.cpp)
 
 SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
 								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
@@ -63,8 +63,8 @@ test_request_parser:
 	./test_request_parser.out
 
 test_config_parser:
-	c++ src/server/config_parser/test_config_parser.cpp src/server/config_parser/ConfigParser.cpp src/server/config_parser/ConfigParserUtils.cpp src/server/config_parser/Exceptions.cpp -g -O0 -I inc -o test_config_parser.out
-	# ./test_config_parser.out
+	c++ /workspaces/WebserV/webserv/src/server/config_parser/WebServerConfig.cpp /workspaces/WebserV/webserv/src/server/config_parser/test_config_parser.cpp /workspaces/WebserV/webserv/src/server/config_parser/NewConfigParser.cpp /workspaces/WebserV/webserv/src/server/config_parser/LocationConfig.cpp /workspaces/WebserV/webserv/src/server/config_parser/ServerConfig.cpp -o test_config_parser.out -I /workspaces/WebserV/webserv/inc -g -O0
+# ./test_config_parser.out
 
 .PHONY: all clean fclean re test_request_parser test_config_parser
 
