@@ -45,7 +45,8 @@ ConfigParser::ConfigParser(WebServerConfig &webServerConfig)
 
 ConfigParser::~ConfigParser()
 {
-
+	delete currentServerConfig;
+	delete currentLocationConfig;
 }
 
 void ConfigParser::throwConfigError(const std::string& message, char offendingChar, const std::string& offendingString, bool givePosition)
@@ -221,14 +222,14 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 	{
 		if (currentLocationConfig != NULL)
 		{
-			// currentServerConfig->addLocationConfig(currentLocationConfig);
-			//Save in ServerConfig here
+			//validate the LocationConfig
+			currentServerConfig->addLocationConfig(currentLocationConfig);
 			currentLocationConfig = NULL;
 		}
 		else if (currentServerConfig != NULL)
 		{
-			// webServerConfig.addServerConfig(currentServerConfig);
-			//Save in webserverconfig here
+			//validate the ServerConfig
+			webServerConfig.addServerConfig(currentServerConfig);
 			currentServerConfig = NULL;
 		}
 		else

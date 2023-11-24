@@ -12,9 +12,15 @@ public:
     LocationConfig();
     ~LocationConfig();
 
-    // std::string route; not needed since its the key// only one per block
-    RedirectConfig* redirectConfig;
+    //location path
+    std::string path; //needed to from the key later // -> only one per block
+
+    //redirection 
+    uint16_t statusCode; // 0 if not specified // -> last one in the block counts
+    std::string targetUrl;
+
     CGIConfig*      cgiConfig;  // Include CGIConfig for CGI execution details
+
     std::string rootDirectory; // if not specified best of luck finding the file //-> only one per block
     std::string uploadDirectory; // if not specified respond with error 500 //-> only one per block // -> named "upload_store" in config
     std::vector<std::string> defaultFolderFiles; // default file to be served if no file is specified in the path
