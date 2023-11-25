@@ -34,6 +34,7 @@ class ServerConfig : public IConfig
 {
 public:
     ServerConfig();
+    ~ServerConfig();
 
     uint32_t ipAddress; //needed to from the key later
     uint16_t port; //needed to from the key later
@@ -43,12 +44,12 @@ public:
     // const std::map<uint16_t, std::string>& defaultErrorPages;
     size_t maxClientBodySize; // it is not askes for each route, but not specified further -> so in http and server
     bool maxClientBodySizeSet; // necessary to check if it was set in the config file
-    std::map<std::string, LocationConfig *> locations; // faster loopup than vector // key is the route
+    std::map<std::string, LocationConfig*> locations; // faster loopup than vector // key is the route
 
     bool isLocationPahtUnique(const std::string& path);
     void addLocationConfig(LocationConfig* locationConfig); // init methods allowed to 111
 
-    void setClientMaxBodySize(const std::string& value);
+    void    setClientMaxBodySize(const size_t& value);
 };
 
 #endif

@@ -11,13 +11,19 @@ ServerConfig::ServerConfig() : maxClientBodySizeSet(false)
 
 
 
-// ServerConfig::~ServerConfig()
-// {
-// }
-
-void ServerConfig::setClientMaxBodySize(const std::string& value)
+ServerConfig::~ServerConfig()
 {
-	(void)value;
+	std::map<std::string, LocationConfig*>::iterator it;
+	for (it = this->locations.begin(); it != this->locations.end(); ++it)
+	{
+		delete it->second;
+	}
+	this->locations.clear();
+}
+
+void ServerConfig::setClientMaxBodySize(const size_t& value)
+{
+	this->maxClientBodySize = value;
 	this->maxClientBodySizeSet = true;
 }
 

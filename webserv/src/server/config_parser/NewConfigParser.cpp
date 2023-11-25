@@ -1,6 +1,6 @@
 #include "ConfigParser.hpp"
 
-ConfigParser::ConfigParser(WebServerConfig &webServerConfig)
+ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 			: webServerConfig(webServerConfig),
 			  currentServerConfig(NULL),
 			  currentLocationConfig(NULL),
@@ -25,10 +25,10 @@ ConfigParser::ConfigParser(WebServerConfig &webServerConfig)
    stateTransitionArray[CONFIG_PARSER_STATE_VALUE] = &ConfigParser::handleStateValue;
    stateTransitionArray[CONFIG_PARSER_STATE_LOCATION] = &ConfigParser::handleStateLocation;
 
-	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::validateAndHandleKey);
+	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
 	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::validateAndHandleKey);
 
-	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::validateAndHandleKey);
+	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
 	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::validateAndHandleKey);
 	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::validateAndHandleKey);
 	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::validateAndHandleKey);
@@ -55,9 +55,9 @@ void ConfigParser::throwConfigError(const std::string& message, char offendingCh
 
 	ss << "Error: {" << message << "}";
 	if (givePosition)
-		ss << " at line {" << lineCount << "} at character {" << charCount << "}";
+		ss << " at line {" << lineCount << "}";
 	if (offendingChar)
-		ss << " with char {" << offendingChar << "}";
+		ss << " at character {" << charCount << "}" << " with char {" << offendingChar << "}";
 	if (!offendingString.empty())
 		ss << " with string {" << offendingString << "}";
 	throw std::runtime_error(ss.str());
@@ -88,12 +88,12 @@ void ConfigParser::parseConfig(const std::string& configPath)
 		}
 	}
 	if (!configFile.eof())
-	{
 		throw std::runtime_error("Error: Could not read config file");
-	}
 	if (lastChar == '\\')
 		throw std::runtime_error("Error: '\\' is last char in config file");
 	configFile.close();
+	//validate the WebServerConfig
+	//check if all location and server blocks are closed meaning currentServerConfig and currentLocationConfig are NULL
 }
 
 
@@ -193,32 +193,25 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_KEY);
 		return;
 	}
-	else if (c == '{')
+	else if (c == '{') //start of block
 	{
 		if (key == "server" && currentServerConfig == NULL)
 		{
 			currentServerConfig = new ServerConfig();
-			// webServerConfig.addServerConfig(currentServerConfig);
-			// stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_WS);
-			// stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_SERVER);
 		}
 		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig == NULL)
 		{
 			currentLocationConfig = new LocationConfig();
-			// currentLocationConfig = new LocationConfig();
-			// currentServerConfig->addLocationConfig(currentLocationConfig);
-			// stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_LOCATION);
 		}
 		else
 		{
 			throwConfigError("Unexpected", c, "", true);
 			return;
 		}
-		//start of server block
 		key.clear();
 		paramterLength = 0;
 	}
-	else if (c == '}')
+	else if (c == '}') //end of block
 	{
 		if (currentLocationConfig != NULL)
 		{
@@ -229,7 +222,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		else if (currentServerConfig != NULL)
 		{
 			//validate the ServerConfig
-			webServerConfig.addServerConfig(currentServerConfig);
+			webServerConfig->addServerConfig(currentServerConfig);
 			currentServerConfig = NULL;
 		}
 		else
@@ -319,23 +312,6 @@ void ConfigParser::handleStateKey(char c)
 	else if (c == ':')
 	{
 		//validate key is appropriate for current block -> move this check to when values are gathered
-			//!currentServerConfig && !currentLocationConfig
-				//client_max_body_size
-				//error_page
-			//currentServerConfig && !currentLocationConfig
-				//listen
-				//server_name
-				//error_page
-				//client_max_body_size
-				//location
-			//currentServerConfig && currentLocationConfig
-				//root
-				//index
-				//cgi_extension
-				//upload_store
-				//return
-				//allow_methods
-				//autoindex
 		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_OWS);
 		return;
 	}
@@ -406,9 +382,9 @@ void	ConfigParser::handleStateOws(char c)
 {
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
 	{
-		// mulitValues.push_back(value);
-		// value.clear();
-		// validateAndHandleKey();
+		mulitValues.push_back(value);
+		value.clear();
+		validateAndHandleKey();
 
 				std::cout << "key: " << key << " ## value: ";
 				for(std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
@@ -456,9 +432,9 @@ void	ConfigParser::handleStateValue(char c)
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
 	{
 		mulitValues.push_back(value);
-		// validateAndHandleKey();
+		value.clear();
+		validateAndHandleKey();
 		// key.clear();
-		// value.clear();
 		// paramterLength = 0;
 				std::cout << "key: " << key << " ## value: ";
 				for(std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)

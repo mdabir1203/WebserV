@@ -58,13 +58,13 @@ int main(int ac, char** av)
 {	
 	std::string			configPath;
 	WebServerConfig webserverconfig;
-	ConfigParser parser(webserverconfig);
+	ConfigParser parser(&webserverconfig);
 	if (ac > 2)
 		throw std::runtime_error("Error: wrong number of arguments");
 	if (ac == 2)
 		configPath = av[1];
 	else
-		configPath = "/workspaces/WebserV/webserv/src/config_files/new_default.conf";
+		configPath = "src/config_files/new_default.conf";
 	std::cout << "configPath: " << configPath << std::endl;
 	try
 	{	

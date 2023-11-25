@@ -1,20 +1,17 @@
 #include "LocationConfig.hpp"
 
 LocationConfig::LocationConfig()
-			  : redirectConfig(NULL),
+			  : statusCode(0),
 			    cgiConfig(NULL),
+				directoryListing(false),
 				_allowedMethods(7) // 111 -> all allowed
 {
-	// std::cout << "LocationConfig constructor called" << std::endl;
+
 }
 
 LocationConfig::~LocationConfig()
 {
-	// std::cout << "LocationConfig destructor called" << std::endl;
-	// if (redirectConfig)
-	// 	delete redirectConfig;
-	// if (cgiConfig)
-		// delete cgiConfig;
+	delete cgiConfig;
 }
 
 bool LocationConfig::isMethodAllowed(HttpMethod method)

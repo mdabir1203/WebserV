@@ -3,7 +3,6 @@
 
 #include "RequestParser.hpp"
 #include "CGIConfig.hpp"
-#include "RedirectConfig.hpp"
 
 class LocationConfig
 {

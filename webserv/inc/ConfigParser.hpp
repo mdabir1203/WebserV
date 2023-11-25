@@ -42,18 +42,19 @@ enum ParseState
 class ConfigParser
 {
     public:
-        ConfigParser(WebServerConfig &webServerConfig);
+        ConfigParser(WebServerConfig* webServerConfig);
         ~ConfigParser();
         
-        void         parseConfig(const std::string& configPath);
+        void             parseConfig(const std::string& configPath);
+        WebServerConfig* getWebServerConfig(void) const;
 
     private:
         void        throwConfigError(const std::string& message, char offendingChar, const std::string& offendingString, bool givePosition);
 
         void        parseChar(char c);
 
-        // bool        isServerBlockValid();
-        // bool        isLocationBlockValid();
+        bool        isServerBlockValid();
+        bool        isLocationBlockValid();
 
 
         typedef void (ConfigParser::*StateHandler)(char);
@@ -81,12 +82,17 @@ class ConfigParser
         bool        isAllowedKeyChar(char c);
         bool        isAllowedValueChar(char c);
 
+        std::string&	extractSingleValueFromValueVector(const bool isRequired);
+
+        //handlers
+        void	handleClientMaxBodySize();
+
         typedef void (ConfigParser::*HandlerFunction)(void);
         void        validateAndHandleKey(void);
         void        validateKeyAndCallHandler(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
         void        resetKeyCounts(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
 
-        WebServerConfig&  webServerConfig;
+        WebServerConfig*  webServerConfig;
         ServerConfig*     currentServerConfig;
         LocationConfig*   currentLocationConfig;
         int               currentState;
