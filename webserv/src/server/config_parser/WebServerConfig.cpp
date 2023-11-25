@@ -33,5 +33,4 @@ void WebServerConfig::setClientMaxBodySize(const size_t& value)
 void WebServerConfig::addServerConfig(ServerConfig* serverConfig)
 {
 	this->servers[std::make_pair(serverConfig->ipAddress, serverConfig->port)].push_back(serverConfig);
-	std::strtoul("123", NULL, 10);
 }

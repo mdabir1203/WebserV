@@ -81,6 +81,8 @@ class ConfigParser
         bool        isQuoteStart(char c);
         bool        isAllowedKeyChar(char c);
         bool        isAllowedValueChar(char c);
+        
+        void        doNothing(void);
 
         std::string&	extractSingleValueFromValueVector(const bool isRequired);
 

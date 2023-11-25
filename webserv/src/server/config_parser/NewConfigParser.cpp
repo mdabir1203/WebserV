@@ -26,21 +26,21 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
    stateTransitionArray[CONFIG_PARSER_STATE_LOCATION] = &ConfigParser::handleStateLocation;
 
 	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
-	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::validateAndHandleKey);
+	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::doNothing);
 
 	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
-	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	serverKeys["location"]             = std::make_pair(0, &ConfigParser::validateAndHandleKey);
+	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::doNothing);
+	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::doNothing);
+	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::doNothing);
+	serverKeys["location"]             = std::make_pair(0, &ConfigParser::doNothing);
 
-	locationKeys["root"]               = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	locationKeys["index"]              = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	locationKeys["cgi_extension"]      = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	locationKeys["upload_store"]       = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	locationKeys["return"]             = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	locationKeys["allow_methods"]      = std::make_pair(0, &ConfigParser::validateAndHandleKey);
-	locationKeys["autoindex"]          = std::make_pair(0, &ConfigParser::validateAndHandleKey);
+	locationKeys["root"]               = std::make_pair(0, &ConfigParser::doNothing);
+	locationKeys["index"]              = std::make_pair(0, &ConfigParser::doNothing);
+	locationKeys["cgi_extension"]      = std::make_pair(0, &ConfigParser::doNothing);
+	locationKeys["upload_store"]       = std::make_pair(0, &ConfigParser::doNothing);
+	locationKeys["return"]             = std::make_pair(0, &ConfigParser::doNothing);
+	locationKeys["allow_methods"]      = std::make_pair(0, &ConfigParser::doNothing);
+	locationKeys["autoindex"]          = std::make_pair(0, &ConfigParser::doNothing);
 }
 
 ConfigParser::~ConfigParser()
@@ -523,4 +523,9 @@ void	ConfigParser::resetKeyCounts(std::map<std::string, std::pair<int, HandlerFu
 	{
 		it->second.first = 0;
 	}
+}
+
+void ConfigParser::doNothing(void)
+{
+	return;
 }
