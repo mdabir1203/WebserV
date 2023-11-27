@@ -51,6 +51,14 @@ class WebServerConfig : public IConfig
     void addServerConfig(ServerConfig* serverConfig);                   //set the defaultErrorPages Reference?
 
     void setClientMaxBodySize(const size_t& value);
+
+
+
+    //Lookup config data
+    const ServerConfig* getServerConfig(uint32_t ipAddress, uint16_t port, const std::string& host) const;
+
+    // std::string getUriPathFromConfig(const std::string& uri) const;
+
 };
 
 #endif

@@ -41,3 +41,8 @@ bool	ServerConfig::isLocationPahtUnique(const std::string& path)
 		return (false);
 	return (true);
 }
+
+bool ServerConfig::isHostMatched(const std::string& host) const
+{
+    return (serverNames.find(host) != serverNames.end());
+}

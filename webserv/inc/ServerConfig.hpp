@@ -50,6 +50,10 @@ public:
     void addLocationConfig(LocationConfig* locationConfig); // init methods allowed to 111
 
     void    setClientMaxBodySize(const size_t& value);
+
+    //Lookup config data
+    bool isHostMatched(const std::string& host) const;
+
 };
 
 #endif
