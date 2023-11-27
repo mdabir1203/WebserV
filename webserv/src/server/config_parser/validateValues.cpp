@@ -30,6 +30,8 @@ bool	ConfigParser::isLocationBlockValid()
 
 std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequired)
 {
+	std::string& value = mulitValues[0];
+	std::cout << "value: " << value << std::endl;
 	if (mulitValues.size() > 1)
 	{
 		throwConfigError("Multiple values for key: ", 0, key, true);
@@ -66,4 +68,55 @@ void	ConfigParser::handleClientMaxBodySize()
 	{
 		throwConfigError("Only digits", 0, numberString, true);
 	}
+}
+
+
+void	ConfigParser::handleListen()
+{
+	std::string& numberString = extractSingleValueFromValueVector(true);
+	std::cout << "!!!numberString: " << numberString << std::endl;
+	std::istringstream iss(numberString);
+    size_t result;
+
+	// for (std::size_t i = 0; i < numberString.length(); ++i)
+	// {
+    //     char currentChar = numberString[i];
+    //     if (!isdigit(currentChar) && currentChar != '.' && currentChar != ':')
+	// 	{
+    //         throwConfigError("Only digits", 0, numberString, true);
+    //     }
+	// }
+
+	if (!std::isdigit(numberString[0]))
+	{
+
+		throwConfigError("Only digits", 0, numberString, true);
+	}
+	else if (!(iss >> result) || result > 10000000000) // max size 10GB
+	{
+		throwConfigError("Value out of range 0 - 10 GB", 0, numberString, true);
+    }
+	else {
+        // Проверка успешности операции чтения
+        char nextChar;
+        if (iss >> nextChar) {
+            throwConfigError("Unexpected character found", 0, numberString, true);
+        }
+
+        if (currentServerConfig)
+            currentServerConfig->setClientMaxBodySize(result);
+        else
+            webServerConfig->setClientMaxBodySize(result);
+    }
+	// else if (iss.eof())
+	// {
+	// 	if (currentServerConfig)
+	// 		currentServerConfig->setClientMaxBodySize(result);
+	// 	else
+	// 		webServerConfig->setClientMaxBodySize(result);
+    // }
+	// else
+	// {
+	// 	throwConfigError("!!Only digits", 0, numberString, true);
+	// }
 }

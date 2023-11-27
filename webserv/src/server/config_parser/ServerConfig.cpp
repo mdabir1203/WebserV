@@ -2,6 +2,7 @@
 
 ServerConfig::ServerConfig() : maxClientBodySizeSet(false)
 {
+	
 }
 
 // ServerConfig::ServerConfig(const std::map<uint16_t, std::string>& defaultErrorPages) : defaultErrorPages(defaultErrorPages)

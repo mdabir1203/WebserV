@@ -30,7 +30,7 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 
 	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
 	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::doNothing);
-	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::doNothing);
+	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen); //<--
 	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::doNothing);
 	serverKeys["location"]             = std::make_pair(0, &ConfigParser::doNothing);
 
@@ -113,8 +113,17 @@ void ConfigParser::parseChar(char c)
 	{
 		charCount++;
 	}
-	// std::cout << "currentState: " << currentState << " c: " << c << std::endl;
+	std::cout << "currentState: " << currentState << " c: " << c << std::endl;
 }
+
+
+
+
+
+
+
+
+
 
 void ConfigParser::stateTransition(int state, int nextState)
 {
@@ -180,6 +189,9 @@ void ConfigParser::addCharToValue(char c)
 	}
 }
 
+
+
+/* ==========================STATE HANDLERS ============================*/
 void	ConfigParser::handleStateWs(char c) // after value, after Block starts and ends
 {
 	if (isCommentStart(c))
@@ -378,7 +390,7 @@ void ConfigParser::handleStateLocation(char c)
 	}
 }
 
-void	ConfigParser::handleStateOws(char c)
+void	ConfigParser::handleStateOws(char c)	// state 3
 {
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
 	{
@@ -386,12 +398,12 @@ void	ConfigParser::handleStateOws(char c)
 		value.clear();
 		validateAndHandleKey();
 
-				std::cout << "key: " << key << " ## value: ";
-				for(std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
-{
-    std::cout << *it << " ";
-}
-				std::cout << std::endl;
+		std::cout << "key: " << key << " ## value: ";
+		for(std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
+		{
+			std::cout << *it << " ";
+		}
+		std::cout << std::endl;
 		key.clear();
 		value.clear();
 		paramterLength = 0;
@@ -427,7 +439,7 @@ void	ConfigParser::handleStateOws(char c)
 	}
 }
 
-void	ConfigParser::handleStateValue(char c)
+void	ConfigParser::handleStateValue(char c) // state 4
 {
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
 	{

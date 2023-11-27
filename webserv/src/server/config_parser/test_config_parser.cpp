@@ -2,56 +2,76 @@
 							
 // std::vector<t_serv> parseConfig(const std::string& filename);
 
-// /////////////////////////////////////////////////////////////// DEBUG  PRINTER ////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////// DEBUG  PRINTER ////////////////////////////////////////////////////////////////////////////
+	#include <iostream>
 
-// void DEBUG_print_config_file(std::vector<t_serv>& parsedConfig)
-// {
-// 		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
-//         for (size_t i = 0; i < parsedConfig.size(); ++i)
-// 		{   std::cout << "== Global Variables ==\n";
-// 			std::cout << "def_timeout " << parsedConfig[i].def_timeout << "\n";
-// 			std::cout << "def_max_clients " << parsedConfig[i].def_max_clients << ":\n";
-// 			std::cout << "def_max_size_of_file " << parsedConfig[i].def_max_size_of_file << ":\n";
-// 			std::cout << "\n";
-//             std::cout << "server #" << i + 1 << " {\n";
-//             std::cout << "  port: " << parsedConfig[i].port << "\n";            
-// 			std::cout << "  server_name: " << parsedConfig[i].server_name << "\n";
-// 			std::cout << "\n";
-            
-//             /* Error pages */
-//             for (std::map<int, std::string>::iterator it = parsedConfig[i].error_pages.begin(); it != parsedConfig[i].error_pages.end(); ++it) 
-// 				std::cout << "  error_page " << it->first << " " << it->second << "\n";
-// 			std::cout << "\n";
-                
-//             /* Locations */
-//             for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it)
-// 			{	
-// 				std::cout <<  "  location "  << it->first << " { \n";
-// 				std::cout << "      root: " << it->second.root << "\n";
-// 				std::cout << "      index: " << it->second.index << "\n";
-// 				std::cout << "      cgi_ext: ";
-// 				for (std::vector<std::string>::const_iterator iter = it->second.cgi_extensions.begin(); iter != it->second.cgi_extensions.end(); ++iter)
-// 				{
-//         			std::cout << *iter << " ";
-// 				}
-// 				std::cout << "\n";
-// 				std::cout << "      cgi_path: " << it->second.cgi_path;
-// 				std::cout << "\n";
-// 				std::cout << "      upload_dir: " << it->second.upload_dir << "\n";
-// 				std::cout << "      http_redirect: " << it->second.http_redirect << "\n";
-// 				std::cout << "      methods: ";
-// 				for (std::vector<std::string>::const_iterator iter = it->second.methods.begin(); iter != it->second.methods.end(); ++iter)
-// 				{
-//         			std::cout << *iter << " ";
-// 				}
-// 				std::cout << "\n";
-// 				std::cout << "      autoindex: " << (bool)it->second.autoindex << "\n";
-// 				std::cout << "  } \n";
-//     		}
-// 			std::cout << "} \n";
-// 		}
-// }
-// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void printLocationConfig(const LocationConfig& locationConfig) {
+    std::cout << "path: " << locationConfig.path << std::endl;
+    std::cout << "statusCode: " << locationConfig.statusCode << std::endl;
+    std::cout << "targetUrl: " << locationConfig.targetUrl << std::endl;
+    std::cout << "rootDirectory: " << locationConfig.rootDirectory << std::endl;
+    std::cout << "uploadDirectory: " << locationConfig.uploadDirectory << std::endl;
+
+    std::cout << "defaultFolderFiles:" << std::endl;
+    for (size_t i = 0; i < locationConfig.defaultFolderFiles.size(); ++i) {
+        std::cout << "  " << locationConfig.defaultFolderFiles[i] << std::endl;
+    }
+
+    std::cout << "directoryListing: " << (locationConfig.directoryListing ? "true" : "false") << std::endl;
+}
+
+void printServerConfig(const ServerConfig& serverConfig) {
+    std::cout << "ipAddress: " << serverConfig.ipAddress << std::endl;
+    std::cout << "port: " << serverConfig.port << std::endl;
+
+    std::cout << "serverNames:" << std::endl;
+    for (auto it = serverConfig.serverNames.begin(); it != serverConfig.serverNames.end(); ++it) {
+        std::cout << "  " << *it << std::endl;
+    }
+
+    std::cout << "customErrorPages:" << std::endl;
+    for (auto it = serverConfig.customErrorPages.begin(); it != serverConfig.customErrorPages.end(); ++it) {
+        std::cout << "  " << it->first << ": " << it->second << std::endl;
+    }
+
+    std::cout << "maxClientBodySize: " << serverConfig.maxClientBodySize << std::endl;
+    std::cout << "maxClientBodySizeSet: " << (serverConfig.maxClientBodySizeSet ? "true" : "false") << std::endl;
+
+    // Print information about LocationConfig objects in the locations map
+    for (auto it = serverConfig.locations.begin(); it != serverConfig.locations.end(); ++it) {
+        std::cout << "LocationConfig Key (path): " << it->first << std::endl;
+        std::cout << "LocationConfig Info:" << std::endl;
+        printLocationConfig(*it->second);
+    }
+}
+
+void printWebServerConfig(const WebServerConfig& webServerConfig) {
+    // Print WebServerConfig variables
+	std::cout << YELLOW << "=========================== PRINT WEBSERV CONFIG ========================= " << RESET << std::endl;
+    std::cout << "maxClientBodySize: " << webServerConfig.maxClientBodySize << std::endl;
+    std::cout << "defaultFolderFile: " << webServerConfig.defaultFolderFile << std::endl;
+    std::cout << "maxClients: " << webServerConfig.maxClients << std::endl;
+    std::cout << "timeout: " << webServerConfig.timeout << std::endl;
+
+    // Print information about ServerConfig objects in the servers map
+    for (auto it = webServerConfig.servers.begin(); it != webServerConfig.servers.end(); ++it) {
+        std::cout << "ServerConfig Key (ipAddress:port): " << it->first.first << ":" << it->first.second << std::endl;
+        std::cout << "ServerConfig Info:" << std::endl;
+        for (size_t i = 0; i < it->second.size(); ++i) {
+            printServerConfig(*it->second[i]);
+        }
+    }
+
+    // Print information about defaultErrorPages map
+    for (auto it = webServerConfig.defaultErrorPages.begin(); it != webServerConfig.defaultErrorPages.end(); ++it) {
+        std::cout << "Error Page Key (statusCode): " << it->first << std::endl;
+        std::cout << "Error Page Value: " << it->second << std::endl;
+    }
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 int main(int ac, char** av)
@@ -70,7 +90,7 @@ int main(int ac, char** av)
 	{	
 		parser.parseConfig(configPath);
         // std::vector<t_serv> parsedConfig = parser.getServers();
-		// DEBUG_print_config_file(parsedConfig);
+		printWebServerConfig(webserverconfig);
     }
 	catch(const std::exception& e)
 	{
