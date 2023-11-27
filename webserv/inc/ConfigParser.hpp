@@ -89,7 +89,12 @@ class ConfigParser
         //handlers
         void	handleClientMaxBodySize();
         void	handleListen();
+        void	handleServerName();
 
+        uint32_t ipStringToNumber(const std::string& ip);
+        std::string ipNumberToString(uint32_t ip);
+        uint16_t ip_port_to_uint16(const std::string& ip_port) ;
+        std::string uint16_to_ip_port(uint16_t port);
 
 
 

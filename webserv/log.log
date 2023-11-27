@@ -50,6 +50,13 @@ currentState: 4 c: 0
 value: 250000
 key: client_max_body_size ## value: 250000 
 currentState: 2 c: ;
+currentState: 2 c:  
+currentState: 7 c: #
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: f
+currentState: 7 c: d
+currentState: 7 c: s
 currentState: 2 c: 
 
 currentState: 2 c: 	
@@ -256,18 +263,7587 @@ currentState: 3 c:
 currentState: 3 c:  
 currentState: 3 c:  
 currentState: 3 c:  
-currentState: 4 c: d
-currentState: 4 c: f
-currentState: 4 c: g
-currentState: 4 c: f
-currentState: 4 c: g
-currentState: 4 c: f
-currentState: 4 c: d
-currentState: 4 c: g
-currentState: 4 c: d
-currentState: 4 c: f
-currentState: 4 c: d
-currentState: 4 c: f
-currentState: 4 c: g
+currentState: 4 c: 1
+currentState: 4 c: 2
+currentState: 4 c: 7
+currentState: 4 c: .
+currentState: 4 c: 0
+currentState: 4 c: 1
+currentState: 4 c: .
+currentState: 4 c: 0
+currentState: 4 c: .
+currentState: 4 c: 1
+currentState: 4 c: :
+currentState: 4 c: 8
+currentState: 4 c: 0
+value: 127.01.0.1:80
+!!!numberString: 127.01.0.1:80
+currentServerConfig->ipAddress 2130771969
+currentServerConfig->port 80
+currentServerConfig->ipAddress back127.1.0.1
+currentServerConfig->port back80
+key: listen ## value: 127.01.0.1:80 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 7 c: #
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: l
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: k
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: \
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c:  
+currentState: 7 c: j
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 1 c: s
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: v
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: _
+currentState: 1 c: n
+currentState: 1 c: a
+currentState: 1 c: m
+currentState: 1 c: e
+currentState: 3 c: :
 currentState: 3 c: 	
-value: dfgfgfdgdfdfg
+currentState: 3 c:  
+currentState: 4 c: l
+currentState: 4 c: o
+currentState: 4 c: c
+currentState: 4 c: a
+currentState: 4 c: l
+currentState: 4 c: h
+currentState: 4 c: o
+currentState: 4 c: s
+currentState: 4 c: t
+key: server_name ## value: localhost 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: r
+currentState: 1 c: o
+currentState: 1 c: r
+currentState: 1 c: _
+currentState: 1 c: p
+currentState: 1 c: a
+currentState: 1 c: g
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 4
+currentState: 4 c: 0
+currentState: 4 c: 4
+currentState: 3 c:  
+currentState: 4 c: e
+currentState: 4 c: r
+currentState: 4 c: r
+currentState: 4 c: o
+currentState: 4 c: r
+currentState: 4 c: _
+currentState: 4 c: p
+currentState: 4 c: a
+currentState: 4 c: g
+currentState: 4 c: e
+currentState: 4 c: s
+currentState: 4 c: /
+currentState: 4 c: 4
+currentState: 4 c: 0
+currentState: 4 c: 4
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+currentState: 3 c:  
+key: error_page ## value: 404 error_pages/404.html  
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: c
+currentState: 1 c: a
+currentState: 1 c: t
+currentState: 1 c: i
+currentState: 1 c: o
+currentState: 1 c: n
+currentState: 6 c:  
+currentState: 6 c: /
+Location path: /
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 2
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: 1
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: {
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: r
+currentState: 1 c: o
+currentState: 1 c: o
+currentState: 1 c: t
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: s
+currentState: 4 c: r
+currentState: 4 c: c
+key: root ## value: src 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: T
+currentState: 7 c: H
+currentState: 7 c: R
+currentState: 7 c: O
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: m
+currentState: 7 c: p
+currentState: 7 c: t
+currentState: 7 c: y
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: i
+currentState: 1 c: n
+currentState: 1 c: d
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: i
+currentState: 4 c: n
+currentState: 4 c: d
+currentState: 4 c: e
+currentState: 4 c: x
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+key: index ## value: index.html 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: u
+currentState: 7 c: l
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c:  
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: c
+currentState: 1 c: g
+currentState: 1 c: i
+currentState: 1 c: _
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 1 c: t
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 1 c: s
+currentState: 1 c: i
+currentState: 1 c: o
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: .
+currentState: 4 c: p
+currentState: 4 c: y
+currentState: 3 c:  
+currentState: 4 c: .
+currentState: 4 c: s
+currentState: 4 c: h
+key: cgi_extension ## value: .py .sh 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: u
+currentState: 1 c: p
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: a
+currentState: 1 c: d
+currentState: 1 c: _
+currentState: 1 c: s
+currentState: 1 c: t
+currentState: 1 c: o
+currentState: 1 c: r
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 4 c: u
+currentState: 4 c: p
+currentState: 4 c: l
+currentState: 4 c: o
+currentState: 4 c: a
+currentState: 4 c: d
+key: upload_store ## value: upload 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c: i
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 5
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: -
+currentState: 7 c: >
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: l
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: b
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c: >
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: "
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: "
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: f
+currentState: 7 c: i
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: r
+currentState: 1 c: e
+currentState: 1 c: t
+currentState: 1 c: u
+currentState: 1 c: r
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 3
+currentState: 4 c: 0
+currentState: 4 c: 1
+currentState: 3 c:  
+currentState: 4 c: /
+currentState: 4 c: i
+currentState: 4 c: n
+currentState: 4 c: d
+currentState: 4 c: e
+currentState: 4 c: x
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+key: return ## value: 301 /index.html 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: a
+currentState: 1 c: l
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: w
+currentState: 1 c: _
+currentState: 1 c: m
+currentState: 1 c: e
+currentState: 1 c: t
+currentState: 1 c: h
+currentState: 1 c: o
+currentState: 1 c: d
+currentState: 1 c: s
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: G
+currentState: 4 c: E
+currentState: 4 c: T
+currentState: 3 c:  
+currentState: 4 c: P
+currentState: 4 c: O
+currentState: 4 c: S
+currentState: 4 c: T
+key: allow_methods ## value: GET POST 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: w
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: a
+currentState: 1 c: u
+currentState: 1 c: t
+currentState: 1 c: o
+currentState: 1 c: i
+currentState: 1 c: n
+currentState: 1 c: d
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: o
+currentState: 4 c: f
+currentState: 4 c: f
+key: autoindex ## value: off 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: }
+currentState: 2 c: 
+
+currentState: 2 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: W
+currentState: 7 c: h
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: c
+currentState: 7 c: e
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: K
+currentState: 7 c: e
+currentState: 7 c: y
+currentState: 7 c: C
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: (
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: )
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: K
+currentState: 7 c: e
+currentState: 7 c: y
+currentState: 7 c: C
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: (
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: )
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: #
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: l
+currentState: 7 c: d
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: r
+currentState: 7 c: c
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: #
+currentState: 7 c: k
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: j
+currentState: 7 c: f
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: s
+currentState: 7 c: k
+currentState: 7 c: l
+currentState: 7 c: d
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: s
+currentState: 7 c: j
+currentState: 7 c: k
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: k
+currentState: 7 c: j
+currentState: 7 c: l
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: k
+currentState: 7 c: l
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: /
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+[33m=========================== PRINT WEBSERV CONFIG ========================= [0m
+maxClientBodySize: 250000
+defaultFolderFile: index.html
+maxClients: 100
+timeout: 20000
+ServerConfig Key (ipAddress:port): 2130771969:80
+ServerConfig Info:
+ipAddress: 2130771969
+port: 80
+serverNames:
+customErrorPages:
+maxClientBodySize: 0
+maxClientBodySizeSet: false
+LocationConfig Key (path): 
+LocationConfig Info:
+path: 
+statusCode: 0
+targetUrl: 
+rootDirectory: 
+uploadDirectory: 
+defaultFolderFiles:
+directoryListing: false
+configPath: src/config_files/default copy.conf
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: c
+currentState: 1 c: l
+currentState: 1 c: i
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 1 c: t
+currentState: 1 c: _
+currentState: 1 c: m
+currentState: 1 c: a
+currentState: 1 c: x
+currentState: 1 c: _
+currentState: 1 c: b
+currentState: 1 c: o
+currentState: 1 c: d
+currentState: 1 c: y
+currentState: 1 c: _
+currentState: 1 c: s
+currentState: 1 c: i
+currentState: 1 c: z
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 2
+currentState: 4 c: 5
+currentState: 4 c: 0
+currentState: 4 c: 0
+currentState: 4 c: 0
+currentState: 4 c: 0
+value: 250000
+key: client_max_body_size ## value: 250000 
+currentState: 2 c: ;
+currentState: 2 c:  
+currentState: 7 c: #
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: f
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: f
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c:  
+currentState: 7 c: 0
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: 1
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: l
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: q
+currentState: 7 c: u
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: u
+currentState: 7 c: b
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 1 c: s
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: v
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 2 c:  
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: b
+currentState: 7 c: r
+currentState: 7 c: a
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c: {
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: l
+currentState: 1 c: i
+currentState: 1 c: s
+currentState: 1 c: t
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 3 c:  
+currentState: 3 c:  
+currentState: 3 c:  
+currentState: 4 c: 1
+currentState: 4 c: 2
+currentState: 4 c: 7
+currentState: 4 c: .
+currentState: 4 c: 0
+currentState: 4 c: 1
+currentState: 4 c: .
+currentState: 4 c: 0
+currentState: 4 c: .
+currentState: 4 c: 1
+currentState: 4 c: :
+currentState: 4 c: 8
+currentState: 4 c: 0
+value: 127.01.0.1:80
+!!!numberString: 127.01.0.1:80
+currentServerConfig->ipAddress 2130771969
+currentServerConfig->port 80
+currentServerConfig->ipAddress back127.1.0.1
+currentServerConfig->port back80
+key: listen ## value: 127.01.0.1:80 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 7 c: #
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: l
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: k
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: \
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c:  
+currentState: 7 c: j
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c:  
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 1 c: s
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: v
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: _
+currentState: 1 c: n
+currentState: 1 c: a
+currentState: 1 c: m
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 4 c: l
+currentState: 4 c: o
+currentState: 4 c: c
+currentState: 4 c: a
+currentState: 4 c: l
+currentState: 4 c: h
+currentState: 4 c: o
+currentState: 4 c: s
+currentState: 4 c: t
+key: server_name ## value: localhost 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: r
+currentState: 1 c: o
+currentState: 1 c: r
+currentState: 1 c: _
+currentState: 1 c: p
+currentState: 1 c: a
+currentState: 1 c: g
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 4
+currentState: 4 c: 0
+currentState: 4 c: 4
+currentState: 3 c:  
+currentState: 4 c: e
+currentState: 4 c: r
+currentState: 4 c: r
+currentState: 4 c: o
+currentState: 4 c: r
+currentState: 4 c: _
+currentState: 4 c: p
+currentState: 4 c: a
+currentState: 4 c: g
+currentState: 4 c: e
+currentState: 4 c: s
+currentState: 4 c: /
+currentState: 4 c: 4
+currentState: 4 c: 0
+currentState: 4 c: 4
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+currentState: 3 c:  
+key: error_page ## value: 404 error_pages/404.html  
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: c
+currentState: 1 c: a
+currentState: 1 c: t
+currentState: 1 c: i
+currentState: 1 c: o
+currentState: 1 c: n
+currentState: 6 c:  
+currentState: 6 c: /
+Location path: /
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 2
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: 1
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: {
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: r
+currentState: 1 c: o
+currentState: 1 c: o
+currentState: 1 c: t
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: s
+currentState: 4 c: r
+currentState: 4 c: c
+key: root ## value: src 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: T
+currentState: 7 c: H
+currentState: 7 c: R
+currentState: 7 c: O
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: m
+currentState: 7 c: p
+currentState: 7 c: t
+currentState: 7 c: y
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: i
+currentState: 1 c: n
+currentState: 1 c: d
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: i
+currentState: 4 c: n
+currentState: 4 c: d
+currentState: 4 c: e
+currentState: 4 c: x
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+key: index ## value: index.html 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: u
+currentState: 7 c: l
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c:  
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: c
+currentState: 1 c: g
+currentState: 1 c: i
+currentState: 1 c: _
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 1 c: t
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 1 c: s
+currentState: 1 c: i
+currentState: 1 c: o
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: .
+currentState: 4 c: p
+currentState: 4 c: y
+currentState: 3 c:  
+currentState: 4 c: .
+currentState: 4 c: s
+currentState: 4 c: h
+key: cgi_extension ## value: .py .sh 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: u
+currentState: 1 c: p
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: a
+currentState: 1 c: d
+currentState: 1 c: _
+currentState: 1 c: s
+currentState: 1 c: t
+currentState: 1 c: o
+currentState: 1 c: r
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 4 c: u
+currentState: 4 c: p
+currentState: 4 c: l
+currentState: 4 c: o
+currentState: 4 c: a
+currentState: 4 c: d
+key: upload_store ## value: upload 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c: i
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 5
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: -
+currentState: 7 c: >
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: l
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: b
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c: >
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: "
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: "
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: f
+currentState: 7 c: i
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: r
+currentState: 1 c: e
+currentState: 1 c: t
+currentState: 1 c: u
+currentState: 1 c: r
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 3
+currentState: 4 c: 0
+currentState: 4 c: 1
+currentState: 3 c:  
+currentState: 4 c: /
+currentState: 4 c: i
+currentState: 4 c: n
+currentState: 4 c: d
+currentState: 4 c: e
+currentState: 4 c: x
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+key: return ## value: 301 /index.html 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: a
+currentState: 1 c: l
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: w
+currentState: 1 c: _
+currentState: 1 c: m
+currentState: 1 c: e
+currentState: 1 c: t
+currentState: 1 c: h
+currentState: 1 c: o
+currentState: 1 c: d
+currentState: 1 c: s
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: G
+currentState: 4 c: E
+currentState: 4 c: T
+currentState: 3 c:  
+currentState: 4 c: P
+currentState: 4 c: O
+currentState: 4 c: S
+currentState: 4 c: T
+key: allow_methods ## value: GET POST 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: w
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: a
+currentState: 1 c: u
+currentState: 1 c: t
+currentState: 1 c: o
+currentState: 1 c: i
+currentState: 1 c: n
+currentState: 1 c: d
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: o
+currentState: 4 c: f
+currentState: 4 c: f
+key: autoindex ## value: off 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: }
+currentState: 2 c: 
+
+currentState: 2 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: W
+currentState: 7 c: h
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: c
+currentState: 7 c: e
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: K
+currentState: 7 c: e
+currentState: 7 c: y
+currentState: 7 c: C
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: (
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: )
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: K
+currentState: 7 c: e
+currentState: 7 c: y
+currentState: 7 c: C
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: (
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: )
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: #
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: l
+currentState: 7 c: d
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: r
+currentState: 7 c: c
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: #
+currentState: 7 c: k
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: j
+currentState: 7 c: f
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: s
+currentState: 7 c: k
+currentState: 7 c: l
+currentState: 7 c: d
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: s
+currentState: 7 c: j
+currentState: 7 c: k
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: k
+currentState: 7 c: j
+currentState: 7 c: l
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: k
+currentState: 7 c: l
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: /
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+[33m=========================== PRINT WEBSERV CONFIG ========================= [0m
+maxClientBodySize: 250000
+defaultFolderFile: index.html
+maxClients: 100
+timeout: 20000
+ServerConfig Key (ipAddress:port): 2130771969:80
+ServerConfig Info:
+ipAddress: 2130771969
+port: 80
+serverNames:
+customErrorPages:
+maxClientBodySize: 0
+maxClientBodySizeSet: false
+LocationConfig Key (path): 
+LocationConfig Info:
+path: 
+statusCode: 0
+targetUrl: 
+rootDirectory: 
+uploadDirectory: 
+defaultFolderFiles:
+directoryListing: false
+configPath: src/config_files/default copy.conf
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: c
+currentState: 1 c: l
+currentState: 1 c: i
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 1 c: t
+currentState: 1 c: _
+currentState: 1 c: m
+currentState: 1 c: a
+currentState: 1 c: x
+currentState: 1 c: _
+currentState: 1 c: b
+currentState: 1 c: o
+currentState: 1 c: d
+currentState: 1 c: y
+currentState: 1 c: _
+currentState: 1 c: s
+currentState: 1 c: i
+currentState: 1 c: z
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 2
+currentState: 4 c: 5
+currentState: 4 c: 0
+currentState: 4 c: 0
+currentState: 4 c: 0
+currentState: 4 c: 0
+value: 250000
+key: client_max_body_size ## value: 250000 
+currentState: 2 c: ;
+currentState: 2 c:  
+currentState: 7 c: #
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: f
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: f
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c:  
+currentState: 7 c: 0
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: 1
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: l
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: q
+currentState: 7 c: u
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: u
+currentState: 7 c: b
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 1 c: s
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: v
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 2 c:  
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: b
+currentState: 7 c: r
+currentState: 7 c: a
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c: {
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: l
+currentState: 1 c: i
+currentState: 1 c: s
+currentState: 1 c: t
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 3 c:  
+currentState: 3 c:  
+currentState: 3 c:  
+currentState: 4 c: 1
+currentState: 4 c: 2
+currentState: 4 c: 7
+currentState: 4 c: .
+currentState: 4 c: 0
+currentState: 4 c: 1
+currentState: 4 c: .
+currentState: 4 c: 0
+currentState: 4 c: .
+currentState: 4 c: 1
+currentState: 4 c: :
+currentState: 4 c: 8
+currentState: 4 c: 0
+value: 127.01.0.1:80
+key: listen ## value: 127.01.0.1:80 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 7 c: #
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 2 c:  
+currentState: 1 c: s
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: v
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: _
+currentState: 1 c: n
+currentState: 1 c: a
+currentState: 1 c: m
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 4 c: l
+currentState: 4 c: o
+currentState: 4 c: c
+currentState: 4 c: a
+currentState: 4 c: l
+currentState: 4 c: h
+currentState: 4 c: o
+currentState: 4 c: s
+currentState: 4 c: t
+value: localhost
+!!handleServerName: localhost
+key: server_name ## value: localhost 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: e
+currentState: 1 c: r
+currentState: 1 c: r
+currentState: 1 c: o
+currentState: 1 c: r
+currentState: 1 c: _
+currentState: 1 c: p
+currentState: 1 c: a
+currentState: 1 c: g
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 4
+currentState: 4 c: 0
+currentState: 4 c: 4
+currentState: 3 c:  
+currentState: 4 c: e
+currentState: 4 c: r
+currentState: 4 c: r
+currentState: 4 c: o
+currentState: 4 c: r
+currentState: 4 c: _
+currentState: 4 c: p
+currentState: 4 c: a
+currentState: 4 c: g
+currentState: 4 c: e
+currentState: 4 c: s
+currentState: 4 c: /
+currentState: 4 c: 4
+currentState: 4 c: 0
+currentState: 4 c: 4
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+currentState: 3 c:  
+key: error_page ## value: 404 error_pages/404.html  
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: c
+currentState: 1 c: a
+currentState: 1 c: t
+currentState: 1 c: i
+currentState: 1 c: o
+currentState: 1 c: n
+currentState: 6 c:  
+currentState: 6 c: /
+Location path: /
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 2
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: 1
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: {
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: r
+currentState: 1 c: o
+currentState: 1 c: o
+currentState: 1 c: t
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: s
+currentState: 4 c: r
+currentState: 4 c: c
+key: root ## value: src 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: T
+currentState: 7 c: H
+currentState: 7 c: R
+currentState: 7 c: O
+currentState: 7 c: w
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: m
+currentState: 7 c: p
+currentState: 7 c: t
+currentState: 7 c: y
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: i
+currentState: 1 c: n
+currentState: 1 c: d
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: i
+currentState: 4 c: n
+currentState: 4 c: d
+currentState: 4 c: e
+currentState: 4 c: x
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+key: index ## value: index.html 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: u
+currentState: 7 c: l
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c:  
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: c
+currentState: 1 c: g
+currentState: 1 c: i
+currentState: 1 c: _
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 1 c: t
+currentState: 1 c: e
+currentState: 1 c: n
+currentState: 1 c: s
+currentState: 1 c: i
+currentState: 1 c: o
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: .
+currentState: 4 c: p
+currentState: 4 c: y
+currentState: 3 c:  
+currentState: 4 c: .
+currentState: 4 c: s
+currentState: 4 c: h
+key: cgi_extension ## value: .py .sh 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: u
+currentState: 1 c: p
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: a
+currentState: 1 c: d
+currentState: 1 c: _
+currentState: 1 c: s
+currentState: 1 c: t
+currentState: 1 c: o
+currentState: 1 c: r
+currentState: 1 c: e
+currentState: 3 c: :
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 3 c: 	
+currentState: 3 c:  
+currentState: 4 c: u
+currentState: 4 c: p
+currentState: 4 c: l
+currentState: 4 c: o
+currentState: 4 c: a
+currentState: 4 c: d
+key: upload_store ## value: upload 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c: i
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 5
+currentState: 7 c: 0
+currentState: 7 c: 0
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c: -
+currentState: 7 c: >
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: l
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: p
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: b
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: k
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c: >
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: "
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: "
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: f
+currentState: 7 c: i
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: r
+currentState: 1 c: e
+currentState: 1 c: t
+currentState: 1 c: u
+currentState: 1 c: r
+currentState: 1 c: n
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: 3
+currentState: 4 c: 0
+currentState: 4 c: 1
+currentState: 3 c:  
+currentState: 4 c: /
+currentState: 4 c: i
+currentState: 4 c: n
+currentState: 4 c: d
+currentState: 4 c: e
+currentState: 4 c: x
+currentState: 4 c: .
+currentState: 4 c: h
+currentState: 4 c: t
+currentState: 4 c: m
+currentState: 4 c: l
+key: return ## value: 301 /index.html 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: a
+currentState: 1 c: l
+currentState: 1 c: l
+currentState: 1 c: o
+currentState: 1 c: w
+currentState: 1 c: _
+currentState: 1 c: m
+currentState: 1 c: e
+currentState: 1 c: t
+currentState: 1 c: h
+currentState: 1 c: o
+currentState: 1 c: d
+currentState: 1 c: s
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: G
+currentState: 4 c: E
+currentState: 4 c: T
+currentState: 3 c:  
+currentState: 4 c: P
+currentState: 4 c: O
+currentState: 4 c: S
+currentState: 4 c: T
+key: allow_methods ## value: GET POST 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: w
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 1 c: a
+currentState: 1 c: u
+currentState: 1 c: t
+currentState: 1 c: o
+currentState: 1 c: i
+currentState: 1 c: n
+currentState: 1 c: d
+currentState: 1 c: e
+currentState: 1 c: x
+currentState: 3 c: :
+currentState: 3 c:  
+currentState: 4 c: o
+currentState: 4 c: f
+currentState: 4 c: f
+key: autoindex ## value: off 
+currentState: 2 c: ;
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 7 c: #
+currentState: 7 c: 	
+currentState: 7 c: /
+currentState: 7 c: /
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: f
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: '
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: n
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c:  
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: n
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c:  
+currentState: 7 c: -
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: s
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: }
+currentState: 2 c: 
+
+currentState: 2 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: W
+currentState: 7 c: h
+currentState: 7 c: i
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: c
+currentState: 7 c: e
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: K
+currentState: 7 c: e
+currentState: 7 c: y
+currentState: 7 c: C
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: (
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: )
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: K
+currentState: 7 c: e
+currentState: 7 c: y
+currentState: 7 c: C
+currentState: 7 c: h
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: S
+currentState: 7 c: t
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: e
+currentState: 7 c: (
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: )
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: l
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: s
+currentState: 7 c: t
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: #
+currentState: 7 c: h
+currentState: 7 c: e
+currentState: 7 c: l
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c:  
+currentState: 7 c: w
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: l
+currentState: 7 c: d
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: r
+currentState: 7 c: c
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c:  
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: {
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: p
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: 8
+currentState: 7 c: 0
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: s
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: v
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: n
+currentState: 7 c: a
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c:  
+currentState: 7 c: e
+currentState: 7 c: r
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: r
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: g
+currentState: 7 c: e
+currentState: 7 c: s
+currentState: 7 c: /
+currentState: 7 c: 4
+currentState: 7 c: 0
+currentState: 7 c: 4
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 	
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: /
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c:  
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: c
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: i
+currentState: 7 c: o
+currentState: 7 c: n
+currentState: 7 c: 	
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: #
+currentState: 7 c: k
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: j
+currentState: 7 c: f
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: s
+currentState: 7 c: k
+currentState: 7 c: l
+currentState: 7 c: d
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 7 c: h
+currentState: 7 c: s
+currentState: 7 c: j
+currentState: 7 c: k
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: k
+currentState: 7 c: j
+currentState: 7 c: l
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: h
+currentState: 7 c: g
+currentState: 7 c: k
+currentState: 7 c: l
+currentState: 7 c: s
+currentState: 7 c: d
+currentState: 7 c: f
+currentState: 7 c: j
+currentState: 7 c: g
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: {
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: r
+currentState: 7 c: o
+currentState: 7 c: o
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: v
+currentState: 7 c: a
+currentState: 7 c: r
+currentState: 7 c: /
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: w
+currentState: 7 c: /
+currentState: 7 c: d
+currentState: 7 c: o
+currentState: 7 c: g
+currentState: 7 c: s
+currentState: 7 c: .
+currentState: 7 c: c
+currentState: 7 c: o
+currentState: 7 c: m
+currentState: 7 c: /
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: .
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: m
+currentState: 7 c: l
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: p
+currentState: 7 c: y
+currentState: 7 c:  
+currentState: 7 c: .
+currentState: 7 c: s
+currentState: 7 c: h
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: _
+currentState: 7 c: p
+currentState: 7 c: a
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c:  
+currentState: 7 c: c
+currentState: 7 c: g
+currentState: 7 c: i
+currentState: 7 c: -
+currentState: 7 c: b
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: _
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: :
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c:  
+currentState: 7 c: u
+currentState: 7 c: p
+currentState: 7 c: l
+currentState: 7 c: o
+currentState: 7 c: a
+currentState: 7 c: d
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: h
+currentState: 7 c: t
+currentState: 7 c: t
+currentState: 7 c: p
+currentState: 7 c: _
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: d
+currentState: 7 c: i
+currentState: 7 c: r
+currentState: 7 c: e
+currentState: 7 c: c
+currentState: 7 c: t
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: m
+currentState: 7 c: e
+currentState: 7 c: t
+currentState: 7 c: h
+currentState: 7 c: o
+currentState: 7 c: d
+currentState: 7 c: s
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: G
+currentState: 7 c: E
+currentState: 7 c: T
+currentState: 7 c:  
+currentState: 7 c: P
+currentState: 7 c: O
+currentState: 7 c: S
+currentState: 7 c: T
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: 	
+currentState: 7 c: a
+currentState: 7 c: u
+currentState: 7 c: t
+currentState: 7 c: o
+currentState: 7 c: i
+currentState: 7 c: n
+currentState: 7 c: d
+currentState: 7 c: e
+currentState: 7 c: x
+currentState: 7 c: :
+currentState: 7 c:  
+currentState: 7 c: o
+currentState: 7 c: f
+currentState: 7 c: f
+currentState: 7 c: ;
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: 	
+currentState: 7 c: }
+currentState: 2 c: 
+
+currentState: 2 c: 
+
+currentState: 7 c: #
+currentState: 7 c:  
+currentState: 7 c: }
+[33m=========================== PRINT WEBSERV CONFIG ========================= [0m
+maxClientBodySize: 250000
+defaultFolderFile: index.html
+maxClients: 100
+timeout: 20000
+ServerConfig Key (ipAddress:port): 2130771969:80
+ServerConfig Info:
+ipAddress: 2130771969
+port: 80
+serverNames:
+customErrorPages:
+maxClientBodySize: 0
+maxClientBodySizeSet: false
+LocationConfig Key (path): 
+LocationConfig Info:
+path: 
+statusCode: 0
+targetUrl: 
+rootDirectory: 
+uploadDirectory: 
+defaultFolderFiles:
+directoryListing: false

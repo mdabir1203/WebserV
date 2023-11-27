@@ -25,13 +25,13 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
    stateTransitionArray[CONFIG_PARSER_STATE_VALUE] = &ConfigParser::handleStateValue;
    stateTransitionArray[CONFIG_PARSER_STATE_LOCATION] = &ConfigParser::handleStateLocation;
 
-	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
+	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); // done
 	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::doNothing);
 
-	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize);
+	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); // done
 	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::doNothing);
-	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen); //<--
-	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::doNothing);
+	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen); // done
+	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::handleServerName); //<--
 	serverKeys["location"]             = std::make_pair(0, &ConfigParser::doNothing);
 
 	locationKeys["root"]               = std::make_pair(0, &ConfigParser::doNothing);
