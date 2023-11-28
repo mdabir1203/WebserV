@@ -29,9 +29,9 @@ bool	ConfigParser::isLocationBlockValid()
 }
 
 std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequired)
-{
+{	std::cout << "eLOLr(c value: "<< std::endl;
 	std::string& value = mulitValues[0];
-	std::cout << "value: " << value << std::endl;
+	std::cout << "extractSingleValueFromValueVector(c value: " << value << std::endl;
 	if (mulitValues.size() > 1)
 	{	//std::cout <<  "mulitValues.first: " << "\"" << mulitValues[0]  << "\"" << mulitValues[1] << "\""   << std::endl;
 		throwConfigError("Multiple values for key: ", 0, key, true);
@@ -150,8 +150,163 @@ void	ConfigParser::handleErrorPage()
 }
 
 void	ConfigParser::handleDefaultErrorPage()
-{
+{	//TO DO: some script that assigns a page?
 }
+
+void    ConfigParser::handleRoot()
+{
+	std::string& String = extractSingleValueFromValueVector(true);
+	currentLocationConfig->rootDirectory = String;
+	/* Print: */
+	std::cout << GREEN <<  "(Loc)root:" << currentLocationConfig->rootDirectory << RESET << std::endl;
+}
+
+void    ConfigParser::handleLocation()
+ {	//std::cout << PURPLE << "!locati: value" <<  value <<  RESET << std::endl;
+	//std::cout << PURPLE << "!locati: " <<  mulitValues[0] <<  RESET << std::endl;
+	std::string& locationName = value;
+	//std::string& locationName = extractSingleValueFromValueVector(true);
+	std::cout << PURPLE << "!locationName: " << locationName << RESET << std::endl;
+	// if (currentServerConfig->locations.find(locationName) != currentServerConfig->locations.end())
+	// {
+	// 	throwConfigError("Error: Location name already exists.", 0, key, true);
+	// 	return;
+	// }
+	   for (std::map<std::string, LocationConfig*>::const_iterator it = currentServerConfig->locations.begin(); it != currentServerConfig->locations.end(); ++it) {
+        if (it->first == locationName) {
+			throwConfigError("Error: Location name already exists.", 0, key, true);
+            return;
+        }
+    }
+	// std::cout << PURPLE << "COU COU  " << RESET << std::endl;
+	currentLocationConfig->path = locationName;
+    /* Print: */
+	std::cout << GREEN <<  "(Loc)path: " << currentLocationConfig->path << RESET << std::endl;
+}
+
+void    ConfigParser::handleIndex()
+{
+	std::string& locationIndex = extractSingleValueFromValueVector(true);
+
+	currentLocationConfig->defaultFolderFiles.push_back(locationIndex);
+    /* Print: */
+	std::cout << GREEN <<  "(Loc)Index: " << currentLocationConfig->defaultFolderFiles[0] << RESET << std::endl;
+	
+}
+
+void    ConfigParser::handleCgiExtension()
+{
+	for (std::vector<std::string>::iterator ir = mulitValues.begin(); ir != mulitValues.end(); ++ir) {
+	if(*ir != ".sh" && *ir != ".py") {
+		throwConfigError("Error: CGI extension must be .sh or .py.", 0, key, true);	}
+	}
+    std::string& CgiExt = mulitValues[0];
+	currentLocationConfig->cgiConfig = new CGIConfig();
+	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
+		const std::string& CgiExt = *it;
+		currentLocationConfig->cgiConfig->cgiExtensions.insert(CgiExt);
+	}
+	/* Print: */
+	for (std::set<std::string>::iterator it = currentLocationConfig->cgiConfig->cgiExtensions.begin(); it != currentLocationConfig->cgiConfig->cgiExtensions.end(); ++it) {
+        std::cout << GREEN << "(Loc)CgiExtension " << *it << RESET << std::endl;
+	}
+}
+
+void    ConfigParser::handleUploadStore()
+{
+	std::string& locationUpload = extractSingleValueFromValueVector(false);
+	if(locationUpload.empty())
+	{
+		//TO DO: ???
+	}
+	else		
+		currentLocationConfig->uploadDirectory = locationUpload;
+    /* Print: */
+	std::cout << GREEN << "(Loc)Upload store: " << currentLocationConfig->uploadDirectory << RESET << std::endl;
+	
+}
+
+void	ConfigParser::handleReturn()
+{
+	if (mulitValues.size() == 0 || previousState == 1)
+	{
+		currentLocationConfig->statusCode = 0;
+		currentLocationConfig->targetUrl = "";
+	}
+	else if (mulitValues.size() > 2) {
+       throwConfigError("There must be 2 values for key: ", 0, key, true);
+    }
+	else if (( (mulitValues.size() == 2) && (mulitValues[0].empty() || mulitValues[1].empty()) ) || (mulitValues.size() == 1) ) {
+	   throwConfigError("Empty value for key: ", 0, key, true);
+	}
+	else
+	{
+		currentLocationConfig->statusCode = stringToUint16(mulitValues[0]);
+		currentLocationConfig->targetUrl = mulitValues[1];
+	}	
+	/* Print: */	
+	std::cout << GREEN << "(Loc)return " << currentLocationConfig->statusCode  << currentLocationConfig->targetUrl << std::endl;
+	
+}
+
+void    ConfigParser::handleMethods()
+{
+	if ((mulitValues[0].empty()))
+	{
+		return;
+	}
+	for (std::vector<std::string>::iterator ir = mulitValues.begin(); ir != mulitValues.end(); ++ir) {
+		if(*ir != "GET" && *ir != "POST" && *ir != "DELETE" ) {
+			throwConfigError("Error: allowed methods must be only GET, POST & DELETE", 0, key, true);	}
+	}
+
+	currentLocationConfig->setMethod(0, false);
+	currentLocationConfig->setMethod(1, false);
+	currentLocationConfig->setMethod(2, false);
+	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
+		if(*it == "GET")
+			currentLocationConfig->setMethod(0, true);
+		else if(*it == "POST")
+			currentLocationConfig->setMethod(1, true);
+		else if(*it == "DELETE")
+			currentLocationConfig->setMethod(2, true);
+	}
+	/* Print: */
+    std::cout << GREEN << "(Loc)Allowed Methods " << currentLocationConfig->getMethod(0) << currentLocationConfig->getMethod(1) << currentLocationConfig->getMethod(2) << RESET << std::endl;
+
+}
+
+void    ConfigParser::handleAutoindex()
+{
+	std::string autoIndex = extractSingleValueFromValueVector(false);
+	if (autoIndex.empty())
+	{
+		return;
+	}
+	else if (autoIndex != "on" && autoIndex != "off")
+	{
+		throwConfigError("Error: autoindex must be on or off", 0, key, true);
+	}
+	else if (autoIndex == "on")
+	{
+		currentLocationConfig->directoryListing = true;
+	}
+	else if (autoIndex == "off")
+	{
+		currentLocationConfig->directoryListing = false;
+	}
+		/* Print: */
+    std::cout << GREEN << "(Loc)Autoindex " << currentLocationConfig->directoryListing << RESET << std::endl;
+
+}
+
+
+
+
+
+
+
+
 
 
 
@@ -220,3 +375,4 @@ uint16_t ConfigParser::stringToUint16(const std::string& str) {
     }
     return result;
 }
+

@@ -32,16 +32,17 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::handleErrorPage);				// done
 	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen);				// done
 	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::handleServerName);			// done
-	serverKeys["location"]             = std::make_pair(0, &ConfigParser::doNothing);
 
-	locationKeys["root"]               = std::make_pair(0, &ConfigParser::doNothing);
-	locationKeys["index"]              = std::make_pair(0, &ConfigParser::doNothing);
-	locationKeys["cgi_extension"]      = std::make_pair(0, &ConfigParser::doNothing);
-	locationKeys["upload_store"]       = std::make_pair(0, &ConfigParser::doNothing);
-	locationKeys["return"]             = std::make_pair(0, &ConfigParser::doNothing);
-	locationKeys["allow_methods"]      = std::make_pair(0, &ConfigParser::doNothing);
-	locationKeys["autoindex"]          = std::make_pair(0, &ConfigParser::doNothing);
+	serverKeys["location"]             = std::make_pair(0, &ConfigParser::handleLocation);				// done
+	locationKeys["root"]               = std::make_pair(0, &ConfigParser::handleRoot);					// done
+	locationKeys["index"]              = std::make_pair(0, &ConfigParser::handleIndex);					// done
+	locationKeys["cgi_extension"]      = std::make_pair(0, &ConfigParser::handleCgiExtension);			// done		
+	locationKeys["upload_store"]       = std::make_pair(0, &ConfigParser::handleUploadStore);			// done	
+	locationKeys["return"]             = std::make_pair(0, &ConfigParser::handleReturn);				// done	
+	locationKeys["allow_methods"]      = std::make_pair(0, &ConfigParser::handleMethods);				// done		
+	locationKeys["autoindex"]          = std::make_pair(0, &ConfigParser::handleAutoindex);				// done	
 }
+
 
 ConfigParser::~ConfigParser()
 {
@@ -113,7 +114,7 @@ void ConfigParser::parseChar(char c)
 	{
 		charCount++;
 	}
-	//std::cout << "currentState: " << currentState << " c: " << c << std::endl;
+	//std::cout << PURPLE << "currentState: " << currentState << " c: " << c << RESET << std::endl;	/////////////////////////////////////////////////////
 }
 
 
@@ -213,7 +214,13 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		}
 		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig == NULL)
 		{
+			std::cout << "handleStateWs Location ,key: " << key << std::endl;
+			//std::cout << "Location path: " << value << std::endl;
 			currentLocationConfig = new LocationConfig();
+		}
+		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig != NULL)
+		{
+
 		}
 		else
 		{
@@ -227,13 +234,13 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 	{
 		if (currentLocationConfig != NULL)
 		{
-			//validate the LocationConfig
+			//validateLocationConfig(currentLocationConfig);
 			currentServerConfig->addLocationConfig(currentLocationConfig);
 			currentLocationConfig = NULL;
 		}
 		else if (currentServerConfig != NULL)
 		{
-			//validate the ServerConfig
+			validateServerConfig(currentServerConfig);
 			webServerConfig->addServerConfig(currentServerConfig);
 			currentServerConfig = NULL;
 		}
@@ -309,7 +316,8 @@ void ConfigParser::handleStateKey(char c)
 		}
 		else if (isAllowedOws(c) && key == "location" && currentServerConfig != NULL && currentLocationConfig == NULL)
 		{
-			// currentLocationConfig = new LocationConfig();
+			std::cout << "handleStateKey Location ,key: " << key << std::endl;
+			currentLocationConfig = new LocationConfig();
 			// currentServerConfig->addLocationConfig(currentLocationConfig);
 			// std::cout << "Location key: " << key << std::endl;
 			stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_LOCATION);
@@ -366,20 +374,22 @@ void ConfigParser::handleStateLocation(char c)
 		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_COMMENT);
 	}
 	else if (isAllowedOws(c) && value.empty())
-	{
+	{	std::cout << "!!!!isAllowedOws(c) && value.empty()" << std::endl;
 		return;
 	}
 	else if (!value.empty() && isAllowedWhiteSpace(c)) 
-	{
+	{	std::cout << "SUKAAAABLYAT" << std::endl;
 			// validate location path
+			//handleLocation();
 			std::cout << "Location path: " << value << std::endl;
+			handleLocation();
 			value.clear();
 			paramterLength = 0;
 			stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
 		return;
 	}
 	else if (isAllowedValueChar(c))
-	{
+	{std::cout << "!!!else if (isAllowedValueChar(c))" << std::endl;
 		addCharToValue(c);
 		return;
 	}
@@ -541,4 +551,29 @@ void	ConfigParser::resetKeyCounts(std::map<std::string, std::pair<int, HandlerFu
 void ConfigParser::doNothing(void)
 {
 	return;
+}
+
+void    ConfigParser::validateLocationConfig(LocationConfig* currentLocationConfig)
+{
+	/* Check location path */
+
+
+	/* if multiple return - > error */
+	
+	
+	
+	// if(currentLocationConfig->rootDirectory.empty())
+		
+		
+		
+	// 	throwConfigError("Location path not set", 0, "", true);
+
+
+
+
+}
+
+void    ConfigParser::validateServerConfig(ServerConfig* currentServerConfig)
+{
+
 }

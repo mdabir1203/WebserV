@@ -30,6 +30,8 @@ public:
 
     bool isMethodAllowed(HttpMethod method);
     void disableMethod(HttpMethod method);
+    void setMethod(int bit, bool value);
+    int getMethod(int bit);
 
     private:
         std::bitset<3> _allowedMethods; // 0 = GET, 1 = POST, 2 = DELETE // init to 111 -> all allowed

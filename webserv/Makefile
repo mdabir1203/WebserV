@@ -67,7 +67,9 @@ test_config_parser:
 		 src/server/config_parser/test_config_parser.cpp \
 		 src/server/config_parser/NewConfigParser.cpp \
 		 src/server/config_parser/LocationConfig.cpp \
-		 src/server/config_parser/ServerConfig.cpp -o test_config_parser.out -I inc src/server/config_parser/validateValues.cpp -g -O0
+		 src/server/config_parser/ServerConfig.cpp \
+		 src/server/config_parser/CGIConfig.cpp \
+		 src/server/config_parser/validateValues.cpp -o test_config_parser.out -I inc  -g -O0
 # ./test_config_parser.out
 
 .PHONY: all clean fclean re test_request_parser test_config_parser

@@ -44,6 +44,8 @@ class ConfigParser
     public:
         ConfigParser(WebServerConfig* webServerConfig);
         ~ConfigParser();
+
+        void printWebServerConfig(const WebServerConfig& webServerConfig);
         
         void             parseConfig(const std::string& configPath);
         WebServerConfig* getWebServerConfig(void) const;
@@ -70,6 +72,8 @@ class ConfigParser
         void	    handleStateValue(char c);
         void        handleStateLocation(char c);
 
+        
+
         //string managers
         void        addCharToKey(char c);
         void        addCharToValue(char c);
@@ -93,6 +97,18 @@ class ConfigParser
         void	handleServerName();
         void    handleErrorPage();
         void    handleDefaultErrorPage();
+        void    handleRoot();
+        void    handleLocation();
+        void    handleIndex();
+        void    handleCgiExtension();
+        void    handleUploadStore();
+        void    handleReturn();
+        void    handleMethods();
+        void    handleAutoindex();
+
+        void    validateLocationConfig(LocationConfig* currentLocationConfig);
+        void    validateServerConfig(ServerConfig* currentServerConfig);
+        
 
         uint32_t ipStringToNumber(const std::string& ip);
         std::string ipNumberToString(uint32_t ip);
@@ -125,6 +141,8 @@ class ConfigParser
         std::map<std::string, std::pair<int, HandlerFunction> > httpKeys;
         std::map<std::string, std::pair<int, HandlerFunction> > serverKeys;
         std::map<std::string, std::pair<int, HandlerFunction> > locationKeys;
+
+        
 
 };
 
