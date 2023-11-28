@@ -33,7 +33,7 @@ std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequir
 	std::string& value = mulitValues[0];
 	std::cout << "value: " << value << std::endl;
 	if (mulitValues.size() > 1)
-	{
+	{	//std::cout <<  "mulitValues.first: " << "\"" << mulitValues[0]  << "\"" << mulitValues[1] << "\""   << std::endl;
 		throwConfigError("Multiple values for key: ", 0, key, true);
 	}
 	else if (isRequired && (mulitValues.empty() || mulitValues[0].empty()))
@@ -68,6 +68,7 @@ void	ConfigParser::handleClientMaxBodySize()
 	{
 		throwConfigError("Only digits", 0, numberString, true);
 	}
+	std::cout << GREEN <<  "maxClientBodySize:" << webServerConfig->maxClientBodySize << RESET << std::endl;
 }
 
 
@@ -92,39 +93,65 @@ void	ConfigParser::handleListen()
 		currentServerConfig->ipAddress = ipStringToNumber(numberString);
 		currentServerConfig->port = ip_port_to_uint16(numberString);
 	}
-	//  std::cout << "currentServerConfig->ipAddress " << currentServerConfig->ipAddress << std::endl;	
+	//std::cout << GREEN << "ipAddress " << currentServerConfig->ipAddress << RESET << std::endl;	
 	//  std::cout << "currentServerConfig->port " << currentServerConfig->port << std::endl;
-	//  std::cout << "currentServerConfig->ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << std::endl;
-	//  std::cout << "currentServerConfig->port back " << uint16_to_ip_port(currentServerConfig->port) << std::endl;
+	std::cout << GREEN << "ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << RESET << std::endl;
+	std::cout << GREEN << "port back " << uint16_to_ip_port(currentServerConfig->port)<< RESET << std::endl;
 }
 
 
 void	ConfigParser::handleServerName()
 {
-	std::string& numberString = extractSingleValueFromValueVector(true);
-	std::cout << "!!handleServerName: " << numberString << std::endl;
-	// std::istringstream iss(numberString);
-    // size_t result;
-
-	// for (std::size_t i = 0; i < numberString.length(); ++i)
-	// {
-    //     char currentChar = numberString[i];
-    //     if (!isdigit(currentChar) && currentChar != '.' && currentChar != ':')
-	// 	{
-    //         throwConfigError("Only digits", 0, numberString, true);
-    //     }
-	// }
-	// if (currentServerConfig)
-	// {
-	// 	currentServerConfig->ipAddress = ipStringToNumber(numberString);
-	// 	currentServerConfig->port = ip_port_to_uint16(numberString);
-	// }
-	//  std::cout << "currentServerConfig->ipAddress " << currentServerConfig->ipAddress << std::endl;	
-	//  std::cout << "currentServerConfig->port " << currentServerConfig->port << std::endl;
-	//  std::cout << "currentServerConfig->ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << std::endl;
-	//  std::cout << "currentServerConfig->port back " << uint16_to_ip_port(currentServerConfig->port) << std::endl;
+    if (mulitValues.empty()) {
+        	mulitValues.push_back("localhost");
+    }
+    std::string& serverName = mulitValues[0];	
+	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
+		const std::string& serverName = *it;
+		if (serverName.empty())	{
+			currentServerConfig->serverNames.insert("localhost");
+			break;
+		} else {
+			currentServerConfig->serverNames.insert(serverName);
+		}
+	}
+	/* Print: */
+	for (std::set<std::string>::iterator it = currentServerConfig->serverNames.begin(); it != currentServerConfig->serverNames.end(); ++it) {
+        std::cout << GREEN << "serverName " << *it << RESET << std::endl;
+	}
 }
 
+void	ConfigParser::handleErrorPage()
+{
+	// std::cout << YELLOW << "handleErrorPage:" << "\"" << mulitValues[0] <<"," << mulitValues [1] << "\"" << RESET << std::endl;
+	// std::cout << YELLOW << "previousState" << "\"" << previousState << RESET << std::endl;
+	if (mulitValues.size() == 0 || previousState == 1)
+	{
+       for (std::map<uint16_t, std::string>::iterator it = webServerConfig->defaultErrorPages.begin(); it != webServerConfig->defaultErrorPages.end(); ++it)
+	   { 
+	 	    currentServerConfig->customErrorPages[it->first] = it->second;
+    	}
+	}
+	else if (mulitValues.size() > 2) {
+       throwConfigError("There must be 2 values for key: ", 0, key, true);
+    }
+	else if (( (mulitValues.size() == 2) && (mulitValues[0].empty() || mulitValues[1].empty()) ) || (mulitValues.size() == 1) ) {
+	   throwConfigError("Empty value for key: ", 0, key, true);
+	}
+	else
+	{
+		uint16_t numb = stringToUint16(mulitValues[0]);
+		currentServerConfig->customErrorPages[numb] = mulitValues[1];
+	}	
+	/* Print: */
+	for (std::map<uint16_t, std::string>::iterator it = currentServerConfig->customErrorPages.begin(); it != currentServerConfig->customErrorPages.end(); ++it) {
+		std::cout << GREEN << "Custom Error Page " << it->first << " " << it->second << std::endl;
+	}
+}
+
+void	ConfigParser::handleDefaultErrorPage()
+{
+}
 
 
 
@@ -180,4 +207,16 @@ std::string ConfigParser::uint16_to_ip_port(uint16_t port) {
    ss  << std::to_string(port);
 
    return ss.str();
+}
+
+
+uint16_t ConfigParser::stringToUint16(const std::string& str) {
+    std::stringstream ss(str);
+    uint16_t result = 0;
+
+    if (!(ss >> result)) {
+        std::cerr << "Error: Unable to convert string to uint16_t." << std::endl;
+        return 0;
+    }
+    return result;
 }

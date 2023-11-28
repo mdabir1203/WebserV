@@ -25,13 +25,13 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
    stateTransitionArray[CONFIG_PARSER_STATE_VALUE] = &ConfigParser::handleStateValue;
    stateTransitionArray[CONFIG_PARSER_STATE_LOCATION] = &ConfigParser::handleStateLocation;
 
-	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); // done
-	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::doNothing);
+	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); 	// done
+	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::handleDefaultErrorPage); 		// just hardcoded
 
-	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); // done
-	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::doNothing);
-	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen); // done
-	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::handleServerName); //<--
+	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); 	// done
+	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::handleErrorPage);				// done
+	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen);				// done
+	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::handleServerName);			// done
 	serverKeys["location"]             = std::make_pair(0, &ConfigParser::doNothing);
 
 	locationKeys["root"]               = std::make_pair(0, &ConfigParser::doNothing);
@@ -113,7 +113,7 @@ void ConfigParser::parseChar(char c)
 	{
 		charCount++;
 	}
-	std::cout << "currentState: " << currentState << " c: " << c << std::endl;
+	//std::cout << "currentState: " << currentState << " c: " << c << std::endl;
 }
 
 
@@ -393,8 +393,9 @@ void ConfigParser::handleStateLocation(char c)
 void	ConfigParser::handleStateOws(char c)	// state 3
 {
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
-	{
-		mulitValues.push_back(value);
+	{	
+		
+		//mulitValues.push_back(value); // TO DO . CHANGED BY ME TO PREVENT EMPTY MULITVALUES  VALUE IN END OF VECTOR
 		value.clear();
 		validateAndHandleKey();
 

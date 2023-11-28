@@ -6,7 +6,7 @@ WebServerConfig::WebServerConfig()
 				  timeout(20000), 
 				  defaultFolderFile("index.html")
 {
-
+	defaultErrorPages[404] = "error_pages/404.html";
 }
 
 WebServerConfig::~WebServerConfig()
