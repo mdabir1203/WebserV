@@ -49,6 +49,7 @@ class ConfigParser
         
         void             parseConfig(const std::string& configPath);
         WebServerConfig* getWebServerConfig(void) const;
+        WebServerConfig*  webServerConfig;
 
     private:
         void        throwConfigError(const std::string& message, char offendingChar, const std::string& offendingString, bool givePosition);
@@ -110,11 +111,11 @@ class ConfigParser
         void    validateServerConfig(ServerConfig* currentServerConfig);
         
 
-        uint32_t ipStringToNumber(const std::string& ip);
+        uint32_t    ipStringToNumber(const std::string& ip);
         std::string ipNumberToString(uint32_t ip);
-        uint16_t ip_port_to_uint16(const std::string& ip_port) ;
+        uint16_t    ip_port_to_uint16(const std::string& ip_port) ;
         std::string uint16_to_ip_port(uint16_t port);
-        uint16_t stringToUint16(const std::string& str);
+        uint16_t    stringToUint16(const std::string& str);
 
 
 
@@ -124,7 +125,7 @@ class ConfigParser
         void        validateKeyAndCallHandler(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
         void        resetKeyCounts(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
 
-        WebServerConfig*  webServerConfig;
+        
         ServerConfig*     currentServerConfig;
         LocationConfig*   currentLocationConfig;
         int               currentState;

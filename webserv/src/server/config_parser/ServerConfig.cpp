@@ -1,8 +1,8 @@
 #include "ServerConfig.hpp"
 
-ServerConfig::ServerConfig() : maxClientBodySizeSet(false)
+ServerConfig::ServerConfig() : maxClientBodySizeSet(false), ipAddress(0), port(0)
 {
-	
+	this->customErrorPages[404] = "error_pages/404.html";
 }
 
 // ServerConfig::ServerConfig(const std::map<uint16_t, std::string>& defaultErrorPages) : defaultErrorPages(defaultErrorPages)

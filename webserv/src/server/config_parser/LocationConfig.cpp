@@ -7,7 +7,7 @@ LocationConfig::LocationConfig()
 				_allowedMethods(7), // 111 -> all allowed
 				rootDirectory("")
 {
-
+	cgiConfig = new CGIConfig();
 }
 
 LocationConfig::~LocationConfig()

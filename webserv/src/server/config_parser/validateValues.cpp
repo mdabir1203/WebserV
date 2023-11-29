@@ -29,11 +29,12 @@ bool	ConfigParser::isLocationBlockValid()
 }
 
 std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequired)
-{	std::cout << "eLOLr(c value: "<< std::endl;
+{	
+
 	std::string& value = mulitValues[0];
 	std::cout << "extractSingleValueFromValueVector(c value: " << value << std::endl;
 	if (mulitValues.size() > 1)
-	{	//std::cout <<  "mulitValues.first: " << "\"" << mulitValues[0]  << "\"" << mulitValues[1] << "\""   << std::endl;
+	{
 		throwConfigError("Multiple values for key: ", 0, key, true);
 	}
 	else if (isRequired && (mulitValues.empty() || mulitValues[0].empty()))
@@ -44,8 +45,9 @@ std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequir
 }
 
 void	ConfigParser::handleClientMaxBodySize()
-{
+{	
 	std::string& numberString = extractSingleValueFromValueVector(true);
+	
 	std::istringstream iss(numberString);
     size_t result;
 
@@ -103,7 +105,8 @@ void	ConfigParser::handleListen()
 void	ConfigParser::handleServerName()
 {
     if (mulitValues.empty()) {
-        	mulitValues.push_back("localhost");
+        	
+			mulitValues.push_back("localhost");
     }
     std::string& serverName = mulitValues[0];	
 	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
@@ -150,7 +153,8 @@ void	ConfigParser::handleErrorPage()
 }
 
 void	ConfigParser::handleDefaultErrorPage()
-{	//TO DO: some script that assigns a page?
+{	
+	//TO DO: some script that assigns a page? 
 }
 
 void    ConfigParser::handleRoot()
@@ -195,21 +199,33 @@ void    ConfigParser::handleIndex()
 }
 
 void    ConfigParser::handleCgiExtension()
-{
-	for (std::vector<std::string>::iterator ir = mulitValues.begin(); ir != mulitValues.end(); ++ir) {
-	if(*ir != ".sh" && *ir != ".py") {
-		throwConfigError("Error: CGI extension must be .sh or .py.", 0, key, true);	}
-	}
-    std::string& CgiExt = mulitValues[0];
-	currentLocationConfig->cgiConfig = new CGIConfig();
-	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
-		const std::string& CgiExt = *it;
-		currentLocationConfig->cgiConfig->cgiExtensions.insert(CgiExt);
+{	
+
+	// if(mulitValues[0]!= ".py" && mulitValues[0] != ".sh"){
+	// 	std::cout << PURPLE << "JOPA CGI: " <<  mulitValues[0] <<  RESET << std::endl;
+	// 	return;
+	// 	// currentLocationConfig->cgiConfig->cgiExtensions.erase(".py");
+	// 	// currentLocationConfig->cgiConfig->cgiExtensions.erase(".sh");}
+	// }
+	std::cout << PURPLE << "!!!!!=======!!!!!!!CGI PROB: " <<mulitValues[0] << mulitValues[1] << std::endl;
+	std::cout << PURPLE << "!!!!!=======!!!!!!!CGI PROB val: " <<value << std::endl;
+	if(mulitValues[0] == ".py" || mulitValues[0] == ".sh")
+	{
+		for (std::vector<std::string>::iterator ir = mulitValues.begin(); ir != mulitValues.end(); ++ir) 
+		{
+			std::cout << PURPLE << "CGI ir: " << *ir << RESET << std::endl;
+			if(*ir == ".sh" || *ir == ".py")
+			{
+				const std::string& CgiExt = *ir;
+				currentLocationConfig->cgiConfig->cgiExtensions.insert(CgiExt);
+			}		
+		}
 	}
 	/* Print: */
 	for (std::set<std::string>::iterator it = currentLocationConfig->cgiConfig->cgiExtensions.begin(); it != currentLocationConfig->cgiConfig->cgiExtensions.end(); ++it) {
         std::cout << GREEN << "(Loc)CgiExtension " << *it << RESET << std::endl;
 	}
+	//exit(1);
 }
 
 void    ConfigParser::handleUploadStore()
@@ -348,12 +364,14 @@ std::string ConfigParser::ipNumberToString(uint32_t ip) {
 uint16_t ConfigParser::ip_port_to_uint16(const std::string& ip_port) {
    std::size_t pos = ip_port.find(':');
    if (pos == std::string::npos) {
-       throw std::invalid_argument("Invalid IP:port format");
+       throw std::invalid_argument("Error: Invalid IP:port format");
    }
 
    std::string port_str = ip_port.substr(pos + 1);
+	if(port_str.empty())
+		throw std::invalid_argument("Error: Invalid IP:port format");
    uint16_t port = static_cast<uint16_t>(std::stoi(port_str));
-
+	
    return port;
 }
 

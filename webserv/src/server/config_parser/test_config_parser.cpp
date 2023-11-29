@@ -86,6 +86,13 @@ void ConfigParser::printWebServerConfig(const WebServerConfig& webServerConfig) 
                 std::cout << "     targetUrl: \t\t\"" << locIt->second->targetUrl << "\"" << std::endl;
                 std::cout << "     rootDirectory: \t\t\"" << locIt->second->rootDirectory << "\"" << std::endl;   
                 std::cout << "     uploadDirectory: \t\t\"" << locIt->second->uploadDirectory << "\"" << std::endl;
+                std::cout << "      CGI Config:" << std::endl;
+                for (std::set<std::string>::const_iterator Iter = locIt->second->cgiConfig->cgiExtensions.begin(); Iter != locIt->second->cgiConfig->cgiExtensions.end(); ++Iter) {
+                    std::cout << "     cgiExtensions: \t\t\"" << *Iter << "\"" << std::endl;
+                }
+                // begin(); nameIt != (*serverIt)->serverNames.end(); ++nameIt) {
+                // std::cout <<  "\t\t\"" << *nameIt << "\"" <<  " " ;
+            
                 for(std::vector<std::string>::const_iterator Itr = locIt->second->defaultFolderFiles.begin(); Itr != locIt->second->defaultFolderFiles.end(); ++Itr)
                 {
                     std::cout << "     defaultFolderFiles: " << "\t\"" << *Itr << "\"" << std::endl;

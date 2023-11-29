@@ -13,8 +13,9 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 			  lineCount(1),
 			  charCount(0),
 			  isQuoteMode(false)
+			
 {
-
+   mulitValues.reserve(CONFIG_PARSER_MAX_VALUE_LENGTH);
    key.reserve(CONFIG_PARSER_MAX_KEY_LENGTH);
    value.reserve(CONFIG_PARSER_MAX_VALUE_LENGTH);
 
@@ -234,7 +235,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 	{
 		if (currentLocationConfig != NULL)
 		{
-			//validateLocationConfig(currentLocationConfig);
+			validateLocationConfig(currentLocationConfig);
 			currentServerConfig->addLocationConfig(currentLocationConfig);
 			currentLocationConfig = NULL;
 		}
@@ -405,8 +406,10 @@ void	ConfigParser::handleStateOws(char c)	// state 3
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
 	{	
 		
+		if (!value.empty()) //CHANGED
+			mulitValues.push_back(value);	//CHANGED
+		//mulitValues.push_back(value);
 		//mulitValues.push_back(value); // TO DO . CHANGED BY ME TO PREVENT EMPTY MULITVALUES  VALUE IN END OF VECTOR
-		value.clear();
 		validateAndHandleKey();
 
 		std::cout << "key: " << key << " ## value: ";
@@ -454,7 +457,9 @@ void	ConfigParser::handleStateValue(char c) // state 4
 {
 	if (c == ';' && !isQuoteMode && lastChar != '\\')
 	{
-		mulitValues.push_back(value);
+		if (!value.empty()) //CHANGED
+			mulitValues.push_back(value);	//CHANGED
+		//mulitValues.push_back(value);
 		value.clear();
 		validateAndHandleKey();
 		// key.clear();
@@ -490,6 +495,7 @@ void	ConfigParser::handleStateValue(char c) // state 4
 	else if (isAllowedOws(c))
 	{
 		mulitValues.push_back(value);
+		std::cout << "value: " << value << " ## value: ";
 		value.clear();
 		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_OWS);
 		return;
@@ -556,24 +562,37 @@ void ConfigParser::doNothing(void)
 void    ConfigParser::validateLocationConfig(LocationConfig* currentLocationConfig)
 {
 	/* Check location path */
-
-
-	/* if multiple return - > error */
-	
-	
-	
-	// if(currentLocationConfig->rootDirectory.empty())
+	std::cout << BLUE << "validateLocationConfig" << currentLocationConfig->rootDirectory << RESET << std::endl;
+	if(currentLocationConfig->rootDirectory == "")
+		throwConfigError("Location path not set", 0, "", true);
 		
-		
-		
-	// 	throwConfigError("Location path not set", 0, "", true);
-
-
-
+	std::set<std::string>::iterator temp = currentLocationConfig->cgiConfig->cgiExtensions.begin();
+	std::cout << "AAAAAAAAAAA" << *temp << std::endl;
+	// if((*temp) == "")
+	// {	currentLocationConfig->cgiConfig->cgiExtensions.erase(temp);
+	// 	currentLocationConfig->cgiConfig->cgiExtensions.insert(".py");
+	// 	currentLocationConfig->cgiConfig->cgiExtensions.insert(".sh");
+	// }
 
 }
 
+WebServerConfig* ConfigParser::getWebServerConfig(void) const
+{
+	return (this->webServerConfig);
+}
+
+
+
+
 void    ConfigParser::validateServerConfig(ServerConfig* currentServerConfig)
 {
+	if (currentServerConfig->ipAddress == 0 || currentServerConfig->port == 0) {        
+       throw std::runtime_error("Error: Server has no valid Ip adress or port\n");
+    }
+	if (currentServerConfig->serverNames.empty()) {
+        std::cout << "Set is empty. Adding 'localhost'." << std::endl;
+        currentServerConfig->serverNames.insert("localhost");
+	}
+
 
 }
