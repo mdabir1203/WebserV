@@ -158,6 +158,13 @@ bool ConfigParser::isAllowedKeyChar(char c)
 	return (isalnum(c) || c == '_');
 }
 
+bool ConfigParser::isUnescapedChar(char expected, char actual)
+{
+	if (actual == expected && !isQuoteMode && lastChar != '\\')
+		return true;
+	return false;
+}
+
 bool ConfigParser::isAllowedValueChar(char c)
 {
 	if ((lastChar == '\\' || isQuoteMode) && (c == '{' || c == '}' || c == ' ' || c == '"' || c == ';'))
@@ -207,7 +214,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_KEY);
 		return;
 	}
-	else if (c == '{') //start of block
+	else if (isUnescapedChar('{', c)) //start of block
 	{
 		if (key == "server" && currentServerConfig == NULL)
 		{
@@ -216,7 +223,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig == NULL)
 		{
 			std::cout << "handleStateWs Location ,key: " << key << std::endl;
-			//std::cout << "Location path: " << value << std::endl;
+			std::cout << "Location path: " << value << std::endl;
 			currentLocationConfig = new LocationConfig();
 		}
 		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig != NULL)
@@ -231,7 +238,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		key.clear();
 		paramterLength = 0;
 	}
-	else if (c == '}') //end of block
+	else if (isUnescapedChar('}', c)) //end of block
 	{
 		if (currentLocationConfig != NULL)
 		{
@@ -293,7 +300,7 @@ void ConfigParser::handleStateStart(char c)
 
 }
 
-void ConfigParser::handleStateKey(char c)
+void ConfigParser::handleStateKey(char c) //TODO: check edge cases with server{ and server# and ...
 {
 	if (isCommentStart(c))
 	{
@@ -330,7 +337,7 @@ void ConfigParser::handleStateKey(char c)
 			return;
 		}
 	}
-	else if (c == ':')
+	else if (isUnescapedChar(':', c))
 	{
 		//validate key is appropriate for current block -> move this check to when values are gathered
 		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_OWS);
@@ -345,17 +352,18 @@ void ConfigParser::handleStateKey(char c)
 
 void ConfigParser::handleStateLocation(char c)
 {
-	if (c == '{' && !isQuoteMode && lastChar != '\\')
+	if (isUnescapedChar('{', c))
 	{
 		//validate location path
 		std::cout << "Location path: " << value << std::endl;
+		handleLocation();
 		value.clear();
 		paramterLength = 0;
 		handleStateWs(c);
 		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
 		return;
 	}
-	else if (c == '"' && !isQuoteMode && lastChar != '\\')
+	else if (isUnescapedChar('"', c))
 	{
 		isQuoteMode = true;
 		return;
@@ -403,7 +411,7 @@ void ConfigParser::handleStateLocation(char c)
 
 void	ConfigParser::handleStateOws(char c)	// state 3
 {
-	if (c == ';' && !isQuoteMode && lastChar != '\\')
+	if (isUnescapedChar(';', c))
 	{	
 		
 		if (!value.empty()) //CHANGED
@@ -455,7 +463,7 @@ void	ConfigParser::handleStateOws(char c)	// state 3
 
 void	ConfigParser::handleStateValue(char c) // state 4
 {
-	if (c == ';' && !isQuoteMode && lastChar != '\\')
+	if (isUnescapedChar(';', c))
 	{
 		if (!value.empty()) //CHANGED
 			mulitValues.push_back(value);	//CHANGED
@@ -477,7 +485,7 @@ void	ConfigParser::handleStateValue(char c) // state 4
 		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_WS);
 		return;
 	}
-	else if (c == '"' && !isQuoteMode && lastChar != '\\')
+	else if (isUnescapedChar('"', c))
 	{
 		isQuoteMode = true;
 		return;

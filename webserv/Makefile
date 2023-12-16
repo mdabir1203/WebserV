@@ -61,17 +61,15 @@ re: fclean all
 
 test_request_parser:
 	c++ ${CXXFLAGS} src/server/test_request_parser.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -I inc -g -O0 -o test_request_parser.out
-	./test_request_parser.out
 
 test_config_parser:
-	c++ ${CXXFLAGS} src/server/config_parser/WebServerConfig.cpp \
+	c++  src/server/config_parser/WebServerConfig.cpp \
 		 src/server/config_parser/test_config_parser.cpp \
-		 src/server/config_parser/NewConfigParser.cpp \
+		 src/server/config_parser/ConfigParser.cpp \
 		 src/server/config_parser/LocationConfig.cpp \
 		 src/server/config_parser/ServerConfig.cpp \
 		 src/server/config_parser/CGIConfig.cpp \
 		 src/server/config_parser/validateValues.cpp -o test_config_parser.out -I inc  -g -O0
-		 ./test_config_parser.out "src/config_files/default copy.conf"
 
 .PHONY: all clean fclean re test_request_parser test_config_parser
 

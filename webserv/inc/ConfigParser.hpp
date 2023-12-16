@@ -86,6 +86,7 @@ class ConfigParser
         bool        isQuoteStart(char c);
         bool        isAllowedKeyChar(char c);
         bool        isAllowedValueChar(char c);
+        bool        isUnescapedChar(char expected, char actual);
         
         void        doNothing(void);
 
