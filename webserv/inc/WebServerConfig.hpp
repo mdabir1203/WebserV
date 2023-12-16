@@ -19,7 +19,6 @@
 #include <set>
 
 #include "Colors.hpp"
-#include "Exceptions.hpp"
 #include <string>
 #include <vector>
 #include <map>
@@ -38,7 +37,7 @@ class WebServerConfig : public IConfig
 
     //whate happens if no ip Address is specified?? -> use 0 as default since it means listen to any.
 
-	std::map<std::pair<uint32_t , uint16_t>, std::vector<ServerConfig *>> servers; //uses Ipv4-Addres and port as key. Vector is needed for multiple servers on same IP and port
+	std::map<std::pair<uint32_t , uint16_t>, std::vector<ServerConfig *> > servers; //uses Ipv4-Addres and port as key. Vector is needed for multiple servers on same IP and port
     std::map<uint16_t, std::string> defaultErrorPages;                              // as switch statement?? // either custom or set in http context of config file // if not specified build on the go in fucntion for default error pages??
     size_t maxClientBodySize;      //--PRINTS:OK  --VALIDATION:OK (0-10Gb)        // in bytes //it is not askes for each route, but not specified further -> so in http and server // init to custom start value
 

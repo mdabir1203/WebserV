@@ -25,7 +25,6 @@
 #include "RequestParser.hpp"
 
 #include "Colors.hpp"
-#include "Exceptions.hpp"
 
 #include "LocationConfig.hpp"
 #include "IConfig.hpp"

@@ -2,16 +2,16 @@
 
 WebServerConfig::WebServerConfig()
 				: maxClientBodySize(1000000),
+				  defaultFolderFile("index.html"),
 				  maxClients(100),
-				  timeout(20000), 
-				  defaultFolderFile("index.html")
+				  timeout(20000)
 {
 	defaultErrorPages[404] = "error_pages/404.html";
 }
 
 WebServerConfig::~WebServerConfig()
 {
-	std::map<std::pair<uint32_t , uint16_t>, std::vector<ServerConfig*>>::iterator mapIterator;
+	std::map<std::pair<uint32_t , uint16_t>, std::vector<ServerConfig*> >::iterator mapIterator;
 	std::vector<ServerConfig *>::iterator vectorIterator;
 
 	for (mapIterator = this->servers.begin(); mapIterator != this->servers.end(); ++mapIterator)

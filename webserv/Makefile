@@ -6,7 +6,8 @@ SRCDIR := src
 
 INCLUDES_DIR := inc
 
-CONFIG_PARSER := $(addprefix config_parser/, NewConfigParser.cpp ConfigParserUtils.cpp Exceptions.cpp)
+CONFIG_PARSER := $(addprefix config_parser/, ConfigParser.cpp LocationConfig.cpp CGIConfig.cpp \
+											 ServerConfig.cpp WebServerConfig.cpp validateValues.cpp)
 
 SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
 								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
@@ -16,7 +17,7 @@ SRCS := main.cpp \
 
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-HEADER := $(addprefix inc/, Colors.hpp ConfigParser.hpp Exceptions.hpp \
+HEADER := $(addprefix inc/, Colors.hpp ConfigParser.hpp \
 							Server.hpp Response.hpp RequestParser.hpp Methods.hpp)
 
 INCLUDES := -I ${INCLUDES_DIR}
@@ -59,11 +60,11 @@ fclean: clean
 re: fclean all
 
 test_request_parser:
-	c++ src/server/testParse.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -I inc -g -O0 -o test_request_parser.out
+	c++ ${CXXFLAGS} src/server/test_request_parser.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -I inc -g -O0 -o test_request_parser.out
 	./test_request_parser.out
 
 test_config_parser:
-	c++ src/server/config_parser/WebServerConfig.cpp \
+	c++ ${CXXFLAGS} src/server/config_parser/WebServerConfig.cpp \
 		 src/server/config_parser/test_config_parser.cpp \
 		 src/server/config_parser/NewConfigParser.cpp \
 		 src/server/config_parser/LocationConfig.cpp \

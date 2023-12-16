@@ -3,9 +3,9 @@
 LocationConfig::LocationConfig()
 			  : statusCode(0),
 			    cgiConfig(NULL),
+				rootDirectory(""),
 				directoryListing(false),
-				_allowedMethods(7), // 111 -> all allowed
-				rootDirectory("")
+				_allowedMethods(7) // 111 -> all allowed
 {
 	cgiConfig = new CGIConfig();
 }

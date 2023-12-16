@@ -80,7 +80,7 @@ void	ConfigParser::handleListen()
 	std::string& numberString = extractSingleValueFromValueVector(true);
 	//std::cout << "numberString: " << numberString << std::endl;
 	std::istringstream iss(numberString);
-    size_t result;
+    // size_t result;
 
 	for (std::size_t i = 0; i < numberString.length(); ++i)
 	{
@@ -98,7 +98,7 @@ void	ConfigParser::handleListen()
 	//std::cout << GREEN << "ipAddress " << currentServerConfig->ipAddress << RESET << std::endl;	
 	//  std::cout << "currentServerConfig->port " << currentServerConfig->port << std::endl;
 	std::cout << GREEN << "ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << RESET << std::endl;
-	std::cout << GREEN << "port back " << uint16_to_ip_port(currentServerConfig->port)<< RESET << std::endl;
+	// std::cout << GREEN << "port back " << uint16_to_ip_port(currentServerConfig->port)<< RESET << std::endl;
 }
 
 
@@ -108,7 +108,7 @@ void	ConfigParser::handleServerName()
         	
 			mulitValues.push_back("localhost");
     }
-    std::string& serverName = mulitValues[0];	
+    // std::string& serverName = mulitValues[0];	
 	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
 		const std::string& serverName = *it;
 		if (serverName.empty())	{
@@ -370,17 +370,17 @@ uint16_t ConfigParser::ip_port_to_uint16(const std::string& ip_port) {
    std::string port_str = ip_port.substr(pos + 1);
 	if(port_str.empty())
 		throw std::invalid_argument("Error: Invalid IP:port format");
-   uint16_t port = static_cast<uint16_t>(std::stoi(port_str));
+   uint16_t port = static_cast<uint16_t>(std::atoi(port_str.c_str())); //check for correct error handling
 	
    return port;
 }
 
-std::string ConfigParser::uint16_to_ip_port(uint16_t port) {
-   std::stringstream ss;
-   ss  << std::to_string(port);
+// std::string ConfigParser::uint16_to_ip_port(uint16_t port) {
+//    std::stringstream ss;
+//    ss  << std::to_string(port);
 
-   return ss.str();
-}
+//    return ss.str();
+// }
 
 
 uint16_t ConfigParser::stringToUint16(const std::string& str) {
