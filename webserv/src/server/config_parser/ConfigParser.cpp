@@ -98,14 +98,8 @@ void ConfigParser::parseConfig(const std::string& configPath)
 	//check if all location and server blocks are closed meaning currentServerConfig and currentLocationConfig are NULL
 }
 
-
 void ConfigParser::parseChar(char c)
 {
-	if (lastChar != '\\' && c == '\\')
-		return;
-	(this->*stateTransitionArray[currentState])(c);
-	if (lastChar == '\\' && c == '\\')
-		lastChar = '\0';
 	if (c == '\n')
 	{
 		lineCount++;
@@ -115,17 +109,13 @@ void ConfigParser::parseChar(char c)
 	{
 		charCount++;
 	}
+	if (lastChar != '\\' && c == '\\')
+		return;
+	(this->*stateTransitionArray[currentState])(c);
+	if (lastChar == '\\' && c == '\\')
+		lastChar = '\0';
 	//std::cout << PURPLE << "currentState: " << currentState << " c: " << c << RESET << std::endl;	/////////////////////////////////////////////////////
 }
-
-
-
-
-
-
-
-
-
 
 void ConfigParser::stateTransition(int state, int nextState)
 {
@@ -133,6 +123,7 @@ void ConfigParser::stateTransition(int state, int nextState)
 	this->currentState = nextState;
 }
 
+/* ========================== Check Char ============================*/
 bool ConfigParser::isAllowedWhiteSpace(char c)
 {
 	return (c == ' ' || c == '\t' || c == '\r' || c == '\n');
@@ -172,6 +163,7 @@ bool ConfigParser::isAllowedValueChar(char c)
 	return (c >= 33 && c <= 126 && c != '{' && c != '}' && c != ';' && c != '"');
 }
 
+/* ========================== Save Char ============================ */
 void ConfigParser::addCharToKey(char c)
 {
 	if (paramterLength < CONFIG_PARSER_MAX_KEY_LENGTH)
@@ -198,9 +190,7 @@ void ConfigParser::addCharToValue(char c)
 	}
 }
 
-
-
-/* ==========================STATE HANDLERS ============================*/
+/* ========================== STATE HANDLERS ============================ */
 void	ConfigParser::handleStateWs(char c) // after value, after Block starts and ends
 {
 	if (isCommentStart(c))
