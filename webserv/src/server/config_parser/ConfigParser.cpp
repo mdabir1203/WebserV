@@ -34,7 +34,7 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen);				// done
 	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::handleServerName);			// done
 
-	serverKeys["location"]             = std::make_pair(0, &ConfigParser::handleLocation);				// done
+	serverKeys["location"]             = std::make_pair(0, &ConfigParser::handleLocationPath);				// done
 	locationKeys["root"]               = std::make_pair(0, &ConfigParser::handleRoot);					// done
 	locationKeys["index"]              = std::make_pair(0, &ConfigParser::handleIndex);					// done
 	locationKeys["cgi_extension"]      = std::make_pair(0, &ConfigParser::handleCgiExtension);			// done		
@@ -43,7 +43,6 @@ ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 	locationKeys["allow_methods"]      = std::make_pair(0, &ConfigParser::handleMethods);				// done		
 	locationKeys["autoindex"]          = std::make_pair(0, &ConfigParser::handleAutoindex);				// done	
 }
-
 
 ConfigParser::~ConfigParser()
 {
@@ -85,7 +84,7 @@ void ConfigParser::parseConfig(const std::string& configPath)
 			for (std::streamsize i = 0; i < bytesRead; i++)
 			{
 				parseChar(buffer[i]);
-				lastChar = buffer[i]; //reset to '\0' after comment ends
+				lastChar = buffer[i];
 			}
 		}
 	}
@@ -123,46 +122,6 @@ void ConfigParser::stateTransition(int state, int nextState)
 	this->currentState = nextState;
 }
 
-/* ========================== Check Char ============================*/
-bool ConfigParser::isAllowedWhiteSpace(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\r' || c == '\n');
-}
-
-bool ConfigParser::isAllowedOws(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-bool ConfigParser::isCommentStart(char c)
-{
-	return (lastChar != '\\' && c == '#');
-}
-
-bool ConfigParser::isQuoteStart(char c)
-{
-	return (lastChar != '\\' && c == '"');
-}
-
-bool ConfigParser::isAllowedKeyChar(char c)
-{
-	return (isalnum(c) || c == '_');
-}
-
-bool ConfigParser::isUnescapedChar(char expected, char actual)
-{
-	if (actual == expected && !isQuoteMode && lastChar != '\\')
-		return true;
-	return false;
-}
-
-bool ConfigParser::isAllowedValueChar(char c)
-{
-	if ((lastChar == '\\' || isQuoteMode) && (c == '{' || c == '}' || c == ' ' || c == '"' || c == ';'))
-		return true;
-	return (c >= 33 && c <= 126 && c != '{' && c != '}' && c != ';' && c != '"');
-}
-
 /* ========================== Save Char ============================ */
 void ConfigParser::addCharToKey(char c)
 {
@@ -196,206 +155,141 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 	if (isCommentStart(c))
 	{
 		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_COMMENT);
-		return;
 	}
 	else if (isAllowedKeyChar(c))
 	{
 		addCharToKey(c);
 		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_KEY);
-		return;
 	}
 	else if (isUnescapedChar('{', c)) //start of block
 	{
-		if (key == "server" && currentServerConfig == NULL)
+		if (key == "server" && !currentServerConfig) //start of server
 		{
 			currentServerConfig = new ServerConfig();
 		}
-		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig == NULL)
+		else if (key == "location" && currentServerConfig && !currentLocationConfig) //start of location, after location path
 		{
-			std::cout << "handleStateWs Location ,key: " << key << std::endl;
-			std::cout << "Location path: " << value << std::endl;
 			currentLocationConfig = new LocationConfig();
+			handleLocationPath(); //validation
 		}
-		else if (key == "location" && currentServerConfig != NULL && currentLocationConfig != NULL)
+		else if ((key == "location" && (!currentServerConfig || currentLocationConfig)) //location outside of server or inside of location
+				|| (key == "server" && currentServerConfig)) //server inside of server
 		{
-
+			throwConfigError("Unexpected opening of block", 0, key, true); //unexpected opening of block
 		}
 		else
 		{
-			throwConfigError("Unexpected", c, "", true);
-			return;
+			throwConfigError("Unexpected", c, "", true); //unexpected {
 		}
 		key.clear();
+		value.clear();
 		paramterLength = 0;
 	}
 	else if (isUnescapedChar('}', c)) //end of block
 	{
-		if (currentLocationConfig != NULL)
+		if (currentLocationConfig) //end of location
 		{
 			validateLocationConfig(currentLocationConfig);
 			currentServerConfig->addLocationConfig(currentLocationConfig);
 			currentLocationConfig = NULL;
+			resetKeyCounts(locationKeys);
 		}
-		else if (currentServerConfig != NULL)
+		else if (currentServerConfig) //end of server
 		{
 			validateServerConfig(currentServerConfig);
 			webServerConfig->addServerConfig(currentServerConfig);
 			currentServerConfig = NULL;
+			resetKeyCounts(serverKeys);
 		}
 		else
 		{
-			throwConfigError("Unexpected", c, "", true);
+			throwConfigError("Unexpected", c, "", true); //unexpected closing of block
 		}
 	}
+	else if (isAllowedWhiteSpace(c))
+	{
+		return;
+	}
+	else
+	{
+		throwConfigError("Unexpected", c, "", true);
+	}
 }
-
 
 void ConfigParser::handleStateComment(char c)
 {
 	if (c == '\n')
-	{
 		stateTransition(CONFIG_PARSER_STATE_COMMENT, this->previousState);
-		return;
-	}
 	else
-	{
 		stateTransition(this->previousState, CONFIG_PARSER_STATE_COMMENT);
-		return;
-	}
-}
-
-
-
-
-
-
-
-void ConfigParser::handleStateStart(char c)
-{
-	if(isAllowedWhiteSpace(c))
-		return;
-	else if (isCommentStart(c))
-	{
-		stateTransition(CONFIG_PARSER_STATE_START, CONFIG_PARSER_STATE_COMMENT);
-		return;
-	}
-	else if (isAllowedKeyChar(c))
-	{
-		addCharToKey(c);
-		stateTransition(CONFIG_PARSER_STATE_START, CONFIG_PARSER_STATE_KEY);
-		return;
-	}
-	else
-		throw std::runtime_error("Error: Invalid character in config file");
-
 }
 
 void ConfigParser::handleStateKey(char c) //TODO: check edge cases with server{ and server# and ...
 {
-	if (isCommentStart(c))
+	if (isCommentStart(c) && key != "server")
 	{
 		throwConfigError("Comment in key", c, key, true);
-		return;
 	}
 	else if (isAllowedKeyChar(c))
 	{
 		addCharToKey(c);
-		return;
 	}
-	else if (isAllowedWhiteSpace(c))
+	else if (isAllowedOws(c) && key == "location" && currentServerConfig && !currentLocationConfig) //start of location path
 	{
-		if (key == "server" && currentServerConfig == NULL)
-		{
-			// currentServerConfig = new ServerConfig();
-			// webServerConfig.addServerConfig(currentServerConfig);
-			stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_WS);
-			// stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_SERVER);
-			return;
-		}
-		else if (isAllowedOws(c) && key == "location" && currentServerConfig != NULL && currentLocationConfig == NULL)
-		{
-			std::cout << "handleStateKey Location ,key: " << key << std::endl;
-			currentLocationConfig = new LocationConfig();
-			// currentServerConfig->addLocationConfig(currentLocationConfig);
-			// std::cout << "Location key: " << key << std::endl;
-			stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_LOCATION);
-			return;
-		}
-		else
-		{
-			throwConfigError("Invalid key", c, key, true);
-			return;
-		}
+		paramterLength = 0;
+		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_LOCATION);
+	}
+	else if (key == "server")
+	{
+		paramterLength = 0;
+		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_WS);
+		handleStateWs(c);
 	}
 	else if (isUnescapedChar(':', c))
 	{
 		//validate key is appropriate for current block -> move this check to when values are gathered
 		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_OWS);
-		return;
 	}
 	else
 	{
 		throwConfigError("Invalid character in key", c, key, true);
-		return;
 	}
 }
 
 void ConfigParser::handleStateLocation(char c)
 {
-	if (isUnescapedChar('{', c))
+	if (isUnescapedChar('{', c)) // start of location block after location path
 	{
-		//validate location path
-		std::cout << "Location path: " << value << std::endl;
-		handleLocation();
-		value.clear();
-		paramterLength = 0;
-		handleStateWs(c);
 		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
-		return;
+		handleStateWs(c);
 	}
-	else if (isUnescapedChar('"', c))
+	else if (toggleQuoteMode(c))
 	{
-		isQuoteMode = true;
-		return;
-	}
-	else if (c == '"' && isQuoteMode && lastChar != '\\')
-	{
-		isQuoteMode = false;
 		return;
 	}
 	else if (isCommentStart(c) && value.empty())
 	{
 		throwConfigError("Comment in location path", c, key, true);
-		return;
 	}
 	else if (isCommentStart(c) && !value.empty())
 	{
-		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_COMMENT);
+		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_COMMENT);
+	}
+	else if (isAllowedValueChar(c))
+	{
+		addCharToValue(c);
 	}
 	else if (isAllowedOws(c) && value.empty())
-	{	std::cout << "!!!!isAllowedOws(c) && value.empty()" << std::endl;
+	{
 		return;
 	}
 	else if (!value.empty() && isAllowedWhiteSpace(c)) 
-	{	std::cout << "SUKAAAABLYAT" << std::endl;
-			// validate location path
-			//handleLocation();
-			std::cout << "Location path: " << value << std::endl;
-			handleLocation();
-			value.clear();
-			paramterLength = 0;
-			stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
-		return;
-	}
-	else if (isAllowedValueChar(c))
-	{std::cout << "!!!else if (isAllowedValueChar(c))" << std::endl;
-		addCharToValue(c);
-		return;
+	{	
+		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
 	}
 	else
 	{
 		throwConfigError("Invalid location path", c, key, true);
-		return;
 	}
 }
 
@@ -403,51 +297,29 @@ void	ConfigParser::handleStateOws(char c)	// state 3
 {
 	if (isUnescapedChar(';', c))
 	{	
-		
-		if (!value.empty()) //CHANGED
-			mulitValues.push_back(value);	//CHANGED
-		//mulitValues.push_back(value);
-		//mulitValues.push_back(value); // TO DO . CHANGED BY ME TO PREVENT EMPTY MULITVALUES  VALUE IN END OF VECTOR
-		validateAndHandleKey();
-
-		std::cout << "key: " << key << " ## value: ";
-		for(std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
-		{
-			std::cout << *it << " ";
-		}
-		std::cout << std::endl;
-		key.clear();
-		value.clear();
-		paramterLength = 0;
-		mulitValues.clear();
-		stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_WS);
-		return;
+		handleKeyValuePair();
 	}
 	else if (isCommentStart(c))
 	{
 		throwConfigError("Missing semicolon", c, "", true);
-		return;
-	}
-	else if (isAllowedOws(c))
-	{
-		return;
 	}
 	else if (isAllowedValueChar(c))
 	{
 		addCharToValue(c);
 		stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_VALUE);
+	}
+	else if (isAllowedOws(c))
+	{
 		return;
 	}
-	else if (c == '"' && !isQuoteMode)
+	else if (isUnescapedChar('"', c))
 	{
 		isQuoteMode = true;
 		stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_VALUE);
-		return;
 	}
 	else
 	{
 		throwConfigError("Missing semicolon", c, "", true);
-		return;
 	}
 }
 
@@ -455,54 +327,38 @@ void	ConfigParser::handleStateValue(char c) // state 4
 {
 	if (isUnescapedChar(';', c))
 	{
-		if (!value.empty()) //CHANGED
-			mulitValues.push_back(value);	//CHANGED
-		//mulitValues.push_back(value);
-		value.clear();
-		validateAndHandleKey();
-		// key.clear();
-		// paramterLength = 0;
-				std::cout << "key: " << key << " ## value: ";
-				for(std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
-{
-    std::cout << *it << " ";
-}
-				std::cout << std::endl;
-		key.clear();
-		value.clear();
-		paramterLength = 0;
-		mulitValues.clear();
-		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_WS);
-		return;
+		handleKeyValuePair();
 	}
-	else if (isUnescapedChar('"', c))
+	else if (toggleQuoteMode(c))
 	{
-		isQuoteMode = true;
-		return;
-	}
-	else if (c == '"' && isQuoteMode && lastChar != '\\')
-	{
-		isQuoteMode = false;
 		return;
 	}
 	else if (isAllowedValueChar(c))
 	{
 		addCharToValue(c);
-		return;
 	}
 	else if (isAllowedOws(c))
 	{
 		mulitValues.push_back(value);
-		std::cout << "value: " << value << " ## value: ";
 		value.clear();
 		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_OWS);
-		return;
 	}
 	else
 	{
 		throwConfigError("Invalid character in value", c, value, true);
-		return;
 	}
+}
+
+void	ConfigParser::handleKeyValuePair(void)
+{
+	if (!value.empty())
+		mulitValues.push_back(value);
+	validateAndHandleKey();
+	paramterLength = 0;
+	key.clear();
+	value.clear();
+	mulitValues.clear();
+	stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_WS);
 }
 
 void	ConfigParser::validateAndHandleKey(void)
@@ -552,35 +408,21 @@ void	ConfigParser::resetKeyCounts(std::map<std::string, std::pair<int, HandlerFu
 	}
 }
 
-void ConfigParser::doNothing(void)
-{
-	return;
-}
-
 void    ConfigParser::validateLocationConfig(LocationConfig* currentLocationConfig)
 {
 	/* Check location path */
-	std::cout << BLUE << "validateLocationConfig" << currentLocationConfig->rootDirectory << RESET << std::endl;
+	// std::cout << BLUE << "validateLocationConfig" << currentLocationConfig->rootDirectory << RESET << std::endl;
 	if(currentLocationConfig->rootDirectory == "")
 		throwConfigError("Location path not set", 0, "", true);
 		
-	std::set<std::string>::iterator temp = currentLocationConfig->cgiConfig->cgiExtensions.begin();
-	std::cout << "AAAAAAAAAAA" << *temp << std::endl;
+	// std::set<std::string>::iterator temp = currentLocationConfig->cgiConfig->cgiExtensions.begin();
+	// std::cout << "AAAAAAAAAAA" << *temp << std::endl;
 	// if((*temp) == "")
 	// {	currentLocationConfig->cgiConfig->cgiExtensions.erase(temp);
 	// 	currentLocationConfig->cgiConfig->cgiExtensions.insert(".py");
 	// 	currentLocationConfig->cgiConfig->cgiExtensions.insert(".sh");
 	// }
-
 }
-
-WebServerConfig* ConfigParser::getWebServerConfig(void) const
-{
-	return (this->webServerConfig);
-}
-
-
-
 
 void    ConfigParser::validateServerConfig(ServerConfig* currentServerConfig)
 {
@@ -591,6 +433,9 @@ void    ConfigParser::validateServerConfig(ServerConfig* currentServerConfig)
         std::cout << "Set is empty. Adding 'localhost'." << std::endl;
         currentServerConfig->serverNames.insert("localhost");
 	}
+}
 
-
+WebServerConfig* ConfigParser::getWebServerConfig(void) const
+{
+	return (this->webServerConfig);
 }

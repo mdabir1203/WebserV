@@ -32,7 +32,7 @@ std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequir
 {	
 
 	std::string& value = mulitValues[0];
-	std::cout << "extractSingleValueFromValueVector(c value: " << value << std::endl;
+	// std::cout << "extractSingleValueFromValueVector(c value: " << value << std::endl;
 	if (mulitValues.size() > 1)
 	{
 		throwConfigError("Multiple values for key: ", 0, key, true);
@@ -70,7 +70,7 @@ void	ConfigParser::handleClientMaxBodySize()
 	{
 		throwConfigError("Only digits", 0, numberString, true);
 	}
-	std::cout << GREEN <<  "maxClientBodySize:" << webServerConfig->maxClientBodySize << RESET << std::endl;
+	// std::cout << GREEN <<  "maxClientBodySize:" << webServerConfig->maxClientBodySize << RESET << std::endl;
 }
 
 
@@ -97,7 +97,7 @@ void	ConfigParser::handleListen()
 	}
 	//std::cout << GREEN << "ipAddress " << currentServerConfig->ipAddress << RESET << std::endl;	
 	//  std::cout << "currentServerConfig->port " << currentServerConfig->port << std::endl;
-	std::cout << GREEN << "ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << RESET << std::endl;
+	// std::cout << GREEN << "ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << RESET << std::endl;
 	// std::cout << GREEN << "port back " << uint16_to_ip_port(currentServerConfig->port)<< RESET << std::endl;
 }
 
@@ -118,10 +118,10 @@ void	ConfigParser::handleServerName()
 			currentServerConfig->serverNames.insert(serverName);
 		}
 	}
-	/* Print: */
-	for (std::set<std::string>::iterator it = currentServerConfig->serverNames.begin(); it != currentServerConfig->serverNames.end(); ++it) {
-        std::cout << GREEN << "serverName " << *it << RESET << std::endl;
-	}
+	// /* Print: */
+	// for (std::set<std::string>::iterator it = currentServerConfig->serverNames.begin(); it != currentServerConfig->serverNames.end(); ++it) {
+    //     std::cout << GREEN << "serverName " << *it << RESET << std::endl;
+	// }
 }
 
 void	ConfigParser::handleErrorPage()
@@ -146,10 +146,10 @@ void	ConfigParser::handleErrorPage()
 		uint16_t numb = stringToUint16(mulitValues[0]);
 		currentServerConfig->customErrorPages[numb] = mulitValues[1];
 	}	
-	/* Print: */
-	for (std::map<uint16_t, std::string>::iterator it = currentServerConfig->customErrorPages.begin(); it != currentServerConfig->customErrorPages.end(); ++it) {
-		std::cout << GREEN << "Custom Error Page " << it->first << " " << it->second << std::endl;
-	}
+	// /* Print: */
+	// for (std::map<uint16_t, std::string>::iterator it = currentServerConfig->customErrorPages.begin(); it != currentServerConfig->customErrorPages.end(); ++it) {
+	// 	std::cout << GREEN << "Custom Error Page " << it->first << " " << it->second << std::endl;
+	// }
 }
 
 void	ConfigParser::handleDefaultErrorPage()
@@ -161,16 +161,16 @@ void    ConfigParser::handleRoot()
 {
 	std::string& String = extractSingleValueFromValueVector(true);
 	currentLocationConfig->rootDirectory = String;
-	/* Print: */
-	std::cout << GREEN <<  "(Loc)root:" << currentLocationConfig->rootDirectory << RESET << std::endl;
+	// /* Print: */
+	// std::cout << GREEN <<  "(Loc)root:" << currentLocationConfig->rootDirectory << RESET << std::endl;
 }
 
-void    ConfigParser::handleLocation()
+void    ConfigParser::handleLocationPath()
  {	//std::cout << PURPLE << "!locati: value" <<  value <<  RESET << std::endl;
 	//std::cout << PURPLE << "!locati: " <<  mulitValues[0] <<  RESET << std::endl;
 	std::string& locationName = value;
 	//std::string& locationName = extractSingleValueFromValueVector(true);
-	std::cout << PURPLE << "!locationName: " << locationName << RESET << std::endl;
+	// std::cout << PURPLE << "!locationName: " << locationName << RESET << std::endl;
 	// if (currentServerConfig->locations.find(locationName) != currentServerConfig->locations.end())
 	// {
 	// 	throwConfigError("Error: Location name already exists.", 0, key, true);
@@ -184,8 +184,8 @@ void    ConfigParser::handleLocation()
     }
 	// std::cout << PURPLE << "COU COU  " << RESET << std::endl;
 	currentLocationConfig->path = locationName;
-    /* Print: */
-	std::cout << GREEN <<  "(Loc)path: " << currentLocationConfig->path << RESET << std::endl;
+    // /* Print: */
+	// std::cout << GREEN <<  "(Loc)path: " << currentLocationConfig->path << RESET << std::endl;
 }
 
 void    ConfigParser::handleIndex()
@@ -193,8 +193,8 @@ void    ConfigParser::handleIndex()
 	std::string& locationIndex = extractSingleValueFromValueVector(true);
 
 	currentLocationConfig->defaultFolderFiles.push_back(locationIndex);
-    /* Print: */
-	std::cout << GREEN <<  "(Loc)Index: " << currentLocationConfig->defaultFolderFiles[0] << RESET << std::endl;
+    // /* Print: */
+	// std::cout << GREEN <<  "(Loc)Index: " << currentLocationConfig->defaultFolderFiles[0] << RESET << std::endl;
 	
 }
 
@@ -207,13 +207,13 @@ void    ConfigParser::handleCgiExtension()
 	// 	// currentLocationConfig->cgiConfig->cgiExtensions.erase(".py");
 	// 	// currentLocationConfig->cgiConfig->cgiExtensions.erase(".sh");}
 	// }
-	std::cout << PURPLE << "!!!!!=======!!!!!!!CGI PROB: " <<mulitValues[0] << mulitValues[1] << std::endl;
-	std::cout << PURPLE << "!!!!!=======!!!!!!!CGI PROB val: " <<value << std::endl;
+	// std::cout << PURPLE << "!!!!!=======!!!!!!!CGI PROB: " <<mulitValues[0] << mulitValues[1] << std::endl;
+	// std::cout << PURPLE << "!!!!!=======!!!!!!!CGI PROB val: " <<value << std::endl;
 	if(mulitValues[0] == ".py" || mulitValues[0] == ".sh")
 	{
 		for (std::vector<std::string>::iterator ir = mulitValues.begin(); ir != mulitValues.end(); ++ir) 
 		{
-			std::cout << PURPLE << "CGI ir: " << *ir << RESET << std::endl;
+			// std::cout << PURPLE << "CGI ir: " << *ir << RESET << std::endl;
 			if(*ir == ".sh" || *ir == ".py")
 			{
 				const std::string& CgiExt = *ir;
@@ -221,11 +221,11 @@ void    ConfigParser::handleCgiExtension()
 			}		
 		}
 	}
-	/* Print: */
-	for (std::set<std::string>::iterator it = currentLocationConfig->cgiConfig->cgiExtensions.begin(); it != currentLocationConfig->cgiConfig->cgiExtensions.end(); ++it) {
-        std::cout << GREEN << "(Loc)CgiExtension " << *it << RESET << std::endl;
-	}
-	//exit(1);
+	// /* Print: */
+	// for (std::set<std::string>::iterator it = currentLocationConfig->cgiConfig->cgiExtensions.begin(); it != currentLocationConfig->cgiConfig->cgiExtensions.end(); ++it) {
+    //     std::cout << GREEN << "(Loc)CgiExtension " << *it << RESET << std::endl;
+	// }
+	// //exit(1);
 }
 
 void    ConfigParser::handleUploadStore()
@@ -237,8 +237,8 @@ void    ConfigParser::handleUploadStore()
 	}
 	else		
 		currentLocationConfig->uploadDirectory = locationUpload;
-    /* Print: */
-	std::cout << GREEN << "(Loc)Upload store: " << currentLocationConfig->uploadDirectory << RESET << std::endl;
+    // /* Print: */
+	// std::cout << GREEN << "(Loc)Upload store: " << currentLocationConfig->uploadDirectory << RESET << std::endl;
 	
 }
 
@@ -260,8 +260,8 @@ void	ConfigParser::handleReturn()
 		currentLocationConfig->statusCode = stringToUint16(mulitValues[0]);
 		currentLocationConfig->targetUrl = mulitValues[1];
 	}	
-	/* Print: */	
-	std::cout << GREEN << "(Loc)return " << currentLocationConfig->statusCode  << currentLocationConfig->targetUrl << std::endl;
+	// /* Print: */	
+	// std::cout << GREEN << "(Loc)return " << currentLocationConfig->statusCode  << currentLocationConfig->targetUrl << std::endl;
 	
 }
 
@@ -287,8 +287,8 @@ void    ConfigParser::handleMethods()
 		else if(*it == "DELETE")
 			currentLocationConfig->setMethod(2, true);
 	}
-	/* Print: */
-    std::cout << GREEN << "(Loc)Allowed Methods " << currentLocationConfig->getMethod(0) << currentLocationConfig->getMethod(1) << currentLocationConfig->getMethod(2) << RESET << std::endl;
+	// /* Print: */
+    // std::cout << GREEN << "(Loc)Allowed Methods " << currentLocationConfig->getMethod(0) << currentLocationConfig->getMethod(1) << currentLocationConfig->getMethod(2) << RESET << std::endl;
 
 }
 
@@ -311,14 +311,9 @@ void    ConfigParser::handleAutoindex()
 	{
 		currentLocationConfig->directoryListing = false;
 	}
-		/* Print: */
-    std::cout << GREEN << "(Loc)Autoindex " << currentLocationConfig->directoryListing << RESET << std::endl;
-
+	// 	/* Print: */
+    // std::cout << GREEN << "(Loc)Autoindex " << currentLocationConfig->directoryListing << RESET << std::endl;
 }
-
-
-
-
 
 
 
@@ -393,4 +388,3 @@ uint16_t ConfigParser::stringToUint16(const std::string& str) {
     }
     return result;
 }
-

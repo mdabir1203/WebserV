@@ -7,7 +7,8 @@ SRCDIR := src
 INCLUDES_DIR := inc
 
 CONFIG_PARSER := $(addprefix config_parser/, ConfigParser.cpp LocationConfig.cpp CGIConfig.cpp \
-											 ServerConfig.cpp WebServerConfig.cpp validateValues.cpp)
+											 ServerConfig.cpp WebServerConfig.cpp validateValues.cpp \
+											 ConfigParser_CheckChar.cpp)
 
 SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
 								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp)
@@ -69,6 +70,7 @@ test_config_parser:
 		 src/server/config_parser/LocationConfig.cpp \
 		 src/server/config_parser/ServerConfig.cpp \
 		 src/server/config_parser/CGIConfig.cpp \
+		 src/server/config_parser/ConfigParser_CheckChar.cpp \
 		 src/server/config_parser/validateValues.cpp -o test_config_parser.out -I inc  -g -O0
 
 .PHONY: all clean fclean re test_request_parser test_config_parser

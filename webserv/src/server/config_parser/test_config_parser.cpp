@@ -60,12 +60,12 @@ void ConfigParser::printWebServerConfig(const WebServerConfig& webServerConfig) 
 
 	std::cout << YELLOW << "================================= PRINT Servers map: =================================== " << RESET << std::endl;
     // Print information from servers map
-    std::cout << "Servers:" << std::endl;
+    int server_counter = 0;
     for (std::map<std::pair<uint32_t, uint16_t>, std::vector<ServerConfig*>>::const_iterator it = webServerConfig.servers.begin(); it != webServerConfig.servers.end(); ++it) {
         std::cout << "   ipAddress \t\t\t\""  <<  ipNumberToString(it->first.first) << "\"" << ", port: \"" << it->first.second << "\"" <<  std::endl;
-
         // Print information from ServerConfig
         for (std::vector<ServerConfig*>::const_iterator serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt) {
+            std::cout << BLUE <<"=================================Server " << server_counter++ << "=================================\n" << RESET << std::endl;
             std::cout << "   ServerNames: ";
             for (std::set<std::string>::const_iterator nameIt = (*serverIt)->serverNames.begin(); nameIt != (*serverIt)->serverNames.end(); ++nameIt) {
                 std::cout <<  "\t\t\"" << *nameIt << "\"" <<  " " ;
@@ -79,8 +79,9 @@ void ConfigParser::printWebServerConfig(const WebServerConfig& webServerConfig) 
             std::cout << "   maxClientBodySizeSet: " << "\t\"" << (*serverIt)->maxClientBodySizeSet << "\"" << std::endl;
 
             // Print information from locations map
-            std::cout << "   Locations:" << std::endl;
+            int location_counter = 0;
             for (std::map<std::string, LocationConfig*>::const_iterator locIt = (*serverIt)->locations.begin(); locIt != (*serverIt)->locations.end(); ++locIt) {
+                        std::cout << PURPLE << "                      ========Location " << location_counter++ << "========                     \n" << RESET << std::endl;
                 std::cout << "     Path: \t\t\t\"" << locIt->first << "\"" << std::endl;                
                 std::cout << "     statusCode: \t\t\"" << locIt->second->statusCode << "\"" <<std::endl;
                 std::cout << "     targetUrl: \t\t\"" << locIt->second->targetUrl << "\"" << std::endl;

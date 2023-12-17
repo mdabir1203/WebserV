@@ -28,7 +28,6 @@
 
 enum ParseState
 {
-    CONFIG_PARSER_STATE_START,
     CONFIG_PARSER_STATE_KEY,
     CONFIG_PARSER_STATE_WS, // white space -> ' ' or '\t' or '\n' or '\r'
     CONFIG_PARSER_STATE_OWS, // optional white space -> ' ' or '\t'
@@ -65,13 +64,14 @@ class ConfigParser
 
         void  stateTransition(int state, int nextState);
 
-        void        handleStateStart(char c);
         void        handleStateKey(char c);
         void        handleStateOws(char c);
         void	    handleStateWs(char c);
         void        handleStateComment(char c);
         void	    handleStateValue(char c);
         void        handleStateLocation(char c);
+
+        void	    handleKeyValuePair(void);
 
         
 
@@ -87,8 +87,7 @@ class ConfigParser
         bool        isAllowedKeyChar(char c);
         bool        isAllowedValueChar(char c);
         bool        isUnescapedChar(char expected, char actual);
-        
-        void        doNothing(void);
+        bool        toggleQuoteMode(char c);
 
         std::string&	extractSingleValueFromValueVector(const bool isRequired);
         //std::string&    extractNextValueFromValueVector(const bool isRequired);//<--
@@ -100,7 +99,7 @@ class ConfigParser
         void    handleErrorPage();
         void    handleDefaultErrorPage();
         void    handleRoot();
-        void    handleLocation();
+        void    handleLocationPath();
         void    handleIndex();
         void    handleCgiExtension();
         void    handleUploadStore();
