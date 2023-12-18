@@ -243,7 +243,7 @@ void    ConfigParser::handleUploadStore()
 	
 }
 
-void	ConfigParser::handleReturn()
+void	ConfigParser::handleReturn() //TODO: throw error if return has no value?
 {
 	if (mulitValues.size() == 0 || previousState == 1)
 	{

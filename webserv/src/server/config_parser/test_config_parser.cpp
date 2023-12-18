@@ -123,7 +123,7 @@ int main(int ac, char** av)
 	if (ac == 2)
 		configPath = av[1];
 	else
-		configPath = "src/config_files/new_default.conf";
+		configPath = "src/config_files/default.conf";
 	std::cout << "configPath: " << configPath << std::endl;
 	try
 	{	
