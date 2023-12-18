@@ -130,7 +130,7 @@ void	ConfigParser::handleErrorPage()
 	// std::cout << YELLOW << "previousState" << "\"" << previousState << RESET << std::endl;
 	if (mulitValues.size() == 0 || previousState == 1)
 	{
-       for (std::map<uint16_t, std::string>::iterator it = webServerConfig->defaultErrorPages.begin(); it != webServerConfig->defaultErrorPages.end(); ++it)
+       for (std::map<uint16_t, std::string>::iterator it = webServerConfig->defaultErrorPages.begin(); it != webServerConfig->defaultErrorPages.end(); ++it) //TODO: make it proper for map with find
 	   { 
 	 	    currentServerConfig->customErrorPages[it->first] = it->second;
     	}
@@ -176,7 +176,8 @@ void    ConfigParser::handleLocationPath()
 	// 	throwConfigError("Error: Location name already exists.", 0, key, true);
 	// 	return;
 	// }
-	   for (std::map<std::string, LocationConfig*>::const_iterator it = currentServerConfig->locations.begin(); it != currentServerConfig->locations.end(); ++it) {
+	   for (std::map<std::string, LocationConfig*>::const_iterator it = currentServerConfig->locations.begin(); it != currentServerConfig->locations.end(); ++it) //TODO: make it proper for map with find
+	   {
         if (it->first == locationName) {
 			throwConfigError("Error: Location name already exists.", 0, key, true);
             return;
