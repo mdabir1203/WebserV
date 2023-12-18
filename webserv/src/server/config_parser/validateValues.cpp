@@ -31,7 +31,7 @@ bool	ConfigParser::isLocationBlockValid()
 std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequired)
 {	
 
-	std::string& value = mulitValues[0];
+	// std::string& value = mulitValues[0];
 	// std::cout << "extractSingleValueFromValueVector(c value: " << value << std::endl;
 	if (mulitValues.size() > 1)
 	{
