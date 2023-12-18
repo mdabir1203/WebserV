@@ -1,0 +1,41 @@
+configPath: src/config_files/default copy.conf
+[31mOPPA NIHYA [0m
+extractSingleValueFromValueVector(c value: 22000
+[32mmaxClientBodySize:22000[0m
+key: client_max_body_size ## value: 22000 
+key: error_page ## value: 403 error_pages/403.html 
+[31mOPPA NIHYA [0m
+extractSingleValueFromValueVector(c value: 127.01.0.1:80
+[32mipAddress back 127.1.0.1[0m
+[32mport back 80[0m
+key: listen ## value: 127.01.0.1:80 
+[32mserverName cdg[0m
+[32mserverName localhost[0m
+key: server_name ## value: localhost cdg 
+[32mCustom Error Page 402 error_pages/402.html
+[32mCustom Error Page 404 error_pages/404.html
+key: error_page ## value: 402 error_pages/402.html 
+[31mOPPA NIHYA [0m
+extractSingleValueFromValueVector(c value: 220000
+[32mmaxClientBodySize:22000[0m
+key: client_max_body_size ## value: 220000 
+handleStateKey Location ,key: location
+!!!else if (isAllowedValueChar(c))
+SUKAAAABLYAT
+Location path: /
+[35m!locationName: /[0m
+[32m(Loc)path: /[0m
+[31mOPPA NIHYA [0m
+extractSingleValueFromValueVector(c value: src
+[32m(Loc)root:src[0m
+key: root ## value: src 
+[31mOPPA NIHYA [0m
+extractSingleValueFromValueVector(c value: index.html
+[32m(Loc)Index: index.html[0m
+key: index ## value: index.html 
+[35mCGI ir: .py[0m
+[35mCGI ir: .sh[0m
+[35mCGI PROB: .py[0m
+[32m(Loc)CgiExtension [0m
+[32m(Loc)CgiExtension .py[0m
+[32m(Loc)CgiExtension .sh[0m

@@ -79,7 +79,7 @@ private:
 
    const char**                         headerFieldsForMethod[3]; // [GET, POST, DELETE]
 
-   typedef void (HeaderFieldStateMachine::*StateHandler)(char); // maybe static?
+   typedef void (HeaderFieldStateMachine::*StateHandler)(char);
    StateHandler stateTransitionArray[8];// number of trnasition fuctions
 
    //header request line parsing

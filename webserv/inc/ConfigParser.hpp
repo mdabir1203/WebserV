@@ -14,89 +14,137 @@
 #include <cctype>
 #include <cstring>
 #include <cstdlib>
-#include <sys/stat.h>
+#include <stdexcept>
 #include <iostream>
 #include <set>
 
-#include "Colors.hpp"
-#include "Exceptions.hpp"
+// #include "Colors.hpp"
+// #include "Exceptions.hpp"
+#include "WebServerConfig.hpp"
 
-/* ========== Locations =========== */
-typedef struct Location {
-    std::string path;
-    std::string root;
-    std::string index;
-    std::vector<std::string>    cgi_extensions;
-    std::string cgi_path;
-    std::string upload_dir;
-    std::string http_redirect;
-    std::vector<std::string>    methods;
-    bool autoindex;
-}t_Location;
+#define CONFIG_PARSER_BUFFER_SIZE 1000
+#define CONFIG_PARSER_MAX_KEY_LENGTH 100
+#define CONFIG_PARSER_MAX_VALUE_LENGTH 1000
 
-/* ========== Servers =========== */
-typedef struct s_serv {
-    int         port;
-    std::string server_name;
-    int         def_timeout;
-    int         def_max_clients;
-    int         def_max_size_of_file;
-    std::map<int, std::string>          	error_pages;
-    std::multimap<std::string, Location>	loc;
-
-    //Default constructor:
-    s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file);
-} t_serv;
-
-enum ParseState {
-    STATE_START,
-    STATE_SERVER,
-    STATE_LOCATION
+enum ParseState
+{
+    CONFIG_PARSER_STATE_KEY,
+    CONFIG_PARSER_STATE_WS, // white space -> ' ' or '\t' or '\n' or '\r'
+    CONFIG_PARSER_STATE_OWS, // optional white space -> ' ' or '\t'
+    CONFIG_PARSER_STATE_VALUE,
+    CONFIG_PARSER_STATE_SERVER,
+    CONFIG_PARSER_STATE_LOCATION,
+    CONFIG_PARSER_STATE_COMMENT,
+    CONFIG_PARSER_STATE_NUM_STATES
 };
-
-#define TIMEOUT 1
-#define MAX_CLIENTS 2
-#define MAX_SIZE_OF_FILE 3
-#define PORT 4
-#define SERVER_NAME 5
-#define ROOT_DIR 6
-#define CGI_EXEC 7
-#define UPLOAD_DIR 8
-#define INDEX_PAGE 9
-#define ROOT_PAGE 10
-#define ERR_PAGE 11
-#define EXTENSION 12
-#define PATH 13
-#define CGI_DIR 14
 
 class ConfigParser
 {
     public:
-        ConfigParser();
+        ConfigParser(WebServerConfig* webServerConfig);
         ~ConfigParser();
+
+        void printWebServerConfig(const WebServerConfig& webServerConfig);
         
-        void         parseConfig(int ac, char **av);
-        std::vector<t_serv> getServers() const;
+        void             parseConfig(const std::string& configPath);
+        WebServerConfig* getWebServerConfig(void) const;
+        WebServerConfig*  webServerConfig;
 
     private:
-        void                        checkConfigFile(std::string filename); 
-        void                        parseLine(const std::string& line, t_serv& currentServer, std::vector<t_serv>& servers, ParseState& state);
-        int                         handleServerVarPort(std::istringstream& iss, std::string &token);
-        std::string                 handleServerVarName(std::istringstream& iss, std::string &input);
-        bool                        directoryExists(const std::string& path, int specifier);
-        int                         checkCodeErrorPage(std::istringstream& iss, std::string &str);
-        bool                        checkFileExist(const std::string &filePath, int specifier);
-        bool                        checkIfServerDataEnough(t_serv& currentSever);
-        std::string                 check_for_double_location(std::istringstream& iss, t_serv& currentServer);
-        void                        check_is_token_allowed(std::string &token);
-        int                         handleGlobalSettings(std::istringstream& iss, std::string &token, int specifier);
-        std::string                 checkToken(std::istringstream& iss, std::string &token, bool check_empty);
-        std::vector<std::string>    handleCgiExt(std::istringstream& iss);
-        std::vector<std::string>    handleMethods(std::istringstream& iss);
+        void        throwConfigError(const std::string& message, char offendingChar, const std::string& offendingString, bool givePosition);
 
-        std::set<int>   InvalidCodesList;
+        void        parseChar(char c);
 
-        std::vector<t_serv> servers;
+        bool        isServerBlockValid();
+        bool        isLocationBlockValid();
+
+
+        typedef void (ConfigParser::*StateHandler)(char);
+        StateHandler stateTransitionArray[8];// number of trnasition fuctions
+
+        void  stateTransition(int state, int nextState);
+
+        void        handleStateKey(char c);
+        void        handleStateOws(char c);
+        void	    handleStateWs(char c);
+        void        handleStateComment(char c);
+        void	    handleStateValue(char c);
+        void        handleStateLocation(char c);
+
+        void	    handleKeyValuePair(void);
+
+        
+
+        //string managers
+        void        addCharToKey(char c);
+        void        addCharToValue(char c);
+
+        //helpers
+        bool        isAllowedOws(char c);
+        bool        isAllowedWhiteSpace(char c);
+        bool        isCommentStart(char c);
+        bool        isQuoteStart(char c);
+        bool        isAllowedKeyChar(char c);
+        bool        isAllowedValueChar(char c);
+        bool        isUnescapedChar(char expected, char actual);
+        bool        toggleQuoteMode(char c);
+
+        std::string&	extractSingleValueFromValueVector(const bool isRequired);
+        //std::string&    extractNextValueFromValueVector(const bool isRequired);//<--
+
+        //handlers
+        void	handleClientMaxBodySize();
+        void	handleListen();
+        void	handleServerName();
+        void    handleErrorPage();
+        void    handleDefaultErrorPage();
+        void    handleRoot();
+        void    handleLocationPath();
+        void    handleIndex();
+        void    handleCgiExtension();
+        void    handleUploadStore();
+        void    handleReturn();
+        void    handleMethods();
+        void    handleAutoindex();
+
+        void    validateLocationConfig(LocationConfig* currentLocationConfig);
+        void    validateServerConfig(ServerConfig* currentServerConfig);
+        
+
+        uint32_t    ipStringToNumber(const std::string& ip);
+        std::string ipNumberToString(uint32_t ip);
+        uint16_t    ip_port_to_uint16(const std::string& ip_port) ;
+        std::string uint16_to_ip_port(uint16_t port);
+        uint16_t    stringToUint16(const std::string& str);
+
+
+
+
+        typedef void (ConfigParser::*HandlerFunction)(void);
+        void        validateAndHandleKey(void);
+        void        validateKeyAndCallHandler(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
+        void        resetKeyCounts(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
+
+        
+        ServerConfig*     currentServerConfig;
+        LocationConfig*   currentLocationConfig;
+        int               currentState;
+        int               previousState;
+        std::string       key;
+        std::string       value;
+        std::vector<std::string> mulitValues;
+        char              lastChar; //reset after comment ends and after '\\' // throw an error if '\\' is last char in file
+        bool              isQuoteMode;
+        size_t            lineCount; // for error messages
+        size_t            charCount; // for error messages
+        size_t            paramterLength;
+
+        std::map<std::string, std::pair<int, HandlerFunction> > httpKeys;
+        std::map<std::string, std::pair<int, HandlerFunction> > serverKeys;
+        std::map<std::string, std::pair<int, HandlerFunction> > locationKeys;
+
+        
+
 };
 
 #endif /* CONFIG_PARSER_HPP */
