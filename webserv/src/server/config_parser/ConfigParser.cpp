@@ -1,254 +1,441 @@
-// #include "ConfigParser.hpp"
+#include "ConfigParser.hpp"
 
-// /* ===================  HELPERS =================== */
-// // static void initializeInvalidCodesList(std::set<int>& InvalidCodesList)
-// // {
-// //     InvalidCodesList.insert(200);
-// //     InvalidCodesList.insert(201);
-// //     InvalidCodesList.insert(204);
-// //     InvalidCodesList.insert(400);
-// //     InvalidCodesList.insert(401);
-// //     InvalidCodesList.insert(403);
-// //     InvalidCodesList.insert(404);
-// //     InvalidCodesList.insert(500);
-// //     InvalidCodesList.insert(502);
-// //     InvalidCodesList.insert(503);
-// // }
+ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
+			: webServerConfig(webServerConfig),
+			  currentServerConfig(NULL),
+			  currentLocationConfig(NULL),
+			  currentState(CONFIG_PARSER_STATE_WS),
+			  previousState(CONFIG_PARSER_STATE_WS),
+			  key(""),
+			  value(""),
+			  lastChar('\0'),
+			  isQuoteMode(false),
+			  lineCount(1),
+			  charCount(0),
+			  paramterLength(0)
+			
+{
+   mulitValues.reserve(CONFIG_PARSER_MAX_VALUE_LENGTH);
+   key.reserve(CONFIG_PARSER_MAX_KEY_LENGTH);
+   value.reserve(CONFIG_PARSER_MAX_VALUE_LENGTH);
 
-// s_serv::s_serv(int Def_timeout, int Def_max_clients, int Def_max_size_of_file) : port(0), server_name("default"), error_pages(), loc() {
-//     // std::cout << "t_serv default constructor called"  << std::endl;
-//     // def_timeout          = Def_timeout;
-//     // def_max_clients      = Def_max_clients;
-//     // def_max_size_of_file = Def_max_size_of_file;
-// }
+   stateTransitionArray[CONFIG_PARSER_STATE_WS] = &ConfigParser::handleStateWs;
+   stateTransitionArray[CONFIG_PARSER_STATE_COMMENT] = &ConfigParser::handleStateComment;
+   stateTransitionArray[CONFIG_PARSER_STATE_KEY] = &ConfigParser::handleStateKey;
+   stateTransitionArray[CONFIG_PARSER_STATE_OWS] = &ConfigParser::handleStateOws;
+   stateTransitionArray[CONFIG_PARSER_STATE_VALUE] = &ConfigParser::handleStateValue;
+   stateTransitionArray[CONFIG_PARSER_STATE_LOCATION] = &ConfigParser::handleStateLocation;
 
-// ConfigParser::ConfigParser()
-// {
-//     //initializeInvalidCodesList(InvalidCodesList);
-//     //std::cout << "ConfigurationParcer object created" << std::endl;
-// }
+	httpKeys["client_max_body_size"]   = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); 	// done
+	httpKeys["error_page"]             = std::make_pair(0, &ConfigParser::handleDefaultErrorPage); 		// just hardcoded
 
-// ConfigParser::~ConfigParser()
-// {
-//     //std::cout << "ConfigurationParcer object deleted" << std::endl;
-// }
+	serverKeys["client_max_body_size"] = std::make_pair(0, &ConfigParser::handleClientMaxBodySize); 	// done
+	serverKeys["error_page"]           = std::make_pair(0, &ConfigParser::handleErrorPage);				// done
+	serverKeys["listen"]               = std::make_pair(0, &ConfigParser::handleListen);				// done
+	serverKeys["server_name"]          = std::make_pair(0, &ConfigParser::handleServerName);			// done
 
-// // std::vector<t_serv> ConfigParser::getServers() const
-// // {
-// //     return servers;
-// // }
+	serverKeys["location"]             = std::make_pair(0, &ConfigParser::handleLocationPath);				// done
+	locationKeys["root"]               = std::make_pair(0, &ConfigParser::handleRoot);					// done
+	locationKeys["index"]              = std::make_pair(0, &ConfigParser::handleIndex);					// done
+	locationKeys["cgi_extension"]      = std::make_pair(0, &ConfigParser::handleCgiExtension);			// done		
+	locationKeys["upload_store"]       = std::make_pair(0, &ConfigParser::handleUploadStore);			// done	
+	locationKeys["return"]             = std::make_pair(0, &ConfigParser::handleReturn);				// done	
+	locationKeys["allow_methods"]      = std::make_pair(0, &ConfigParser::handleMethods);				// done		
+	locationKeys["autoindex"]          = std::make_pair(0, &ConfigParser::handleAutoindex);				// done	
+}
 
-// void    ConfigParser::parseConfig(const std::string& configpath) 
-// {      
-//         std::string 		line;
-//         ParseState state = STATE_START;        
+ConfigParser::~ConfigParser()
+{
+	delete currentServerConfig;
+	delete currentLocationConfig;
+}
 
-//         std::ifstream file(configpath.c_str());
-//         if(file.is_open() == false)
-//             throw runtime_error("Error: cannot open configuration file");
-//         checkConfigFile(configpath.c_str());														
-//         while (std::getline(file, line))
-//             parseLine(line, webserverconfig, state);
-//         file.close();
-//         return ;
-// }
+void ConfigParser::throwConfigError(const std::string& message, char offendingChar, const std::string& offendingString, bool givePosition)
+{
+	std::stringstream ss;
 
-// void ConfigParser::parseLine(const std::string& line, WebServerConfig &webserverconfig, ParseState& state) 
-// {   
-//     bool 
-//     // std::istringstream	iss(line);
-//     // std::string 		token;
-//     // static 				std::string location_name;
-//     // static 				Location*   current_location;
-//     // static int 			def_timeout                 = 5;
-//     // static int 			def_max_clients             = 200;
-//     // static int 			def_max_size_of_file        = 1000000;
-//     // static int 			flag_open_server_bracket    = 0;
-//     // static int 			flag_open_location_bracket  = 0;
-//     // static int 			fl_location_created         = 0;
-//     // static int			flag_server_end             = 0;
-	
-//     while (line[i])
-//     {
-//         //std::cout << GREEN << "token: " << token << RESET << std::endl;
-//         if(line[i] == )
+	ss << "Error: {" << message << "}";
+	if (givePosition)
+		ss << " at line {" << lineCount << "}";
+	if (offendingChar)
+		ss << " at character {" << charCount << "}" << " with char {" << offendingChar << "}";
+	if (!offendingString.empty())
+		ss << " with string {" << offendingString << "}";
+	throw std::runtime_error(ss.str());
+}
 
+void ConfigParser::parseConfig(const std::string& configPath)
+{
+	std::ifstream configFile(configPath.c_str()); //closes automatically when it goes out of scope
+	std::string buffer;
 
+	if (!configFile.is_open())
+		throw std::runtime_error("Error: Could not open config file");
+	buffer.reserve(CONFIG_PARSER_BUFFER_SIZE);
+	while (configFile.good())
+	{
+		configFile.read(&buffer[0], CONFIG_PARSER_BUFFER_SIZE - 1);
+		if (configFile.bad())
+			break;
+		std::streamsize bytesRead = configFile.gcount();
+		buffer[bytesRead] = '\0';
+		if (bytesRead)
+		{
+			for (std::streamsize i = 0; i < bytesRead; i++)
+			{
+				parseChar(buffer[i]);
+				lastChar = buffer[i];
+			}
+		}
+	}
+	if (!configFile.eof())
+		throw std::runtime_error("Error: Could not read config file");
+	if (lastChar == '\\')
+		throw std::runtime_error("Error: '\\' is last char in config file");
+	configFile.close();
+	//validate the WebServerConfig
+	//check if all location and server blocks are closed meaning currentServerConfig and currentLocationConfig are NULL
+}
 
+void ConfigParser::parseChar(char c)
+{
+	if (c == '\n')
+	{
+		lineCount++;
+		charCount = 0;
+	}
+	else
+	{
+		charCount++;
+	}
+	if (lastChar != '\\' && c == '\\')
+		return;
+	(this->*stateTransitionArray[currentState])(c);
+	if (lastChar == '\\' && c == '\\')
+		lastChar = '\0';
+	//std::cout << PURPLE << "currentState: " << currentState << " c: " << c << RESET << std::endl;	/////////////////////////////////////////////////////
+}
 
+void ConfigParser::stateTransition(int state, int nextState)
+{
+	this->previousState = state;
+	this->currentState = nextState;
+}
 
-//         switch (state)
-//         {
-//             case STATE_START:
-//                 if(token == "timeout:") 
-//                     def_timeout = handleGlobalSettings(iss, token, TIMEOUT);
-//                 else if (token == "max_clients:")
-//                     def_max_clients = handleGlobalSettings(iss, token, MAX_CLIENTS);
-//                 else if (token == "max_size_of_file:")
-//                     def_max_size_of_file = handleGlobalSettings(iss, token, MAX_SIZE_OF_FILE);
-//                 else if (token == "server")
-//                 {   
-//                     state = STATE_SERVER;
-//                     currentServer = t_serv(def_timeout, def_max_clients, def_max_size_of_file);
-//                     iss >> token;
-//                     flag_server_end = 0;
-//                     if(token == "{")
-//                         flag_open_server_bracket = 1;
-//                 }        
-//                 break;
-//             case STATE_SERVER:
-//                 if(token == "{")
-//                     flag_open_server_bracket = 1;
-//                 else if (token == "port:")
-//                 {                     
-//                     currentServer.port = handleServerVarPort(iss, token);
-//                 } 
-//                 else if (token == "server_name:")
-//                 {   
-//                     currentServer.server_name = handleServerVarName(iss, token);
-//                 }
-//                 else if (token == "error_page")
-//                 {                        
-//                     int errorCode = checkCodeErrorPage(iss, token);
-//                     iss >> token;
-//                     token = checkToken(iss, token, true);
-//                     if(checkFileExist(token, ERR_PAGE) == true)
-//                         currentServer.error_pages[errorCode] = token;
-//                 }
-//                 else if (token == "location")
-//                 {         
-//                     location_name = check_for_double_location(iss, currentServer);
-//                     if (iss >> token && token == "{")                
-//                         flag_open_location_bracket = 1;
-//                     state = STATE_LOCATION;
-//                 }
-//                 else if ((token == "}" && flag_open_server_bracket == 0))
-//                     throw ErrorException("Unclosed brackets found"); 
-//                 else if (token == "}" && flag_open_server_bracket == 1 && flag_open_location_bracket == 0)
-//                     flag_open_server_bracket = 0;
-//                 else if (token == "<server_end>")
-//                 {   
-//                     flag_server_end = 1;
-//                     if((flag_open_server_bracket == 1 || flag_open_location_bracket == 1) && state == STATE_SERVER)                       
-//                         throw ErrorException("Unclosed brackets found");
-//                     if ( (checkIfServerDataEnough(currentServer) == true) && flag_open_server_bracket == 0 && flag_open_location_bracket == 0 && flag_server_end == 1)
-//                     {   
-//                         servers.push_back(currentServer);
-//                         currentServer = t_serv(def_timeout, def_max_clients, def_max_size_of_file);
-//                     }
-//                 }
-//                 break;
-//             case STATE_LOCATION:                    
-//                 if (token == "{")
-//                     flag_open_location_bracket = 1;
-//                 else if ((token == "}" && flag_open_location_bracket == 0))
-//                     throw ErrorException("Unclosed brackets found"); 
-//                 else if (token == "}" && flag_open_location_bracket == 1)
-//                 { 
-//                     state = STATE_SERVER;              
-//                     currentServer.loc.insert(std::make_pair(location_name, *current_location)); //TODO: if possible remove copying the allocated memory
-//                     delete current_location;
-//                     current_location = NULL;
-//                     flag_open_location_bracket = 0;
-//                     fl_location_created = 0;                       
-//                 }
-//                 else if ( token == "}}" && flag_open_location_bracket == 1 && flag_open_server_bracket == 1)
-//                 {
-//                     flag_open_location_bracket = 0;
-//                     flag_open_server_bracket = 0;
-//                     state = STATE_SERVER;
-//                     currentServer.loc.insert(std::make_pair(location_name, *current_location)); //TODO: if possible remove copying the allocated memory
-//                     delete current_location;
-//                     current_location = NULL;
-//                     fl_location_created = 0;    
-//                 }
-//                 else if (token != "{" && token != "}" && flag_open_location_bracket == 1)
-//                 {   
-//                     if(fl_location_created == 0)
-//                     {
-//                     //     Location location;
-//                     //     current_location = &location;
-//                         Location* location = new Location();
-//                         current_location = location;
-//                         fl_location_created = 1;
-//                     }
-//                     if(token == "root:")
-//                     {
-//                         iss >> token;
-//                         token = checkToken(iss, token, true);
-//                         if(directoryExists(token, ROOT_DIR) == true)
-//                         {
-//                             if (location_name == "/")
-//                                 current_location->root = token;
-//                             else 
-//                                  current_location->root = token + location_name;
-//                         }
-//                     }
-//                     else if(token == "index:")
-//                     {   
-//                         iss >> token;
-//                         token = checkToken(iss, token, true);
-//                         if(checkFileExist( (current_location->root + "/" + token), INDEX_PAGE) == true)
-//                             current_location->index = (current_location->root + "/" + token);                            
-//                     }
-//                     else if(token == "cgi_ext:")
-//                     {     
-//                         current_location->cgi_extensions = handleCgiExt(iss);        
-//                     }
-//                     else if (token == "cgi_path:")
-//                     {   
-//                         iss >> token;                       
-//                         token = checkToken(iss, token, true);                        
-//                         if(directoryExists((current_location->root + "/" + token), CGI_DIR) == true)
-//                         {
-//                             current_location->cgi_path = current_location->root + "/" + token;
-//                         }			
-//                     }
-//                     else if (token == "upload_dir:")
-//                     {    
-//                         iss >> token; 
-//                         token = checkToken(iss, token, false);                              
-//                         if(directoryExists((current_location->root + "/" + token), UPLOAD_DIR) == true)
-//                             current_location->upload_dir = current_location->root + "/" + token;
-//                     }
-//                     else if (token == "http_redirect:")
-//                     {                          
-//                         iss >> token;
-//                         token = checkToken(iss, token, false); 
-//                         current_location->http_redirect = token;
-//                         if (token.empty() == true)
-//                             current_location->http_redirect = "";                        
-//                     }
-//                     else if(token == "methods:")
-//                     {   
-//                         current_location->methods = handleMethods(iss);
-//                     }
-//                     else if(token == "autoindex:")
-//                     {   
-//                         iss >> token;
-//                         token = checkToken(iss, token, false); 
-//                         if (token == "on")
-//                             current_location->autoindex = true;
-//                         else if (token == "off")
-//                             current_location->autoindex = false;
-//                         else
-//                             throw ErrorException("Error: invalid autoindex value in location unit of configuration file");            
-//                     }					                                          
-//                 }
-//                 break;
-//         }
-//     }
-// }
+/* ========================== Save Char ============================ */
+void ConfigParser::addCharToKey(char c)
+{
+	if (paramterLength < CONFIG_PARSER_MAX_KEY_LENGTH)
+	{
+		paramterLength++;
+		key.push_back(std::tolower(c));
+	}
+	else
+	{
+		throwConfigError("Key too long", 0, key, true);
+	}
+}
 
-// bool ConfigParser::checkIfServerDataEnough(t_serv& currentServer)
-// {   
-//     std::multimap<std::string, Location>::iterator it = currentServer.loc.find("/");
+void ConfigParser::addCharToValue(char c)
+{
+	if (paramterLength < CONFIG_PARSER_MAX_VALUE_LENGTH)
+	{
+		paramterLength++;
+		value.push_back(c);
+	}
+	else
+	{
+		throwConfigError("Value too long", 0, value, true);
+	}
+}
 
-//     if((currentServer.port != 0) && (it != currentServer.loc.end()))
-//     {     
-//         if(!(it->second.root.empty()) && !(it->second.index.empty()))            
-//             return true;
-//     }
-//     throw ErrorException("Error: missed variable in configuration file");
-//     return false;
-// }
+/* ========================== STATE HANDLERS ============================ */
+void	ConfigParser::handleStateWs(char c) // after value, after Block starts and ends
+{
+	if (isCommentStart(c))
+	{
+		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_COMMENT);
+	}
+	else if (isAllowedKeyChar(c))
+	{
+		addCharToKey(c);
+		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_KEY);
+	}
+	else if (isUnescapedChar('{', c)) //start of block
+	{
+		if (key == "server" && !currentServerConfig) //start of server
+		{
+			currentServerConfig = new ServerConfig();
+		}
+		else if (key == "location" && currentServerConfig && !currentLocationConfig) //start of location, after location path
+		{
+			currentLocationConfig = new LocationConfig();
+			handleLocationPath(); //validation
+		}
+		else if ((key == "location" && (!currentServerConfig || currentLocationConfig)) //location outside of server or inside of location
+				|| (key == "server" && currentServerConfig)) //server inside of server
+		{
+			throwConfigError("Unexpected opening of block", 0, key, true); //unexpected opening of block
+		}
+		else
+		{
+			throwConfigError("Unexpected", c, "", true); //unexpected {
+		}
+		key.clear();
+		value.clear();
+		paramterLength = 0;
+	}
+	else if (isUnescapedChar('}', c)) //end of block
+	{
+		if (currentLocationConfig) //end of location
+		{
+			validateLocationConfig(currentLocationConfig);
+			currentServerConfig->addLocationConfig(currentLocationConfig);
+			currentLocationConfig = NULL;
+			resetKeyCounts(locationKeys);
+		}
+		else if (currentServerConfig) //end of server
+		{
+			validateServerConfig(currentServerConfig);
+			webServerConfig->addServerConfig(currentServerConfig);
+			currentServerConfig = NULL;
+			resetKeyCounts(serverKeys);
+		}
+		else
+		{
+			throwConfigError("Unexpected", c, "", true); //unexpected closing of block
+		}
+	}
+	else if (isAllowedWhiteSpace(c))
+	{
+		return;
+	}
+	else
+	{
+		throwConfigError("Unexpected", c, "", true);
+	}
+}
+
+void ConfigParser::handleStateComment(char c)
+{
+	if (c == '\n')
+		stateTransition(CONFIG_PARSER_STATE_COMMENT, this->previousState);
+	else
+		stateTransition(this->previousState, CONFIG_PARSER_STATE_COMMENT);
+}
+
+void ConfigParser::handleStateKey(char c) //TODO: check edge cases with server{ and server# and ...
+{
+	if (isCommentStart(c) && key != "server")
+	{
+		throwConfigError("Comment in key", c, key, true);
+	}
+	else if (isAllowedKeyChar(c))
+	{
+		addCharToKey(c);
+	}
+	else if (isAllowedOws(c) && key == "location" && currentServerConfig && !currentLocationConfig) //start of location path
+	{
+		paramterLength = 0;
+		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_LOCATION);
+	}
+	else if (key == "server")
+	{
+		paramterLength = 0;
+		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_WS);
+		handleStateWs(c);
+	}
+	else if (isUnescapedChar(':', c))
+	{
+		//validate key is appropriate for current block -> move this check to when values are gathered
+		stateTransition(CONFIG_PARSER_STATE_KEY, CONFIG_PARSER_STATE_OWS);
+	}
+	else
+	{
+		throwConfigError("Invalid character in key", c, key, true);
+	}
+}
+
+void ConfigParser::handleStateLocation(char c)
+{
+	if (isUnescapedChar('{', c)) // start of location block after location path
+	{
+		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
+		handleStateWs(c);
+	}
+	else if (toggleQuoteMode(c))
+	{
+		return;
+	}
+	else if (isCommentStart(c) && value.empty())
+	{
+		throwConfigError("Comment in location path", c, key, true);
+	}
+	else if (isCommentStart(c) && !value.empty())
+	{
+		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_COMMENT);
+	}
+	else if (isAllowedValueChar(c))
+	{
+		addCharToValue(c);
+	}
+	else if (isAllowedOws(c) && value.empty())
+	{
+		return;
+	}
+	else if (!value.empty() && isAllowedWhiteSpace(c)) 
+	{	
+		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
+	}
+	else
+	{
+		throwConfigError("Invalid location path", c, key, true);
+	}
+}
+
+void	ConfigParser::handleStateOws(char c)	// state 3
+{
+	if (isUnescapedChar(';', c))
+	{	
+		handleKeyValuePair();
+	}
+	else if (isCommentStart(c))
+	{
+		throwConfigError("Missing semicolon", c, "", true);
+	}
+	else if (isAllowedValueChar(c))
+	{
+		addCharToValue(c);
+		stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_VALUE);
+	}
+	else if (isAllowedOws(c))
+	{
+		return;
+	}
+	else if (isUnescapedChar('"', c))
+	{
+		isQuoteMode = true;
+		stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_VALUE);
+	}
+	else
+	{
+		throwConfigError("Missing semicolon", c, "", true);
+	}
+}
+
+void	ConfigParser::handleStateValue(char c) // state 4
+{
+	if (isUnescapedChar(';', c))
+	{
+		handleKeyValuePair();
+	}
+	else if (toggleQuoteMode(c))
+	{
+		return;
+	}
+	else if (isAllowedValueChar(c))
+	{
+		addCharToValue(c);
+	}
+	else if (isAllowedOws(c))
+	{
+		mulitValues.push_back(value);
+		value.clear();
+		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_OWS);
+	}
+	else
+	{
+		throwConfigError("Invalid character in value", c, value, true);
+	}
+}
+
+void	ConfigParser::handleKeyValuePair(void)
+{
+	if (!value.empty())
+		mulitValues.push_back(value);
+	validateAndHandleKey();
+	paramterLength = 0;
+	key.clear();
+	value.clear();
+	mulitValues.clear();
+	stateTransition(CONFIG_PARSER_STATE_OWS, CONFIG_PARSER_STATE_WS);
+}
+
+void	ConfigParser::validateAndHandleKey(void)
+{
+	if (!currentServerConfig && !currentLocationConfig)
+	{
+		validateKeyAndCallHandler(httpKeys);
+	}
+	else if (currentServerConfig && !currentLocationConfig)
+	{
+		validateKeyAndCallHandler(serverKeys);
+	}
+	else if (currentServerConfig && currentLocationConfig)
+	{
+		validateKeyAndCallHandler(locationKeys);
+	}
+	else
+	{
+		throwConfigError("Invalid key", 0, key, true);
+	}
+}
+
+void	ConfigParser::validateKeyAndCallHandler(std::map<std::string, std::pair<int, HandlerFunction> >& keys)
+{
+	std::map<std::string, std::pair<int, ConfigParser::HandlerFunction> >::iterator it = keys.find(key);
+	if (it == keys.end())
+	{
+		throwConfigError("Invalid key", 0, key, true);
+	}
+	else if (it->second.first++ != 0)
+	{
+		throwConfigError("Duplicate key", 0, key, true);
+	}
+	else
+	{
+		ConfigParser::HandlerFunction functionPointer = it->second.second;
+		(this->*functionPointer)();
+	}
+}
+
+void	ConfigParser::resetKeyCounts(std::map<std::string, std::pair<int, HandlerFunction> >& keys)
+{
+	std::map<std::string, std::pair<int, HandlerFunction> >::iterator it = keys.begin();
+	for( ; it != keys.end(); ++it)
+	{
+		it->second.first = 0;
+	}
+}
+
+void    ConfigParser::validateLocationConfig(LocationConfig* currentLocationConfig)
+{
+	/* Check location path */
+	// std::cout << BLUE << "validateLocationConfig" << currentLocationConfig->rootDirectory << RESET << std::endl;
+	if(currentLocationConfig->rootDirectory == "")
+		throwConfigError("Location path not set", 0, "", true);
+		
+	// std::set<std::string>::iterator temp = currentLocationConfig->cgiConfig->cgiExtensions.begin();
+	// std::cout << "AAAAAAAAAAA" << *temp << std::endl;
+	// if((*temp) == "")
+	// {	currentLocationConfig->cgiConfig->cgiExtensions.erase(temp);
+	// 	currentLocationConfig->cgiConfig->cgiExtensions.insert(".py");
+	// 	currentLocationConfig->cgiConfig->cgiExtensions.insert(".sh");
+	// }
+}
+
+void    ConfigParser::validateServerConfig(ServerConfig* currentServerConfig)
+{
+	if (currentServerConfig->ipAddress == 0 || currentServerConfig->port == 0) {        
+       throw std::runtime_error("Error: Server has no valid Ip adress or port\n");
+    }
+	if (currentServerConfig->serverNames.empty()) {
+        std::cout << "Set is empty. Adding 'localhost'." << std::endl;
+        currentServerConfig->serverNames.insert("localhost");
+	}
+}
+
+WebServerConfig* ConfigParser::getWebServerConfig(void) const
+{
+	return (this->webServerConfig);
+}

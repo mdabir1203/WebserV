@@ -28,7 +28,6 @@
 
 enum ParseState
 {
-    CONFIG_PARSER_STATE_START,
     CONFIG_PARSER_STATE_KEY,
     CONFIG_PARSER_STATE_WS, // white space -> ' ' or '\t' or '\n' or '\r'
     CONFIG_PARSER_STATE_OWS, // optional white space -> ' ' or '\t'
@@ -44,9 +43,12 @@ class ConfigParser
     public:
         ConfigParser(WebServerConfig* webServerConfig);
         ~ConfigParser();
+
+        void printWebServerConfig(const WebServerConfig& webServerConfig);
         
         void             parseConfig(const std::string& configPath);
         WebServerConfig* getWebServerConfig(void) const;
+        WebServerConfig*  webServerConfig;
 
     private:
         void        throwConfigError(const std::string& message, char offendingChar, const std::string& offendingString, bool givePosition);
@@ -62,13 +64,16 @@ class ConfigParser
 
         void  stateTransition(int state, int nextState);
 
-        void        handleStateStart(char c);
         void        handleStateKey(char c);
         void        handleStateOws(char c);
         void	    handleStateWs(char c);
         void        handleStateComment(char c);
         void	    handleStateValue(char c);
         void        handleStateLocation(char c);
+
+        void	    handleKeyValuePair(void);
+
+        
 
         //string managers
         void        addCharToKey(char c);
@@ -81,15 +86,36 @@ class ConfigParser
         bool        isQuoteStart(char c);
         bool        isAllowedKeyChar(char c);
         bool        isAllowedValueChar(char c);
-        
-        void        doNothing(void);
+        bool        isUnescapedChar(char expected, char actual);
+        bool        toggleQuoteMode(char c);
 
         std::string&	extractSingleValueFromValueVector(const bool isRequired);
+        //std::string&    extractNextValueFromValueVector(const bool isRequired);//<--
 
         //handlers
         void	handleClientMaxBodySize();
         void	handleListen();
+        void	handleServerName();
+        void    handleErrorPage();
+        void    handleDefaultErrorPage();
+        void    handleRoot();
+        void    handleLocationPath();
+        void    handleIndex();
+        void    handleCgiExtension();
+        void    handleUploadStore();
+        void    handleReturn();
+        void    handleMethods();
+        void    handleAutoindex();
 
+        void    validateLocationConfig(LocationConfig* currentLocationConfig);
+        void    validateServerConfig(ServerConfig* currentServerConfig);
+        
+
+        uint32_t    ipStringToNumber(const std::string& ip);
+        std::string ipNumberToString(uint32_t ip);
+        uint16_t    ip_port_to_uint16(const std::string& ip_port) ;
+        std::string uint16_to_ip_port(uint16_t port);
+        uint16_t    stringToUint16(const std::string& str);
 
 
 
@@ -99,7 +125,7 @@ class ConfigParser
         void        validateKeyAndCallHandler(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
         void        resetKeyCounts(std::map<std::string, std::pair<int, HandlerFunction> >& keys);
 
-        WebServerConfig*  webServerConfig;
+        
         ServerConfig*     currentServerConfig;
         LocationConfig*   currentLocationConfig;
         int               currentState;
@@ -116,6 +142,8 @@ class ConfigParser
         std::map<std::string, std::pair<int, HandlerFunction> > httpKeys;
         std::map<std::string, std::pair<int, HandlerFunction> > serverKeys;
         std::map<std::string, std::pair<int, HandlerFunction> > locationKeys;
+
+        
 
 };
 

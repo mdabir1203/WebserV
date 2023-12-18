@@ -46,9 +46,7 @@ void HeaderFieldStateMachine::parseChar(char input)
 
 void HeaderFieldStateMachine::parseURI(void) //TODO: implement actual URI parsing && matching according to config file
 {
-   // headerUri = "/workspaces/WebserV/webserv/src/config_files/index.html";
-   // headerUri = "/workspaces/WebserV/webserv/src/config_files/index copy.html";
-   headerUri = "/workspaces/WebserV/webserv/src/config_files/method_test.html";
+   headerUri = "var/method_test.html";
    // headerUri = "";
 }
 

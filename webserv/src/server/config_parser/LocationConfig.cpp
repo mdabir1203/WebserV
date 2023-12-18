@@ -3,10 +3,11 @@
 LocationConfig::LocationConfig()
 			  : statusCode(0),
 			    cgiConfig(NULL),
+				rootDirectory(""),
 				directoryListing(false),
 				_allowedMethods(7) // 111 -> all allowed
 {
-
+	cgiConfig = new CGIConfig();
 }
 
 LocationConfig::~LocationConfig()
@@ -22,6 +23,21 @@ bool LocationConfig::isMethodAllowed(HttpMethod method)
 void LocationConfig::disableMethod(HttpMethod method)
 {
 	_allowedMethods.reset(method);
+}
+
+
+
+void LocationConfig::setMethod(int bit, bool value)
+{	
+	if (value == true)
+		_allowedMethods.set(bit);
+	else
+		_allowedMethods.reset(bit);
+}
+
+int LocationConfig::getMethod(int bit)
+{
+	return _allowedMethods[bit];
 }
 
 // //idea for uri matching:
