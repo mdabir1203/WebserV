@@ -1,4 +1,5 @@
 #include "RequestParser.hpp"
+#include <stdlib.h>
 
 //TODO: decide for size limit of header fields
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
@@ -44,12 +45,128 @@ void HeaderFieldStateMachine::parseChar(char input)
    (this->*stateTransitionArray[currentState])(input);
 }
 
-void HeaderFieldStateMachine::parseURI(void) //TODO: implement actual URI parsing && matching according to config file
-{
-   // headerUri = "/workspaces/WebserV/webserv/src/config_files/index.html";
-   // headerUri = "/workspaces/WebserV/webserv/src/config_files/index copy.html";
-   headerUri = "/workspaces/WebserV/webserv/src/config_files/method_test.html";
-   // headerUri = "";
+// Function to decode percent-encoded characters in a URI
+char decodePercentEncodedChar(const std::string& uri, size_t& index) {
+   // Extracting the next two characters as a hexadecimal string
+   std::string hex = uri.substr(index + 1, 2);
+
+   // Convert the hexadecimal string to an integer, and cast it to a char
+   char decodedChar = static_cast<char>(strtol(hex.c_str(), NULL, 16));
+
+   // Advancing the index by 2, since we've processed two additional characters
+   index += 2;
+
+   return decodedChar;
+}
+
+static bool isValidSchemeChar(char c) {
+    return isalnum(c) || c == '+' || c == '-' || c == '.';
+}
+
+
+static bool isValidPathChar(char c) {
+    return isalnum(c) || c == '-' || c == '.' || c == '_' || c == '~' || c == '!' || c == '$' || c == '&' || c == '\'' || c == '(' || c == ')' || c == '*' || c == '+' || c == ',' || c == ';' || c == '=' || c == ':' || c == '@' || c == '/';
+}
+
+static bool isValidQueryOrFragmentChar(char c) {
+    return isValidPathChar(c) || c == '?' || c == '#';
+}
+
+// Function to parse a URI
+std::string HeaderFieldStateMachine::parseURI(const std::string& uri) {
+    State state = START;
+    std::string parsedURI, scheme, authority;
+    size_t index = 0;
+
+    while (index < uri.length()) {
+        char c = uri[index];
+
+        // Handle percent-encoded characters
+        if (c == '%') {
+            c = decodePercentEncodedChar(uri, index);
+        }
+
+        switch (state) {
+            case START:
+                if (isalnum(c)) {
+                    state = SCHEME;
+                    scheme += c;
+                } else {
+                    throw std::runtime_error("Invalid start of URI");
+                }
+                break;
+            case SCHEME:
+                if (c == ':') {
+                    if (scheme.empty()) throw std::runtime_error("Invalid scheme");
+                    if (uri.substr(index, 3) == "://") {
+                        index += 2; // Skip '://'
+                        state = AUTHORITY;
+                    } else {
+                        throw std::runtime_error("Invalid scheme format");
+                    }
+                } else if (isValidSchemeChar(c)) {
+                    scheme += c;
+                } else {
+                    throw std::runtime_error("Invalid character in scheme");
+                }
+                break;
+            case AUTHORITY:
+                if (c == '/') {
+                    state = PATH;
+                    parsedURI = scheme + "://" + authority;
+                } else {
+                    authority += c;
+                }
+                break;
+            case PATH:
+                if (c == '?') {
+                    state = QUERY;
+                } else if (c == '#') {
+                    state = FRAGMENT;
+                } else if (isValidPathChar(c)) {
+                    parsedURI += c;
+                } else {
+                    throw std::runtime_error("Invalid character in path");
+                }
+                break;
+            case QUERY:
+                if (c == '#') {
+                    state = FRAGMENT;
+                } else if (isValidQueryOrFragmentChar(c)) {
+                    parsedURI += c;
+                } else {
+                    throw std::runtime_error("Invalid character in query");
+                }
+                break;
+            case FRAGMENT:
+                if (isValidQueryOrFragmentChar(c)) {
+                    parsedURI += c;
+                } else {
+                    throw std::runtime_error("Invalid character in fragment");
+                }
+                break;
+            default:
+               break;
+         }
+
+        // Advance to the next character
+        index++;
+
+        // Transition to END state if we've reached the end of the string
+        if (index == uri.length()) {
+            state = END;
+        }
+    }
+
+    // Check if we successfully reached the END state
+    if (state == END) {
+      return parsedURI;
+    }
+    else {
+      throw std::runtime_error("Incomplete URI parsing");
+   }
+
+    return parsedURI;
 }
 
 const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
