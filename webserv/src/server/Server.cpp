@@ -128,7 +128,6 @@ void SocketServer::HandleClient(int clientSocket)
 		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 		return ;
 	}
-	parser.parseURI();
 
 	Methods methodHandler;
 

@@ -45,15 +45,26 @@ enum ErrorCodes
 	NOT_IMPLEMENTED
 };
 
+enum URI_Parsing_State
+{
+   URI_START,
+   URI_SCHEME,
+   URI_AUTHORITY,
+   URI_PATH,
+   URI_QUERY,
+   URI_FRAGMENT,
+   URI_END
+};
+
 
 
 class HeaderFieldStateMachine {
 public:
    HeaderFieldStateMachine(void);
 
-   int   parseRequestHeaderChunk(const std::string& input);
-   void  parseChar(char input);
-   void  parseURI(void);
+   int         parseRequestHeaderChunk(const std::string& input);
+   void        parseChar(char input);
+   std::string parseURI(const std::string& uri);
 
    const std::map<std::string, std::vector<std::string> >& getParsedHeaders() const;
    int getHeaderMethod() const;

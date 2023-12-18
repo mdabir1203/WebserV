@@ -143,6 +143,8 @@ void	HeaderFieldStateMachine::handleStateHeaderUri(char c)
 	if (c == ' ' && !headerUri.empty())
 	{
 		paramterLength = 0;
+		headerUri = parseURI(headerUri);
+		std::cout << "headerUri: " << headerUri << std::endl; //TODO: Remove
 		stateTransition(HEADER_URI, HEADER_HTTP_VERSION);
 	}
 	else if (c == ' ' && headerUri.empty())
