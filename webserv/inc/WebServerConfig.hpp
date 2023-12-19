@@ -58,6 +58,7 @@ class WebServerConfig : public IConfig
 
     // std::string getUriPathFromConfig(const std::string& uri) const;
 
+    void    printConfig(bool printServers) const;
 };
 
 #endif

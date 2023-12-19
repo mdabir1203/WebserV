@@ -6,11 +6,28 @@
 class LookupConfig
 {
 	public:
-		LookupConfig();
-		~LookupConfig();
+		LookupConfig(void);
+		LookupConfig(const WebServerConfig* webServer);
+		LookupConfig(const LookupConfig& src);
+		LookupConfig& operator=(const LookupConfig& rhs);
+		~LookupConfig(void);
+
+		void	setCurrentWebServer(const WebServerConfig* webServer);
+
+		void	updateCurrentServer(const uint32_t& ipv4Address, const uint16_t& port, const std::string& host);
+		void	updateCurrentLocation(std::string& uri); //updated thes uri with the location path as prefix		
+		// void	updateCurrentCGI(???);
+
+		const WebServerConfig*	getCurrentWebServer(void) const;
+		const ServerConfig*		getCurrentServer(void) const;
+		const LocationConfig*	getCurrentLocation(void) const;
+		const CGIConfig*		getCurrentCGI(void) const;
 
 	private:
-		/* data */		
+		const WebServerConfig*	currentWebServer;
+		const ServerConfig*		currentServer;
+		const LocationConfig*	currentLocation;
+		const CGIConfig*		currentCGI;
 };
 
 #endif /* LOOKUP_CONFIG_HPP */

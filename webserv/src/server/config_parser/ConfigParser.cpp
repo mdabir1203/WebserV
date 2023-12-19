@@ -339,8 +339,11 @@ void	ConfigParser::handleStateValue(char c) // state 4
 	}
 	else if (isAllowedOws(c))
 	{
-		mulitValues.push_back(value);
-		value.clear();
+		if (!value.empty())
+		{
+			mulitValues.push_back(value);
+			value.clear();
+		}
 		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_OWS);
 	}
 	else
@@ -351,8 +354,7 @@ void	ConfigParser::handleStateValue(char c) // state 4
 
 void	ConfigParser::handleKeyValuePair(void)
 {
-	if (!value.empty())
-		mulitValues.push_back(value);
+	mulitValues.push_back(value);
 	validateAndHandleKey();
 	paramterLength = 0;
 	key.clear();

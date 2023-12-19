@@ -42,7 +42,7 @@ const ServerConfig* WebServerConfig::getServerConfig(uint32_t ipAddress, uint16_
 	const ServerConfig* responsibleServerConfig = NULL;
 
     // Find exact match for IP address and port
-    std::map<std::pair<uint32_t, uint16_t>, std::vector<ServerConfig *>>::const_iterator it = servers.find(key);
+    std::map<std::pair<uint32_t, uint16_t>, std::vector<ServerConfig *> >::const_iterator it = servers.find(key);
     if (it != servers.end())
 	{
 		std::vector<ServerConfig*>::const_iterator serverIt;
@@ -74,15 +74,42 @@ const ServerConfig* WebServerConfig::getServerConfig(uint32_t ipAddress, uint16_
     return (responsibleServerConfig); // TODO: What to respond to client if no match is found?
 }
 
-ServerConfig* WebServerConfig::findServerConfig(const std::string& host, )
+// ServerConfig* WebServerConfig::findServerConfig(const std::string& host, )
+// {
+//     std::vector<ServerConfig*>::const_iterator serverIt;
+//     for (serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt)
+//     {
+//         if ((*serverIt)->isHostMatched(host))
+//             return (*serverIt);
+//         if (!responsibleServerConfig)
+//             responsibleServerConfig = *serverIt;
+//     }
+//     return responsibleServerConfig;
+// }
+
+void	WebServerConfig::printConfig(bool printServers) const
 {
-    std::vector<ServerConfig*>::const_iterator serverIt;
-    for (serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt)
-    {
-        if ((*serverIt)->isHostMatched(host))
-            return (*serverIt);
-        if (!responsibleServerConfig)
-            responsibleServerConfig = *serverIt;
-    }
-    return responsibleServerConfig;
+	std::cout << BLUE << "============WebServerConfig============" << RESET <<std::endl;
+	std::cout << "maxClientBodySize: " << this->maxClientBodySize << std::endl;
+	std::cout << "defaultFolderFile: " << this->defaultFolderFile << std::endl;
+	std::cout << "maxClients: " << this->maxClients << std::endl;
+	std::cout << "timeout: " << this->timeout << std::endl;
+	std::cout << YELLOW << "defaultErrorPages: " << RESET <<std::endl;
+	std::map<uint16_t, std::string>::const_iterator it;
+	for (it = this->defaultErrorPages.begin(); it != this->defaultErrorPages.end(); ++it)
+	{
+		std::cout << "    " << it->first << ": " << it->second << std::endl;
+	}
+	//Print information from servers
+	if (!printServers)
+		return ;
+	std::map<std::pair<uint32_t , uint16_t>, std::vector<ServerConfig*> >::const_iterator mapIterator;
+	std::vector<ServerConfig *>::const_iterator vectorIterator;
+	for (mapIterator = this->servers.begin(); mapIterator != this->servers.end(); ++mapIterator)
+	{
+		for (vectorIterator = mapIterator->second.begin(); vectorIterator != mapIterator->second.end(); ++vectorIterator)
+		{
+			(*vectorIterator)->printConfig(true);
+		}
+	}
 }

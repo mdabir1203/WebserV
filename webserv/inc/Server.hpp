@@ -16,6 +16,8 @@
 #include <signal.h>
 #include <string.h>
 
+#include "Colors.hpp"
+
 class SocketServer
 {
     public:

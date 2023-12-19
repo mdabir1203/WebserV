@@ -53,6 +53,10 @@ public:
     //Lookup config data
     bool isHostMatched(const std::string& host) const;
 
+    // const LocationConfig* getLocation(const std::string& uri) const;
+
+    void                printConfig(bool printLocations) const;
+    std::string         ipv4ToString(const uint32_t& ipv4) const;
 };
 
 #endif
