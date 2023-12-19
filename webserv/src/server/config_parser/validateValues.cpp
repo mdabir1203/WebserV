@@ -156,34 +156,21 @@ void	ConfigParser::handleDefaultErrorPage()
 
 void    ConfigParser::handleRoot()
 {
-	std::string& String = extractSingleValueFromValueVector(true);
-	currentLocationConfig->rootDirectory = String;
+	std::string& str = extractSingleValueFromValueVector(true);
+	if (str.back() != '/')
+		str.push_back('/');
+	currentLocationConfig->rootDirectory = str;
 	// /* Print: */
 	// std::cout << GREEN <<  "(Loc)root:" << currentLocationConfig->rootDirectory << RESET << std::endl;
 }
 
 void    ConfigParser::handleLocationPath()
- {	//std::cout << PURPLE << "!locati: value" <<  value <<  RESET << std::endl;
-	//std::cout << PURPLE << "!locati: " <<  mulitValues[0] <<  RESET << std::endl;
-	std::string& locationName = value;
-	//std::string& locationName = extractSingleValueFromValueVector(true);
-	// std::cout << PURPLE << "!locationName: " << locationName << RESET << std::endl;
-	// if (currentServerConfig->locations.find(locationName) != currentServerConfig->locations.end())
-	// {
-	// 	throwConfigError("Error: Location name already exists.", 0, key, true);
-	// 	return;
-	// }
-	   for (std::map<std::string, LocationConfig*>::const_iterator it = currentServerConfig->locations.begin(); it != currentServerConfig->locations.end(); ++it) //TODO: make it proper for map with find
-	   {
-        if (it->first == locationName) {
-			throwConfigError("Error: Location name already exists.", 0, key, true);
-            return;
-        }
-    }
-	// std::cout << PURPLE << "COU COU  " << RESET << std::endl;
-	currentLocationConfig->path = locationName;
-    // /* Print: */
-	// std::cout << GREEN <<  "(Loc)path: " << currentLocationConfig->path << RESET << std::endl;
+{
+	std::string& locationPath = extractSingleValueFromValueVector(true);
+
+	if (!currentServerConfig->isLocationPathUnique(locationPath))
+		throwConfigError("Duplicate location path", 0, locationPath, true);
+	currentLocationConfig->path = locationPath;
 }
 
 void    ConfigParser::handleIndex()

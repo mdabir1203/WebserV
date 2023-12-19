@@ -36,7 +36,7 @@ void	ServerConfig::addLocationConfig(LocationConfig* locationConfig) // assuming
 	this->locations[locationConfig->path] = locationConfig;
 }
 
-bool	ServerConfig::isLocationPahtUnique(const std::string& path)
+bool	ServerConfig::isLocationPathUnique(const std::string& path)
 {
 	std::map<std::string, LocationConfig*>::iterator it;
 	it = this->locations.find(path);
@@ -48,6 +48,31 @@ bool	ServerConfig::isLocationPahtUnique(const std::string& path)
 bool ServerConfig::isHostMatched(const std::string& host) const
 {
     return (serverNames.find(host) != serverNames.end());
+}
+
+const LocationConfig* ServerConfig::getLocation(const std::string& uri) const //Todo: maybe change to trie structure
+{
+	if (this->locations.empty())
+		return NULL;
+	std::map<std::string, LocationConfig *>::const_iterator c_it;
+	LocationConfig* longestMatchConfig = NULL;
+	size_t longestMatch = 0;
+
+	c_it = locations.begin();
+	for (; c_it != locations.end(); ++c_it)
+	{
+		const std::string& key = c_it->first;
+		if (key.size() > uri.size())
+			continue;
+		else if (uri.find(key) == 0 && key.size() > longestMatch)
+		{
+			longestMatch = key.size();
+			longestMatchConfig = c_it->second;
+		}
+		else if (key.size() == uri.size())
+			return (longestMatchConfig);
+	}
+	return longestMatchConfig;
 }
 
 void	ServerConfig::printConfig(bool printLocations) const

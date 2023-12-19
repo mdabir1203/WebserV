@@ -46,13 +46,23 @@ void LookupConfig::setCurrentWebServer(const WebServerConfig* webServer)
 
 void LookupConfig::updateCurrentServer(const uint32_t& ipv4Address, const uint16_t& port, const std::string& host)
 {
+	if (!this->currentWebServer)
+		throw std::logic_error("LookupConfig::updateCurrentServer: currentWebServer is NULL");
 	this->currentServer = this->currentWebServer->getServerConfig(ipv4Address, port, host);
 }
 
-void LookupConfig::updateCurrentLocation(std::string& uri)
+void LookupConfig::updateCurrentLocation(const std::string& uri)
 {
-	// this->currentLocation = this->currentServer->getLocation(uri);
-	(void)uri;
+	if (!this->currentServer)
+		throw std::logic_error("LookupConfig::updateCurrentLocation: currentServer is NULL");
+	this->currentLocation = this->currentServer->getLocation(uri);
+}
+
+void	LookupConfig::updateUriWithLocationPath(std::string& uri)
+{
+	if (!this->currentLocation)
+		throw std::logic_error("LookupConfig::updateUriWithLocationPath: currentLocation is NULL");
+	uri.replace(0, this->currentLocation->path.length(), this->currentLocation->rootDirectory);
 }
 
 const WebServerConfig* LookupConfig::getCurrentWebServer(void) const

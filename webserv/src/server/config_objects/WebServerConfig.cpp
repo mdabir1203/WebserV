@@ -74,19 +74,6 @@ const ServerConfig* WebServerConfig::getServerConfig(uint32_t ipAddress, uint16_
     return (responsibleServerConfig); // TODO: What to respond to client if no match is found?
 }
 
-// ServerConfig* WebServerConfig::findServerConfig(const std::string& host, )
-// {
-//     std::vector<ServerConfig*>::const_iterator serverIt;
-//     for (serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt)
-//     {
-//         if ((*serverIt)->isHostMatched(host))
-//             return (*serverIt);
-//         if (!responsibleServerConfig)
-//             responsibleServerConfig = *serverIt;
-//     }
-//     return responsibleServerConfig;
-// }
-
 void	WebServerConfig::printConfig(bool printServers) const
 {
 	std::cout << BLUE << "============WebServerConfig============" << RESET <<std::endl;

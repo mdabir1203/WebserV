@@ -15,8 +15,8 @@ class LookupConfig
 		void	setCurrentWebServer(const WebServerConfig* webServer);
 
 		void	updateCurrentServer(const uint32_t& ipv4Address, const uint16_t& port, const std::string& host);
-		void	updateCurrentLocation(std::string& uri); //updated thes uri with the location path as prefix		
-		// void	updateCurrentCGI(???);
+		void	updateCurrentLocation(const std::string& uri);
+		void	updateUriWithLocationPath(std::string& uri);
 
 		const WebServerConfig*	getCurrentWebServer(void) const;
 		const ServerConfig*		getCurrentServer(void) const;

@@ -15,11 +15,20 @@ int main(int ac, char** av)
 	std::cout << "configPath: " << configPath << std::endl;
 	try
 	{	
+		std::string uri = "/up/nonsense";
 		parser.parseConfig(configPath);
         parser.getWebServerConfig()->printConfig(true);
-        // LookupConfig configuration(parser.getWebServerConfig());
-        // configuration.updateCurrentServer(2130771969, 80, "nonsense");
-        // configuration.getCurrentServer()->printConfig(false);
+		std::cout << std::setfill('-') << std::setw(80) << "-" << std::endl;
+        LookupConfig configuration(parser.getWebServerConfig());
+        configuration.updateCurrentServer(2130771969, 80, "nonsense");
+		configuration.updateCurrentLocation(uri);
+        configuration.getCurrentServer()->printConfig(false);
+		if (!configuration.getCurrentLocation())
+			std::cout << RED << "location is NULL" << RESET << std::endl;
+		else
+			configuration.getCurrentLocation()->printConfig(false);
+		configuration.updateUriWithLocationPath(uri);
+		std::cout << "\nupdateUriWithLocationPath: " << uri << std::endl; 
     }
 	catch(const std::exception& e)
 	{
