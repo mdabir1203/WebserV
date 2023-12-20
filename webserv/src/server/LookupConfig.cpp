@@ -62,7 +62,7 @@ void	LookupConfig::updateUriWithLocationPath(std::string& uri)
 {
 	if (!this->currentLocation)
 		throw std::logic_error("LookupConfig::updateUriWithLocationPath: currentLocation is NULL");
-	uri.replace(0, this->currentLocation->path.length(), this->currentLocation->rootDirectory);
+	uri.insert(0, this->currentLocation->path);
 }
 
 const WebServerConfig* LookupConfig::getCurrentWebServer(void) const
