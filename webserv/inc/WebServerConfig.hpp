@@ -54,7 +54,8 @@ class WebServerConfig : public IConfig
 
 
     //Lookup config data
-    const ServerConfig* getServerConfig(uint32_t ipAddress, uint16_t port, const std::string& host) const;
+    const ServerConfig*         getServerConfig(uint32_t ipAddress, uint16_t port, const std::string& host) const;
+    const std::set<uint16_t>	getServerPorts(void) const;
 
     // std::string getUriPathFromConfig(const std::string& uri) const;
 

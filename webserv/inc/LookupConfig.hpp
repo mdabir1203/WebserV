@@ -23,6 +23,8 @@ class LookupConfig
 		const LocationConfig*	getCurrentLocation(void) const;
 		const CGIConfig*		getCurrentCGI(void) const;
 
+		const std::set<uint16_t>	getServerPorts(void) const;
+
 	private:
 		const WebServerConfig*	currentWebServer;
 		const ServerConfig*		currentServer;

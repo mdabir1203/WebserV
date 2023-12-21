@@ -85,4 +85,11 @@ const CGIConfig* LookupConfig::getCurrentCGI(void) const
 	return (this->currentCGI);
 }
 
+const std::set<uint16_t> LookupConfig::getServerPorts(void) const
+{
+	if (!this->currentWebServer)
+		throw std::logic_error("LookupConfig::getServerPorts: currentWebServer is NULL");
+	return (this->currentWebServer->getServerPorts());
+}
+
 // void LookupConfig::updateCurrentCGI(???)

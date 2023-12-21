@@ -74,6 +74,17 @@ const ServerConfig* WebServerConfig::getServerConfig(uint32_t ipAddress, uint16_
     return (responsibleServerConfig); // TODO: What to respond to client if no match is found?
 }
 
+const std::set<uint16_t> WebServerConfig::getServerPorts(void) const
+{
+	std::set<uint16_t> ports;
+	std::map<std::pair<uint32_t, uint16_t>, std::vector<ServerConfig *> >::const_iterator it;
+	for (it = this->servers.begin(); it != this->servers.end(); ++it)
+	{
+		ports.insert(it->first.second);
+	}
+	return (ports);
+}
+
 void	WebServerConfig::printConfig(bool printServers) const
 {
 	std::cout << BLUE << "============WebServerConfig============" << RESET <<std::endl;

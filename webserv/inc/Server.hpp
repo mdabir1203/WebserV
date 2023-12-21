@@ -1,5 +1,3 @@
-
-// -> without reference we can't chain the class instance
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
@@ -15,29 +13,37 @@
 #include <sys/epoll.h>
 #include <signal.h>
 #include <string.h>
+#include <set>
 
 #include "Colors.hpp"
 
 class SocketServer
 {
-    public:
-        SocketServer(int port);
-        ~SocketServer();
+public:
+    SocketServer(const SocketServer& src) = delete;
+    SocketServer& operator=(const SocketServer& rhs) = delete;
+    ~SocketServer(void);
 
-        static SocketServer* getServer();
-        void start();
-        void stop();
-        bool isRunning() const;
+    static SocketServer*    getInstance(const std::set<uint16_t>& ports);
+    static SocketServer*    getServer(void);
 
-        int acceptClient();
-        void HandleClient(int clientSocket);
+    void    start();
+    void    stop();
+    bool    isRunning() const;
 
-        int m_socket;
-        int m_port;
-        bool m_isRunning;
-        static SocketServer* _server;
-    private:
-        void run();
+private:
+    static SocketServer* _instancePtr;
+
+    SocketServer(const std::set<uint16_t>& ports);
+
+    void    _run();
+    int     _acceptClient(int serverSocket);
+    void    _HandleClient(int clientSocket);
+
+    std::set<int>   _serverSockets;
+    std::set<int>   _clientSockets; //implement it to store open client sockets
+    bool            _isRunning;
+    int             _epollFd;
 };
 
 #endif /* SERVER_HPP */
