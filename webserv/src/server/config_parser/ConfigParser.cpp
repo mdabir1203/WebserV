@@ -170,7 +170,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		else if (key == "location" && currentServerConfig && !currentLocationConfig) //start of location, after location path
 		{
 			currentLocationConfig = new LocationConfig();
-			handleLocationPath(); //validation
+			handleLocationPath(); //validation of path
 		}
 		else if ((key == "location" && (!currentServerConfig || currentLocationConfig)) //location outside of server or inside of location
 				|| (key == "server" && currentServerConfig)) //server inside of server
@@ -183,6 +183,7 @@ void	ConfigParser::handleStateWs(char c) // after value, after Block starts and 
 		}
 		key.clear();
 		value.clear();
+		mulitValues.clear();
 		paramterLength = 0;
 	}
 	else if (isUnescapedChar('}', c)) //end of block
@@ -260,6 +261,7 @@ void ConfigParser::handleStateLocation(char c)
 {
 	if (isUnescapedChar('{', c)) // start of location block after location path
 	{
+		mulitValues.push_back(value);
 		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
 		handleStateWs(c);
 	}
@@ -273,6 +275,7 @@ void ConfigParser::handleStateLocation(char c)
 	}
 	else if (isCommentStart(c) && !value.empty())
 	{
+		mulitValues.push_back(value);
 		stateTransition(CONFIG_PARSER_STATE_WS, CONFIG_PARSER_STATE_COMMENT);
 	}
 	else if (isAllowedValueChar(c))
@@ -285,6 +288,7 @@ void ConfigParser::handleStateLocation(char c)
 	}
 	else if (!value.empty() && isAllowedWhiteSpace(c)) 
 	{	
+		mulitValues.push_back(value);
 		stateTransition(CONFIG_PARSER_STATE_LOCATION, CONFIG_PARSER_STATE_WS);
 	}
 	else
@@ -339,8 +343,11 @@ void	ConfigParser::handleStateValue(char c) // state 4
 	}
 	else if (isAllowedOws(c))
 	{
-		mulitValues.push_back(value);
-		value.clear();
+		if (!value.empty())
+		{
+			mulitValues.push_back(value);
+			value.clear();
+		}
 		stateTransition(CONFIG_PARSER_STATE_VALUE, CONFIG_PARSER_STATE_OWS);
 	}
 	else
@@ -351,8 +358,7 @@ void	ConfigParser::handleStateValue(char c) // state 4
 
 void	ConfigParser::handleKeyValuePair(void)
 {
-	if (!value.empty())
-		mulitValues.push_back(value);
+	mulitValues.push_back(value);
 	validateAndHandleKey();
 	paramterLength = 0;
 	key.clear();

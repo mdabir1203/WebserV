@@ -44,8 +44,6 @@ class ConfigParser
         ConfigParser(WebServerConfig* webServerConfig);
         ~ConfigParser();
 
-        void printWebServerConfig(const WebServerConfig& webServerConfig);
-        
         void             parseConfig(const std::string& configPath);
         WebServerConfig* getWebServerConfig(void) const;
         WebServerConfig*  webServerConfig;
@@ -112,7 +110,6 @@ class ConfigParser
         
 
         uint32_t    ipStringToNumber(const std::string& ip);
-        std::string ipNumberToString(uint32_t ip);
         uint16_t    ip_port_to_uint16(const std::string& ip_port) ;
         std::string uint16_to_ip_port(uint16_t port);
         uint16_t    stringToUint16(const std::string& str);
@@ -142,9 +139,6 @@ class ConfigParser
         std::map<std::string, std::pair<int, HandlerFunction> > httpKeys;
         std::map<std::string, std::pair<int, HandlerFunction> > serverKeys;
         std::map<std::string, std::pair<int, HandlerFunction> > locationKeys;
-
-        
-
 };
 
 #endif /* CONFIG_PARSER_HPP */

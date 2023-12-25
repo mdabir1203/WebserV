@@ -29,17 +29,14 @@ bool	ConfigParser::isLocationBlockValid()
 }
 
 std::string&	ConfigParser::extractSingleValueFromValueVector(const bool isRequired)
-{	
-
-	// std::string& value = mulitValues[0];
-	// std::cout << "extractSingleValueFromValueVector(c value: " << value << std::endl;
+{
 	if (mulitValues.size() > 1)
 	{
-		throwConfigError("Multiple values for key: ", 0, key, true);
+		throwConfigError("Multiple values for key", 0, key, true);
 	}
 	else if (isRequired && (mulitValues.empty() || mulitValues[0].empty()))
 	{
-		throwConfigError("No value for key: ", 0, key, true);
+		throwConfigError("No value for key", 0, key, true);
 	}
 	return (mulitValues[0]);
 }
@@ -159,34 +156,21 @@ void	ConfigParser::handleDefaultErrorPage()
 
 void    ConfigParser::handleRoot()
 {
-	std::string& String = extractSingleValueFromValueVector(true);
-	currentLocationConfig->rootDirectory = String;
+	std::string& str = extractSingleValueFromValueVector(true);
+	if (str.back() != '/')
+		str.push_back('/');
+	currentLocationConfig->rootDirectory = str;
 	// /* Print: */
 	// std::cout << GREEN <<  "(Loc)root:" << currentLocationConfig->rootDirectory << RESET << std::endl;
 }
 
 void    ConfigParser::handleLocationPath()
- {	//std::cout << PURPLE << "!locati: value" <<  value <<  RESET << std::endl;
-	//std::cout << PURPLE << "!locati: " <<  mulitValues[0] <<  RESET << std::endl;
-	std::string& locationName = value;
-	//std::string& locationName = extractSingleValueFromValueVector(true);
-	// std::cout << PURPLE << "!locationName: " << locationName << RESET << std::endl;
-	// if (currentServerConfig->locations.find(locationName) != currentServerConfig->locations.end())
-	// {
-	// 	throwConfigError("Error: Location name already exists.", 0, key, true);
-	// 	return;
-	// }
-	   for (std::map<std::string, LocationConfig*>::const_iterator it = currentServerConfig->locations.begin(); it != currentServerConfig->locations.end(); ++it) //TODO: make it proper for map with find
-	   {
-        if (it->first == locationName) {
-			throwConfigError("Error: Location name already exists.", 0, key, true);
-            return;
-        }
-    }
-	// std::cout << PURPLE << "COU COU  " << RESET << std::endl;
-	currentLocationConfig->path = locationName;
-    // /* Print: */
-	// std::cout << GREEN <<  "(Loc)path: " << currentLocationConfig->path << RESET << std::endl;
+{
+	std::string& locationPath = extractSingleValueFromValueVector(true);
+
+	if (!currentServerConfig->isLocationPathUnique(locationPath))
+		throwConfigError("Duplicate location path", 0, locationPath, true);
+	currentLocationConfig->path = locationPath;
 }
 
 void    ConfigParser::handleIndex()
@@ -200,7 +184,7 @@ void    ConfigParser::handleIndex()
 }
 
 void    ConfigParser::handleCgiExtension()
-{	
+{
 
 	// if(mulitValues[0]!= ".py" && mulitValues[0] != ".sh"){
 	// 	std::cout << PURPLE << "JOPA CGI: " <<  mulitValues[0] <<  RESET << std::endl;
@@ -268,52 +252,33 @@ void	ConfigParser::handleReturn() //TODO: throw error if return has no value?
 
 void    ConfigParser::handleMethods()
 {
+	currentLocationConfig->allowedMethods.reset();
 	if ((mulitValues[0].empty()))
-	{
 		return;
-	}
-	for (std::vector<std::string>::iterator ir = mulitValues.begin(); ir != mulitValues.end(); ++ir) {
-		if(*ir != "GET" && *ir != "POST" && *ir != "DELETE" ) {
-			throwConfigError("Error: allowed methods must be only GET, POST & DELETE", 0, key, true);	}
-	}
-
-	currentLocationConfig->setMethod(0, false);
-	currentLocationConfig->setMethod(1, false);
-	currentLocationConfig->setMethod(2, false);
-	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
+	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
+	{
 		if(*it == "GET")
-			currentLocationConfig->setMethod(0, true);
+			currentLocationConfig->allowedMethods.set(GET);
 		else if(*it == "POST")
-			currentLocationConfig->setMethod(1, true);
+			currentLocationConfig->allowedMethods.set(POST);
 		else if(*it == "DELETE")
-			currentLocationConfig->setMethod(2, true);
+			currentLocationConfig->allowedMethods.set(DELETE);
+		else
+			throwConfigError("Only GET, POST and DELETE are allowed", 0, *it, true);
 	}
-	// /* Print: */
-    // std::cout << GREEN << "(Loc)Allowed Methods " << currentLocationConfig->getMethod(0) << currentLocationConfig->getMethod(1) << currentLocationConfig->getMethod(2) << RESET << std::endl;
-
 }
 
 void    ConfigParser::handleAutoindex()
 {
-	std::string autoIndex = extractSingleValueFromValueVector(false);
+	const std::string& autoIndex = extractSingleValueFromValueVector(true);
 	if (autoIndex.empty())
-	{
 		return;
-	}
-	else if (autoIndex != "on" && autoIndex != "off")
-	{
-		throwConfigError("Error: autoindex must be on or off", 0, key, true);
-	}
 	else if (autoIndex == "on")
-	{
 		currentLocationConfig->directoryListing = true;
-	}
 	else if (autoIndex == "off")
-	{
 		currentLocationConfig->directoryListing = false;
-	}
-	// 	/* Print: */
-    // std::cout << GREEN << "(Loc)Autoindex " << currentLocationConfig->directoryListing << RESET << std::endl;
+	else
+		throwConfigError("autoindex must be on or off", 0, autoIndex, true);
 }
 
 
@@ -346,15 +311,6 @@ uint32_t ConfigParser::ipStringToNumber(const std::string& ip) {
        }
    }
    return ipv4;
-}
-
-std::string ConfigParser::ipNumberToString(uint32_t ip) {
-   std::ostringstream oss;
-   oss << ((ip >> 24) & 0xFF) << "."
-       << ((ip >> 16) & 0xFF) << "."
-       << ((ip >> 8) & 0xFF) << "."
-       << (ip & 0xFF);
-   return oss.str();
 }
 
 uint16_t ConfigParser::ip_port_to_uint16(const std::string& ip_port) {

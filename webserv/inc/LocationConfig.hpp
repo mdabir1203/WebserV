@@ -27,15 +27,11 @@ public:
     //in nginx there can only be one "index" directive per block
     bool directoryListing; // directory listing will come into play if no default file is specified or present // only one per block
     // Add more route-specific configurations as needed
+    std::bitset<3> allowedMethods; // 0 = GET, 1 = POST, 2 = DELETE // init to 111 -> all allowed
 
-    bool isMethodAllowed(HttpMethod method);
-    void disableMethod(HttpMethod method);
-    void setMethod(int bit, bool value);
-    int getMethod(int bit);
+    bool isMethodAllowed(HttpMethod method) const;
 
-    private:
-        std::bitset<3> _allowedMethods; // 0 = GET, 1 = POST, 2 = DELETE // init to 111 -> all allowed
-        // -> change name in config to  allowed_methods
+    void    printConfig(bool printCGI) const;
 };
 
 #endif /* LOCATION_CONFIG_HPP */
