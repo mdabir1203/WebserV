@@ -48,8 +48,8 @@ ${NAME}: ${OBJS}
 	${CXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.cpp ${HEADER} | ${OBJDIR}
-	mkdir -p $(dir $@)
-	${CXX} ${CXXFLAGS} -c $< -o $@
+    mkdir -p $(dir $@)
+    ${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${OBJDIR}:
 	mkdir -p ${OBJDIR}
