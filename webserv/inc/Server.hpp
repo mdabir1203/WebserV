@@ -15,6 +15,8 @@
 #include <string.h>
 #include <set>
 
+#include <filesystem>
+
 #include "Colors.hpp"
 
 class SocketServer

@@ -11,7 +11,7 @@ CONFIG_OBJECTS := $(addprefix config_objects/, CGIConfig.cpp LocationConfig.cpp 
 
 SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
 								${CONFIG_OBJECTS} \
-								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp \
+								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp RequestParserUri.cpp \
 								Methods.cpp LookupConfig.cpp)
 
 SRCS := main.cpp \

@@ -215,7 +215,7 @@ void testHeaderRequestLineParsing() {
     parser.parseRequestHeaderChunk(header);
 
     assert(parser.getHeaderMethod() == GET);
-    assert(parser.getHeaderUri() == "/");
+    assert(parser.getHeaderUriPath() == "/");
     assert(parser.getIsHttpVersionRight() == true);
 
     std::cout << "Test Header Request Line Parsing: Passed\n";
@@ -280,7 +280,7 @@ void    testRequestLineAndFieldsCombiantion()
     parser.parseRequestHeaderChunk(header);
 
     assert(parser.getHeaderMethod() == GET);
-    assert(parser.getHeaderUri() == "/");
+    assert(parser.getHeaderUriPath() == "/");
     assert(parser.getIsHttpVersionRight() == true);
     assert(parser.getParsedHeaders().at("accept").front() == "text/html");
     assert(parser.getParsedHeaders().at("user-agent").front() == "88");

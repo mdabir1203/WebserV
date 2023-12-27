@@ -28,7 +28,6 @@ enum HTTPHeaderParserState // do not move without changing the function pointer 
    HEADER_END
 };
 
-
 enum HttpMethod
 {
 	GET,
@@ -37,7 +36,6 @@ enum HttpMethod
 	UNKNOWN
 };
 
-
 enum ErrorCodes
 {
 	OK,
@@ -45,19 +43,28 @@ enum ErrorCodes
 	NOT_IMPLEMENTED
 };
 
-
+enum URI_Parsing_State //Dont change order
+{
+   URI_START,
+   URI_SCHEME,
+   URI_AUTHORITY,
+   URI_PATH,
+   URI_QUERY,
+   URI_FRAGMENT,
+   URI_END
+};
 
 class HeaderFieldStateMachine {
 public:
    HeaderFieldStateMachine(void);
 
-   int   parseRequestHeaderChunk(const std::string& input);
-   void  parseChar(char input);
-   void  parseURI(void);
+   int         parseRequestHeaderChunk(const std::string& input);
+   void        parseChar(char input);
+   void        parseURI(void);
 
    const std::map<std::string, std::vector<std::string> >& getParsedHeaders() const;
    int getHeaderMethod() const;
-   const std::string& getHeaderUri() const;
+   const std::string& getHeaderUriPath() const;
    const bool& getIsHttpVersionRight() const;
    void  setCurrentState(const int state);
    void  setInputPosition(const size_t position);
@@ -80,7 +87,7 @@ private:
    const char**                         headerFieldsForMethod[3]; // [GET, POST, DELETE]
 
    typedef void (HeaderFieldStateMachine::*StateHandler)(char);
-   StateHandler stateTransitionArray[8];// number of trnasition fuctions
+   StateHandler stateTransitionArray[8];// number of transition functions
 
    //header request line parsing
    void  handleStateHeaderMethod(char c);
@@ -96,6 +103,32 @@ private:
    void  handleStateHeaderPairDone(char c);
    void  handleStateHeaderBody(char c);
    void  storeHeaderPair(void);
+
+   //URI parsing
+   struct   UriComponents
+   {
+      std::string scheme;
+      std::string authority;
+      std::string path;
+      std::string query;
+      std::string fragment;
+   };
+   typedef void (HeaderFieldStateMachine::*UriStateHandler)(char);
+   UriStateHandler uriStateTransitionArray[6];// number of transition functions
+
+   int               currentUriState;
+   size_t            uriIndex;
+   UriComponents     uriParts;
+
+   void  throwUriParseError(const std::string message);
+
+   void  uriStateTransition(int state, int nextState);
+   void	handleStateUriStart(char c);
+   void	handleStateUriScheme(char c);
+   void  handleStateUriAuthority(char c);
+   void  handleStateUriPath(char c);
+   void  handleStateUriQuery(char c);
+   void  handleStateUriFragment(char c);
 };
 
 #endif /* REQUEST_PARSER_HPP */

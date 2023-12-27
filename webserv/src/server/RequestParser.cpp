@@ -1,10 +1,12 @@
 #include "RequestParser.hpp"
+#include <stdlib.h>
 
 //TODO: decide for size limit of header fields
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
                         : maxHeaderLength(8192), currentState(HEADER_METHOD),
                         positionInInput(0), paramterLength(0), lastChar('\0'),
-                        headerMethod(0), isHttpVersionRight(false)
+                        headerMethod(0), isHttpVersionRight(false),
+                        currentUriState(URI_START), uriIndex(0)
 {
    stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
    stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
@@ -14,6 +16,13 @@ HeaderFieldStateMachine::HeaderFieldStateMachine(void)
    stateTransitionArray[5] = &HeaderFieldStateMachine::handleStateHeaderValue;
    stateTransitionArray[6] = &HeaderFieldStateMachine::handleStateHeaderPairDone;
    stateTransitionArray[7] = &HeaderFieldStateMachine::handleStateHeaderBody;
+
+   uriStateTransitionArray[0] = &HeaderFieldStateMachine::handleStateUriStart;
+   uriStateTransitionArray[1] = &HeaderFieldStateMachine::handleStateUriScheme;
+   uriStateTransitionArray[2] = &HeaderFieldStateMachine::handleStateUriAuthority;
+   uriStateTransitionArray[3] = &HeaderFieldStateMachine::handleStateUriPath;
+   uriStateTransitionArray[4] = &HeaderFieldStateMachine::handleStateUriQuery;
+   uriStateTransitionArray[5] = &HeaderFieldStateMachine::handleStateUriFragment;
 }
 
 //this function should read one header line of the input and if neccessary continue reading with the next chunk of data
@@ -44,12 +53,6 @@ void HeaderFieldStateMachine::parseChar(char input)
    (this->*stateTransitionArray[currentState])(input);
 }
 
-void HeaderFieldStateMachine::parseURI(void) //TODO: implement actual URI parsing && matching according to config file
-{
-   headerUri = "var/method_test.html";
-   // headerUri = "";
-}
-
 const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
 {
    return headers;
@@ -60,9 +63,9 @@ int HeaderFieldStateMachine::getHeaderMethod() const
    return headerMethod;
 }
 
-const std::string& HeaderFieldStateMachine::getHeaderUri() const
+const std::string& HeaderFieldStateMachine::getHeaderUriPath() const
 {
-   return headerUri;
+   return (uriParts.path);
 }
 
 const bool& HeaderFieldStateMachine::getIsHttpVersionRight() const

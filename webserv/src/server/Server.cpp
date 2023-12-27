@@ -164,7 +164,6 @@ void SocketServer::_HandleClient(int clientSocket)
 		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 		return;
 	}
-	parser.parseURI();
 
 	Methods methodHandler;
 
@@ -180,7 +179,7 @@ void SocketServer::_HandleClient(int clientSocket)
 	}
 	// ----- ------- Testing Parer ------------  -----------
 	// std::cout << "Method: " << ToString((HttpMethod)parser.getHeaderMethod()) << std::endl;
-	// std::cout << "Uri: " << parser.getHeaderUri() << std::endl;
+	// std::cout << "Uri: " << parser.getHeaderUriPath() << std::endl;
 	// std::cout << "Is HTTP version right: " << parser.getIsHttpVersionRight() << std::endl;
 	// std::cout << "Headers: " << std::endl;
 	// std::map<std::string, std::vector<std::string> > headers = parser.getParsedHeaders();
