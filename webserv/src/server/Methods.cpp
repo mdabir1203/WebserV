@@ -103,6 +103,7 @@ void Methods::sendFile(const int clientSocket, const std::string& filePath)
 bool	Methods::isCGI(const std::string& filePath)
 {
 	(void)filePath;
+	
 	return (false);
 }
 
@@ -110,28 +111,28 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 {
 	struct stat fileInfo;
 
-	if (stat(parser.getHeaderUri().c_str(), &fileInfo) != 0) 
+	if (stat(parser.getHeaderUriPath().c_str(), &fileInfo) != 0) 
 	{
 		response.setStatusCode(404);
 		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 		std::cout << " GET method processed 404" << std::endl; // TODO:Provide error page 404
 		return ;
 	}
-	else if (isCGI(parser.getHeaderUri()))
+	else if (isCGI(parser.getHeaderUriPath()))
 	{
-		if (!(fileInfo.st_mode & S_IXUSR)) // File is a cgi script and is not executable
-		{
-			response.setStatusCode(403);
-			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
-			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
-			return ;
-		}
-		else
+		if (fileInfo.st_mode & S_IXUSR)
 		{
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod()); //after execution started
 			std::cout << " GET method processed 200 - CGI" << std::endl;
 			//TODO: execute cgi script
+			return ;
+		}
+		else // File is a cgi script and is not executable
+		{
+			response.setStatusCode(403);
+			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
 			return ;
 		}
 	}
@@ -156,7 +157,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			response.contentLength = fileInfo.st_size;
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-			sendFile(clientSocket, parser.getHeaderUri());
+			sendFile(clientSocket, parser.getHeaderUriPath());
 			std::cout << " GET method processed 200 - File" << std::endl;
 		}
 	}

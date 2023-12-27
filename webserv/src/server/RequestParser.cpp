@@ -5,7 +5,8 @@
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)
                         : maxHeaderLength(8192), currentState(HEADER_METHOD),
                         positionInInput(0), paramterLength(0), lastChar('\0'),
-                        headerMethod(0), isHttpVersionRight(false)
+                        headerMethod(0), isHttpVersionRight(false),
+                        currentUriState(URI_START), uriIndex(0)
 {
    stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
    stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
@@ -15,6 +16,13 @@ HeaderFieldStateMachine::HeaderFieldStateMachine(void)
    stateTransitionArray[5] = &HeaderFieldStateMachine::handleStateHeaderValue;
    stateTransitionArray[6] = &HeaderFieldStateMachine::handleStateHeaderPairDone;
    stateTransitionArray[7] = &HeaderFieldStateMachine::handleStateHeaderBody;
+
+   uriStateTransitionArray[0] = &HeaderFieldStateMachine::handleStateUriStart;
+   uriStateTransitionArray[1] = &HeaderFieldStateMachine::handleStateUriScheme;
+   uriStateTransitionArray[2] = &HeaderFieldStateMachine::handleStateUriAuthority;
+   uriStateTransitionArray[3] = &HeaderFieldStateMachine::handleStateUriPath;
+   uriStateTransitionArray[4] = &HeaderFieldStateMachine::handleStateUriQuery;
+   uriStateTransitionArray[5] = &HeaderFieldStateMachine::handleStateUriFragment;
 }
 
 //this function should read one header line of the input and if neccessary continue reading with the next chunk of data
@@ -45,131 +53,6 @@ void HeaderFieldStateMachine::parseChar(char input)
    (this->*stateTransitionArray[currentState])(input);
 }
 
-// Function to decode percent-encoded characters in a URI
-char decodePercentEncodedChar(const std::string& uri, size_t& index) {
-   // Extracting the next two characters as a hexadecimal string
-   std::string hex = uri.substr(index + 1, 2);
-
-   // Convert the hexadecimal string to an integer, and cast it to a char
-   char decodedChar = static_cast<char>(strtol(hex.c_str(), NULL, 16));
-
-   // Advancing the index by 2, since we've processed two additional characters
-   index += 2;
-
-   return decodedChar;
-}
-
-static bool isValidSchemeChar(char c) {
-    return isalnum(c) || c == '+' || c == '-' || c == '.';
-}
-
-
-static bool isValidPathChar(char c) {
-    return isalnum(c) || c == '-' || c == '.' || c == '_' || c == '~' || c == '!' || c == '$' || c == '&' || c == '\'' || c == '(' || c == ')' || c == '*' || c == '+' || c == ',' || c == ';' || c == '=' || c == ':' || c == '@' || c == '/';
-}
-
-static bool isValidQueryOrFragmentChar(char c) {
-    return isValidPathChar(c) || c == '?' || c == '#';
-}
-
-// Function to parse a URI
-std::string HeaderFieldStateMachine::parseURI(const std::string& uri)
-{
-    int state = URI_START;
-    std::string parsedURI, scheme, authority;
-    size_t index = 0;
-
-    while (index < uri.length()) {
-        char c = uri[index];
-
-        // Handle percent-encoded characters
-        if (c == '%') {
-            c = decodePercentEncodedChar(uri, index);
-        }
-
-        switch (state) {
-            case URI_START:
-                if (isalnum(c)) {
-                    state = URI_SCHEME;
-                    scheme += c;
-                } else {
-                    throw std::runtime_error("Invalid start of URI");
-                }
-                break;
-            case URI_SCHEME:
-                if (c == ':') {
-                    if (scheme.empty()) throw std::runtime_error("Invalid scheme");
-                    if (uri.substr(index, 3) == "://") {
-                        index += 2; // Skip '://'
-                        state = URI_AUTHORITY;
-                    } else {
-                        throw std::runtime_error("Invalid scheme format");
-                    }
-                } else if (isValidSchemeChar(c)) {
-                    scheme += c;
-                } else {
-                    throw std::runtime_error("Invalid character in scheme");
-                }
-                break;
-            case URI_AUTHORITY:
-                if (c == '/') {
-                    state = URI_PATH;
-                    parsedURI = scheme + "://" + authority;
-                } else {
-                    authority += c;
-                }
-                break;
-            case URI_PATH:
-                if (c == '?') {
-                    state = URI_QUERY;
-                } else if (c == '#') {
-                    state = URI_FRAGMENT;
-                } else if (isValidPathChar(c)) {
-                    parsedURI += c;
-                } else {
-                    throw std::runtime_error("Invalid character in path");
-                }
-                break;
-            case URI_QUERY:
-                if (c == '#') {
-                    state = URI_FRAGMENT;
-                } else if (isValidQueryOrFragmentChar(c)) {
-                    parsedURI += c;
-                } else {
-                    throw std::runtime_error("Invalid character in query");
-                }
-                break;
-            case URI_FRAGMENT:
-                if (isValidQueryOrFragmentChar(c)) {
-                    parsedURI += c;
-                } else {
-                    throw std::runtime_error("Invalid character in fragment");
-                }
-                break;
-            default:
-               break;
-         }
-
-        // Advance to the next character
-        index++;
-
-        // Transition to END state if we've reached the end of the string
-        if (index == uri.length()) {
-            state = URI_END;
-        }
-    }
-
-    // Check if we successfully reached the END state
-    if (state == URI_END) {
-      return parsedURI;
-    }
-    else {
-      throw std::runtime_error("Incomplete URI parsing");
-   }
-
-    return parsedURI;
-}
-
 const std::map<std::string, std::vector<std::string> >& HeaderFieldStateMachine::getParsedHeaders() const
 {
    return headers;
@@ -180,9 +63,9 @@ int HeaderFieldStateMachine::getHeaderMethod() const
    return headerMethod;
 }
 
-const std::string& HeaderFieldStateMachine::getHeaderUri() const
+const std::string& HeaderFieldStateMachine::getHeaderUriPath() const
 {
-   return headerUri;
+   return (uriParts.path);
 }
 
 const bool& HeaderFieldStateMachine::getIsHttpVersionRight() const

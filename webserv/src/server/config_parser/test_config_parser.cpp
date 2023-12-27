@@ -1,67 +1,34 @@
 #include "ConfigParser.hpp"
-							
-std::vector<t_serv> parseConfig(const std::string& filename);
-
-/////////////////////////////////////////////////////////////// DEBUG  PRINTER ////////////////////////////////////////////////////////////////////////////
-
-void DEBUG_print_config_file(std::vector<t_serv>& parsedConfig)
-{
-		std::cout << BG_GREEN << "servers: " << parsedConfig.size() << RESET << ":\n";
-        for (size_t i = 0; i < parsedConfig.size(); ++i)
-		{   std::cout << "== Global Variables ==\n";
-			std::cout << "def_timeout " << parsedConfig[i].def_timeout << "\n";
-			std::cout << "def_max_clients " << parsedConfig[i].def_max_clients << ":\n";
-			std::cout << "def_max_size_of_file " << parsedConfig[i].def_max_size_of_file << ":\n";
-			std::cout << "\n";
-            std::cout << "server #" << i + 1 << " {\n";
-            std::cout << "  port: " << parsedConfig[i].port << "\n";            
-			std::cout << "  server_name: " << parsedConfig[i].server_name << "\n";
-			std::cout << "\n";
-            
-            /* Error pages */
-            for (std::map<int, std::string>::iterator it = parsedConfig[i].error_pages.begin(); it != parsedConfig[i].error_pages.end(); ++it) 
-				std::cout << "  error_page " << it->first << " " << it->second << "\n";
-			std::cout << "\n";
-                
-            /* Locations */
-            for (std::multimap<std::string, Location>::iterator it = parsedConfig[i].loc.begin(); it != parsedConfig[i].loc.end(); ++it)
-			{	
-				std::cout <<  "  location "  << it->first << " { \n";
-				std::cout << "      root: " << it->second.root << "\n";
-				std::cout << "      index: " << it->second.index << "\n";
-				std::cout << "      cgi_ext: ";
-				for (std::vector<std::string>::const_iterator iter = it->second.cgi_extensions.begin(); iter != it->second.cgi_extensions.end(); ++iter)
-				{
-        			std::cout << *iter << " ";
-				}
-				std::cout << "\n";
-				std::cout << "      cgi_path: " << it->second.cgi_path;
-				std::cout << "\n";
-				std::cout << "      upload_dir: " << it->second.upload_dir << "\n";
-				std::cout << "      http_redirect: " << it->second.http_redirect << "\n";
-				std::cout << "      methods: ";
-				for (std::vector<std::string>::const_iterator iter = it->second.methods.begin(); iter != it->second.methods.end(); ++iter)
-				{
-        			std::cout << *iter << " ";
-				}
-				std::cout << "\n";
-				std::cout << "      autoindex: " << (bool)it->second.autoindex << "\n";
-				std::cout << "  } \n";
-    		}
-			std::cout << "} \n";
-		}
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+#include "LookupConfig.hpp"
 
 int main(int ac, char** av)
 {	
-	ConfigParser parser;
+	std::string			configPath;
+	WebServerConfig webserverconfig;
+	ConfigParser parser(&webserverconfig);
+	if (ac > 2)
+		throw std::runtime_error("Error: wrong number of arguments");
+	if (ac == 2)
+		configPath = av[1];
+	else
+		configPath = "src/config_files/default.conf";
+	std::cout << "configPath: " << configPath << std::endl;
 	try
 	{	
-		parser.parseConfig(ac, av);
-        std::vector<t_serv> parsedConfig = parser.getServers();
-		DEBUG_print_config_file(parsedConfig);
+		std::string uri = "/up/nonsense";
+		parser.parseConfig(configPath);
+        parser.getWebServerConfig()->printConfig(true);
+		std::cout << std::setfill('-') << std::setw(80) << "-" << std::endl;
+        LookupConfig configuration(parser.getWebServerConfig());
+        configuration.updateCurrentServer(2130771969, 80, "nonsense");
+		configuration.updateCurrentLocation(uri);
+        configuration.getCurrentServer()->printConfig(false);
+		if (!configuration.getCurrentLocation())
+			std::cout << RED << "location is NULL" << RESET << std::endl;
+		else
+			configuration.getCurrentLocation()->printConfig(false);
+		configuration.updateUriWithLocationPath(uri);
+		std::cout << "\nupdateUriWithLocationPath: " << uri << std::endl; 
     }
 	catch(const std::exception& e)
 	{
