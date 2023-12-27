@@ -11,8 +11,8 @@ CONFIG_OBJECTS := $(addprefix config_objects/, CGIConfig.cpp LocationConfig.cpp 
 
 SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
 								${CONFIG_OBJECTS} \
-								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp Methods.cpp \
-								LookupConfig.cpp)
+								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp \
+								Methods.cpp LookupConfig.cpp)
 
 SRCS := main.cpp \
 		${SERVER}
@@ -48,8 +48,8 @@ ${NAME}: ${OBJS}
 	${CXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
 
 ${OBJDIR}/%.o: ${SRCDIR}/%.cpp ${HEADER} | ${OBJDIR}
-    mkdir -p $(dir $@)
-    ${CXX} ${CXXFLAGS} -c $< -o $@
+	mkdir -p $(dir $@)
+	${CXX} ${CXXFLAGS} -c $< -o $@
 
 ${OBJDIR}:
 	mkdir -p ${OBJDIR}
