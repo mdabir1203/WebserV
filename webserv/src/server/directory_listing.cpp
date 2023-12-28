@@ -1,17 +1,14 @@
-
 #include "Methods.hpp"
 
-#include <iostream>
-#include <fstream>
 #include <cstring>
+#include <sstream>
 #include <sys/stat.h>
+#include <dirent.h>
 #include <sys/socket.h>
+#include <errno.h>
 
 #include "RequestParser.hpp"
 #include "Response.hpp"
-#include "LookupConfig.hpp"
-#include <dirent.h>
-#include <sstream>
 
 void Methods::setDefaultDirectoryPage(const std::string& defaultPagePath)
 {
