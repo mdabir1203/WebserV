@@ -168,7 +168,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			// 	std::cout << " GET method processed 403 - Directory" << std::endl;
 			// 	return ;
 			// }
-			if (parser.isDirectoryListing() && (fileInfo.st_mode & S_IRUSR))
+			if (_configuration->isAutoindex() && (fileInfo.st_mode & S_IRUSR))
 			{
 				sendDirectoryListing(_configuration->getUriPath(), response, clientSocket);
 				std::cout << " GET method processed 200 - Directory Listing" << std::endl;
