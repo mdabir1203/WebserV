@@ -24,6 +24,14 @@ private:
 	void handleDELETE(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void sendFile(const int clientSocket, const std::string &filePath);
 	LookupConfig* _configuration;   
+	
+	bool isDefaultDirectoryPageExisting(const std::string& path, HttpResponse& response);
+	bool isDirectoryLocked(const std::string& path) const;
+	void sendDirectoryListing(const std::string& path, HttpResponse& response, const int clientSocket);
+
+	void setDefaultDirectoryPage(const std::string& defaultPagePath);
+
+	std::string	defaultDirectoryPage;
 };
 
 #endif /* METHODS_HPP_INCLUDED */

@@ -123,12 +123,15 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 
 	if (stat(parser.getHeaderUriPath().c_str(), &fileInfo) != 0) 
 	{
-		response.setStatusCode(404);
+		if (errno == EACCES) //TODO: allowed?
+			response.setStatusCode(403);
+		else
+			response.setStatusCode(404);
 		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 		std::cout << " GET method processed 404" << std::endl; // TODO:Provide error page 404
 		return ;
 	}
-	else if (isCGI(parser.getHeaderUriPath()))
+	else if (parser.isCGIPath())
 	{
 		if (fileInfo.st_mode & S_IXUSR)
 		{
@@ -145,49 +148,58 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
 			return ;
 		}
-	}
-	else
-	{
-		if (S_ISDIR(fileInfo.st_mode)) //TODO: handle directory listing -> file listing according to server config || index.html || 403 Forbidden	//Checks if path is a directory
-		{
-			response.setStatusCode(200);
-
-																	//<-added 28.12.2023 by aputiev
-			 if(_configuration->isAutoindex() == true)
-			 {std::cout << "CARLOS IS A SMART GUY" << std::endl;	
-				//response.setContent(_getDirPath(parser.getHeaderUriPath().c_str()));	//RETREVE DIRECTORY LISTING
-			// 	response.setType("Listing");											//SET TYPE TO DIRECTORY LISTING. Not sure if needed
-			 }			
-
-			//else if(_configuration->isIndexspecified() == false)	//<-added 28.12.2023 by aputiev
-				
-			// {
-			// 	response.setContent(_getDirPath(parser.getHeaderUriPath().c_str()));	//RETREVE DIRECTORY LISTING
-			// 	response.setType("Listing");											//SET TYPE TO DIRECTORY LISTING. Not sure if needed
-			// }			
-
-			// else if(isIndexspecified == false)	//<-added 28.12.2023 by aputiev
-			// 	/* THROW 403 FORBIDDEN */
-			
-			
-			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-			std::cout << " GET method processed 200 - Directory" << std::endl;
-			return ;
-		}
-		else if (!S_ISREG(fileInfo.st_mode) || !(fileInfo.st_mode & S_IRUSR)) // File is not regular or is not readable
+		else // File is a cgi script and is not executable
 		{
 			response.setStatusCode(403);
 			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
-			std::cout << " GET method processed 403" << std::endl;
+			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
 			return ;
 		}
-		else
+	}
+	else
+	{
+		if (S_ISDIR(fileInfo.st_mode))
+		{
+			if (isDefaultDirectoryPageExisting(parser.getHeaderUri(), response))
+			{
+				response.setStatusCode(200);
+				response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+				sendFile(clientSocket, defaultDirectoryPage);
+				std::cout << " GET method processed 200 - Directory default page" << std::endl;
+				return ;
+			}
+			// else if (isDirectoryLocked(parser.getHeaderUri())) //by another process
+			// {
+			// 	response.setStatusCode(403); //internal server error?
+			// 	response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+			// 	std::cout << " GET method processed 403 - Directory" << std::endl;
+			// 	return ;
+			// }
+			if (parser.isDirectoryListing() && (fileInfo.st_mode & S_IRUSR))
+			{
+				sendDirectoryListing(parser.getHeaderUri(), response, clientSocket);
+				std::cout << " GET method processed 200 - Directory Listing" << std::endl;
+				return ;
+			}
+			response.setStatusCode(403); // no listing and no default page
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " GET method processed 403 - Directory" << std::endl;
+			return ;
+		}
+		else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IRUSR))
 		{
 			response.contentLength = fileInfo.st_size;
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
 			sendFile(clientSocket, parser.getHeaderUriPath());
 			std::cout << " GET method processed 200 - File" << std::endl;
+		}
+		else  // File is not regular or is not readable
+		{
+			response.setStatusCode(403);
+			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+			std::cout << " GET method processed 403" << std::endl;
+			return ;
 		}
 	}
 }
@@ -201,12 +213,66 @@ void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int client
 }
 
 
+// void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
+// {
+// 	(void)parser;
+// 	response.setStatusCode(204);
+// 	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+// 	std::cout << " DELETE method processed" << std::endl;
+// }
+
 void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
 {
-	(void)parser;
-	response.setStatusCode(204);
-	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-	std::cout << " DELETE method processed" << std::endl;
+	struct stat fileInfo;
+
+	if (stat(parser.getHeaderUri().c_str(), &fileInfo) != 0) 
+	{
+		if (errno == EACCES) //TODO: allowed?
+			response.setStatusCode(403);
+		else
+			response.setStatusCode(404);
+		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		std::cout << " Delete method processed 404" << std::endl; // TODO:Provide error page 404
+		return ;
+	}
+	else if (S_ISDIR(fileInfo.st_mode))
+	{
+		response.setStatusCode(405);
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+		std::cout << " DELETE method processed 405 - Directory" << std::endl;
+		return ;
+	}
+	else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IWUSR) && parser.getHeaderUri() == "/workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe") //TODO: remove hardcoded path when URI parsing is implemented
+	{
+		if (std::remove(parser.getHeaderUri().c_str()) == 0)
+		{
+			response.setStatusCode(204);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " DELETE method processed 204 - File" << std::endl;
+			return ;
+		}
+		else if (errno == EACCES)
+		{
+			response.setStatusCode(403);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " DELETE method processed 403 - File" << std::endl;
+			return ;
+		}
+		else
+		{
+			response.setStatusCode(500);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " DELETE method processed 500 - File" << std::endl;
+			return ;
+		}
+	}
+	else if (!(fileInfo.st_mode & S_IWUSR))
+	{
+		response.setStatusCode(403);
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+		std::cout << " DELETE method processed 403 - File" << std::endl;
+		return ;
+	}
 }
 
 void    Methods::setConfiguration(LookupConfig* configuration)

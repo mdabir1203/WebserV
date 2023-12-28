@@ -7,7 +7,7 @@ HeaderFieldStateMachine::HeaderFieldStateMachine(void)
                         : maxHeaderLength(8192), currentState(HEADER_METHOD),
                         positionInInput(0), paramterLength(0), lastChar('\0'),
                         headerMethod(0), isHttpVersionRight(false),
-                        currentUriState(URI_START), uriIndex(0)
+                        currentUriState(URI_START), uriIndex(0), isAutoindex(false), isCGIRequest(false)
 {
    stateTransitionArray[0] = &HeaderFieldStateMachine::handleStateHeaderMethod;
    stateTransitionArray[1] = &HeaderFieldStateMachine::handleStateHeaderUri;
@@ -96,4 +96,14 @@ void HeaderFieldStateMachine::stateTransition(int state, int nextState)
 {
    (void)state;
    this->currentState = nextState;
+}
+
+bool HeaderFieldStateMachine::isDirectoryListing(void) const
+{
+   return (this->isAutoindex);
+}
+
+bool HeaderFieldStateMachine::isCGI(void) const
+{
+   return (this->isCGIRequest);
 }
