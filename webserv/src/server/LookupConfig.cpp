@@ -64,11 +64,12 @@ void LookupConfig::updateCurrentLocation(const std::string& uri)
 	this->currentLocation = this->currentServer->getLocation(uri);
 }
 
-void	LookupConfig::updateUriWithLocationPath(std::string& uri)
+void	LookupConfig::updateUriWithLocationPath(const std::string& uri)
 {
 	if (!this->currentLocation)
-		throw std::logic_error("LookupConfig::updateUriWithLocationPath: currentLocation is NULL");
-	uri.insert(0, this->currentLocation->path);
+		throw std::logic_error("LookupConfig::updateUriWithLocationPath: currentLocation is NULL");	
+	_uriPath = uri;
+	_uriPath.insert(0, this->currentLocation->path);
 }
 
 const WebServerConfig* LookupConfig::getCurrentWebServer(void) const
@@ -99,3 +100,13 @@ const std::set<uint16_t> LookupConfig::getServerPorts(void) const
 }
 
 // void LookupConfig::updateCurrentCGI(???)
+
+bool LookupConfig::isAutoindex() const
+{
+	return(currentLocation->directoryListing);
+}
+
+const std::string & LookupConfig::getUriPath() const
+{
+	return (_uriPath);
+}

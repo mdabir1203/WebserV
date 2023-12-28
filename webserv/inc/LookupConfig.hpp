@@ -23,7 +23,7 @@ class LookupConfig
 
 		void	updateCurrentServer(const uint32_t& ipv4Address, const uint16_t& port, const std::string& host);
 		void	updateCurrentLocation(const std::string& uri);
-		void	updateUriWithLocationPath(std::string& uri);
+		void	updateUriWithLocationPath(const std::string& uri);
 
 		const WebServerConfig*	getCurrentWebServer(void) const;
 		const ServerConfig*		getCurrentServer(void) const;
@@ -32,11 +32,16 @@ class LookupConfig
 
 		const std::set<uint16_t>	getServerPorts(void) const;
 
+		bool isAutoindex() const;
+
+		const std::string & getUriPath() const;
+
 	private:
 		const WebServerConfig*	currentWebServer;
 		const ServerConfig*		currentServer;
 		const LocationConfig*	currentLocation;
 		const CGIConfig*		currentCGI;
+		std::string 			_uriPath;
 };
 
 #endif /* LOOKUP_CONFIG_HPP_INCLUDED */

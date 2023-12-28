@@ -4,6 +4,8 @@
 #include <set>
 #include <stdint.h>
 
+#include "LookupConfig.hpp"
+
 class SocketServer
 {
 public:
@@ -15,6 +17,7 @@ public:
     void    start();
     void    stop();
     bool    isRunning() const;
+    void    setConfiguration(LookupConfig* configuration);
 
 private:
     static SocketServer* _instancePtr;
@@ -31,6 +34,9 @@ private:
     std::set<int>   _clientSockets; //implement it to store open client sockets
     bool            _isRunning;
     int             _epollFd;
+
+    //LookupConfig _configuration; 
+    LookupConfig* _configuration;   
 };
 
 #endif /* SERVER_HPP_INCLUDED */

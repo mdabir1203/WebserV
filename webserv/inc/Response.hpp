@@ -17,7 +17,7 @@ class HttpResponse
 		void setCurrentDate(std::string& date);
 
 
-		static const std::string server;
+		static const std::string server;	//
 		long int contentLength;
 		std::string date;
 

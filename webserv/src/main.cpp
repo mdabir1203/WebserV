@@ -36,6 +36,7 @@ int main(int argc, char **argv, char **envp)
     parser.parseConfig(configPath);
     configuration.setCurrentWebServer(parser.getWebServerConfig());
     server = SocketServer::getInstance(configuration.getServerPorts());
+    server->setConfiguration(&configuration);
     server->start();
   }
   catch (const std::exception &e)

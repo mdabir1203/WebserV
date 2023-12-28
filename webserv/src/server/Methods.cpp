@@ -8,6 +8,7 @@
 
 #include "RequestParser.hpp"
 #include "Response.hpp"
+#include "LookupConfig.hpp"
 
 Methods::Methods()
 {
@@ -116,7 +117,8 @@ bool	Methods::isCGI(const std::string& filePath)
 }
 
 void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response) //TODO: store answers in a queue and send them in a loop
-{
+{	
+	//std::cout << " PATH:: " << (parser.getHeaderUriPath().c_str()) << std::endl;
 	struct stat fileInfo;
 
 	if (stat(parser.getHeaderUriPath().c_str(), &fileInfo) != 0) 
@@ -146,9 +148,28 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	}
 	else
 	{
-		if (S_ISDIR(fileInfo.st_mode)) //TODO: handle directory listing -> file listing according to server config || index.html || 403 Forbidden
+		if (S_ISDIR(fileInfo.st_mode)) //TODO: handle directory listing -> file listing according to server config || index.html || 403 Forbidden	//Checks if path is a directory
 		{
 			response.setStatusCode(200);
+
+																	//<-added 28.12.2023 by aputiev
+			 if(_configuration->isAutoindex() == true)
+			 {std::cout << "CARLOS IS A SMART GUY" << std::endl;	
+				//response.setContent(_getDirPath(parser.getHeaderUriPath().c_str()));	//RETREVE DIRECTORY LISTING
+			// 	response.setType("Listing");											//SET TYPE TO DIRECTORY LISTING. Not sure if needed
+			 }			
+
+			//else if(_configuration->isIndexspecified() == false)	//<-added 28.12.2023 by aputiev
+				
+			// {
+			// 	response.setContent(_getDirPath(parser.getHeaderUriPath().c_str()));	//RETREVE DIRECTORY LISTING
+			// 	response.setType("Listing");											//SET TYPE TO DIRECTORY LISTING. Not sure if needed
+			// }			
+
+			// else if(isIndexspecified == false)	//<-added 28.12.2023 by aputiev
+			// 	/* THROW 403 FORBIDDEN */
+			
+			
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
 			std::cout << " GET method processed 200 - Directory" << std::endl;
 			return ;
@@ -186,4 +207,9 @@ void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clie
 	response.setStatusCode(204);
 	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
 	std::cout << " DELETE method processed" << std::endl;
+}
+
+void    Methods::setConfiguration(LookupConfig* configuration)
+{
+	_configuration = configuration;
 }

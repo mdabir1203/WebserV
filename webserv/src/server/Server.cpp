@@ -10,7 +10,7 @@
 #include "RequestParser.hpp"
 #include "Response.hpp"
 #include "Methods.hpp"
-
+#include "LocationConfig.hpp"
 
 SocketServer *SocketServer::_instancePtr = NULL;
 
@@ -181,11 +181,28 @@ void SocketServer::_HandleClient(int clientSocket)
 		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
 		return;
 	}
-
+	
 	Methods methodHandler;
+	std::cout << "EINS " << std::endl;
+	methodHandler.setConfiguration(_configuration);
+	//bool autoindex;
+	// if (_configuration == NULL) {
+	// 	std::cerr << "_configuration is null" << std::endl;
+	// } 
+	// else if (_configuration.getCurrentLocation() == NULL) {
+	// 	std::cerr << "getCurrentLocation() returned null" << std::endl;
+	// } 
+	// else { std::cout << "HAHA " << std::endl;
+	//autoindex = _configuration.getCurrentLocation()->directoryListing;
+	// }
+
+	//bool autoindex = _configuration.getCurrentLocation()->directoryListing;	//<-added 28.12.2023 by aputiev
+	std::cout << "ZWEI " << std::endl;
 
 	try
-	{
+	{	_configuration->updateCurrentServer(2130771969, 8081, "localhost");
+		_configuration->updateCurrentLocation(parser.getHeaderUriPath());
+		_configuration->updateUriWithLocationPath(parser.getHeaderUriPath());
 		methodHandler.handleMethod(parser, clientSocket, response); // TODO: rapid request spamming leads to server failure
 	}
 	catch (const std::exception &e)
@@ -221,4 +238,9 @@ void SocketServer::_HandleClient(int clientSocket)
 	//  int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
 	//  send(clientSocket, responseBuffer, bytesWritten, 0);
 	close(clientSocket);
+}
+
+void    SocketServer::setConfiguration(LookupConfig* configuration)
+{
+	_configuration = configuration;
 }
