@@ -1,5 +1,10 @@
 #include "WebServerConfig.hpp"
 
+#include <iostream>
+
+#include "Colors.hpp"
+#include "ServerConfig.hpp"
+
 WebServerConfig::WebServerConfig()
 				: maxClientBodySize(1000000),
 				  defaultFolderFile("index.html"),

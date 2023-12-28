@@ -1,5 +1,14 @@
 #include "Response.hpp"
 
+#include <sstream>
+#include <ctime>
+#include <stdexcept>
+#include <cstring>
+#include <sys/socket.h>
+#include <errno.h>
+
+#include "RequestParser.hpp"
+
 HttpResponse::HttpResponse()
             : statusCode(0), contentType(""), content("")
 {

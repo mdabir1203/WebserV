@@ -1,7 +1,14 @@
-#ifndef LOOKUP_CONFIG_HPP
-#define LOOKUP_CONFIG_HPP
+#ifndef LOOKUP_CONFIG_HPP_INCLUDED
+#define LOOKUP_CONFIG_HPP_INCLUDED
 
-#include "WebServerConfig.hpp"
+class WebServerConfig;
+class ServerConfig;
+class LocationConfig;
+class CGIConfig;
+
+#include <string>
+#include <set>
+#include <stdint.h>
 
 class LookupConfig
 {
@@ -32,4 +39,4 @@ class LookupConfig
 		const CGIConfig*		currentCGI;
 };
 
-#endif /* LOOKUP_CONFIG_HPP */
+#endif /* LOOKUP_CONFIG_HPP_INCLUDED */

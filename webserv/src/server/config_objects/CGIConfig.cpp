@@ -1,22 +1,24 @@
-
 #include "CGIConfig.hpp"
 
-CGIConfig::CGIConfig() 
+#include <iostream>
+
+#include "Colors.hpp"
+
+CGIConfig::CGIConfig()
 {
-    //TODO: change this to be handled accordingly with the handler and the validator of the object Location
-    // cgiExtensions.insert(".sh");
-    // cgiExtensions.insert(".py");
+    // TODO: change this to be handled accordingly with the handler and the validator of the object Location
+    //  cgiExtensions.insert(".sh");
+    //  cgiExtensions.insert(".py");
     cgiExtensions.insert("");
 }
 
-CGIConfig::~CGIConfig() 
+CGIConfig::~CGIConfig()
 {
-
 }
 
-void    CGIConfig::printConfig(void) const
+void CGIConfig::printConfig(void) const
 {
-	std::cout << CYAN << "===cgiConfig===" << RESET << std::endl;
+    std::cout << CYAN << "===cgiConfig===" << RESET << std::endl;
     std::cout << "cgiExtensions: ";
     std::set<std::string>::const_iterator it;
     for (it = this->cgiExtensions.begin(); it != this->cgiExtensions.end(); ++it)

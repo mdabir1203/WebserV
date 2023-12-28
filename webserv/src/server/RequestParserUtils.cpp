@@ -1,5 +1,8 @@
 #include "RequestParser.hpp"
 
+#include <iostream>
+#include <stdexcept>
+
 bool isHeaderNameChar(char c) //tchar
 {
 	static const std::string validChars = "!#$%&'*+-.^_`|~";

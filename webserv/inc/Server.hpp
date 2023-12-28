@@ -1,29 +1,12 @@
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#ifndef SERVER_HPP_INCLUDED
+#define SERVER_HPP_INCLUDED
 
-#include <iostream>
-#include <string>
-#include <stdexcept>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <map>
-#include <vector>
-#include <sstream>
-#include <sys/epoll.h>
-#include <signal.h>
-#include <string.h>
 #include <set>
-
-#include <filesystem>
-
-#include "Colors.hpp"
+#include <stdint.h>
 
 class SocketServer
 {
 public:
-    SocketServer(const SocketServer& src) = delete;
-    SocketServer& operator=(const SocketServer& rhs) = delete;
     ~SocketServer(void);
 
     static SocketServer*    getInstance(const std::set<uint16_t>& ports);
@@ -36,6 +19,8 @@ public:
 private:
     static SocketServer* _instancePtr;
 
+    SocketServer(const SocketServer& src);
+    SocketServer& operator=(const SocketServer& rhs);
     SocketServer(const std::set<uint16_t>& ports);
 
     void    _run();
@@ -48,4 +33,4 @@ private:
     int             _epollFd;
 };
 
-#endif /* SERVER_HPP */
+#endif /* SERVER_HPP_INCLUDED */

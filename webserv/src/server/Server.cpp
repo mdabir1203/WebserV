@@ -1,7 +1,16 @@
 #include "Server.hpp"
-#include "Response.hpp"
+
+#include <iostream>
+#include <cstring>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/epoll.h>
+#include <unistd.h>
+
 #include "RequestParser.hpp"
+#include "Response.hpp"
 #include "Methods.hpp"
+
 
 SocketServer *SocketServer::_instancePtr = NULL;
 
@@ -23,7 +32,8 @@ SocketServer::SocketServer(const std::set<uint16_t> &ports)
 	: _isRunning(false),
 	  _epollFd(-1)
 {
-	sockaddr_in m_address{};
+	sockaddr_in m_address;
+	std::memset(&m_address, 0, sizeof(m_address));
 
 	m_address.sin_family = AF_INET;			// AF_INET is the Internet address family for IPv4.
 	m_address.sin_addr.s_addr = INADDR_ANY; // INADDR_ANY -> binds the socket to all available interfaces(e.g. wifi, ethernet, etc.)
@@ -37,10 +47,16 @@ SocketServer::SocketServer(const std::set<uint16_t> &ports)
 		if (*(socketSetRet.first) == -1)
 			throw std::runtime_error("Socket creation failed");
 		if (bind(*(socketSetRet.first), (struct sockaddr *)&m_address, sizeof(m_address)) == -1)
-			throw std::runtime_error("Socket binding failed for port: " + std::to_string(*it));
+			throw std::runtime_error("Socket binding failed for port"); //TODO: add port print
 		if (listen(*(socketSetRet.first), 10) == -1) // 10 is the maximum number of connections
-			throw std::runtime_error("Socket listening failed for port: " + std::to_string(*it));
+			throw std::runtime_error("Socket listening failed for port"); //TODO: add port print
 	}
+}
+
+SocketServer& SocketServer::operator=(const SocketServer& rhs)
+{
+	(void)rhs;
+	return (*this);
 }
 
 SocketServer::~SocketServer()
@@ -137,7 +153,8 @@ void SocketServer::_run()
 // opens a unique socket for each connection of client
 int SocketServer::_acceptClient(int serverSocket)
 {
-	struct sockaddr_in client_addr{};
+	struct sockaddr_in client_addr;
+	std::memset(&client_addr, 0, sizeof(client_addr));
 	socklen_t len = sizeof(client_addr);
 	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
 	if (clientSocket == -1)

@@ -1,5 +1,8 @@
 #include "RequestParser.hpp"
 
+#include <iostream>
+#include <cstdlib>
+
 // Function to decode percent-encoded characters in a URI
 char decodePercentEncodedChar(const std::string &uri, size_t &index)
 {
@@ -44,7 +47,7 @@ void	HeaderFieldStateMachine::parseURI(void)
 
 void	HeaderFieldStateMachine::throwUriParseError(const std::string message)
 {
-	throw std::runtime_error("Error: current state -> " + std::to_string(currentUriState) + " " + message);
+	throw std::runtime_error(message);
 }
 
 void 	HeaderFieldStateMachine::uriStateTransition(int state, int nextState)

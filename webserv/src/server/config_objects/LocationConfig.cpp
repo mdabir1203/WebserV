@@ -1,5 +1,11 @@
 #include "LocationConfig.hpp"
 
+#include <iostream>
+
+#include "Colors.hpp"
+#include "CGIConfig.hpp"
+#include "RequestParser.hpp"
+
 LocationConfig::LocationConfig()
 			  : statusCode(0),
 			    cgiConfig(NULL),
@@ -15,7 +21,7 @@ LocationConfig::~LocationConfig()
 	delete cgiConfig;
 }
 
-bool LocationConfig::isMethodAllowed(HttpMethod method) const
+bool LocationConfig::isMethodAllowed(int method) const
 {
 	return (allowedMethods.test(method));
 }

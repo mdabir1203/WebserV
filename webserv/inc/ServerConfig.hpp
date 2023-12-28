@@ -1,32 +1,13 @@
-#ifndef SERVER_CONFIG_HPP
-# define SERVER_CONFIG_HPP
+#ifndef SERVER_CONFIG_HPP_INCLUDED
+# define SERVER_CONFIG_HPP_INCLUDED
 
-/* ====== std lib header files ====== */
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <iomanip>
-#include <map>
-#include <algorithm>
-#include <sstream>
-#include <exception>
-#include <cctype>
-#include <cstring>
-#include <cstdlib>
-#include <sys/stat.h>
-#include <iostream>
+class LocationConfig;
+
 #include <set>
-#include <string>
-#include <vector>
 #include <map>
-#include <set>
-#include <bitset>
-#include "RequestParser.hpp"
+#include <string>
+#include <stdint.h>
 
-#include "Colors.hpp"
-
-#include "LocationConfig.hpp"
 #include "IConfig.hpp"
 
 class ServerConfig : public IConfig
@@ -59,4 +40,4 @@ public:
     std::string         ipv4ToString(const uint32_t& ipv4) const;
 };
 
-#endif
+#endif /* SERVER_CONFIG_HPP_INCLUDED */

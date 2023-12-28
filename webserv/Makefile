@@ -1,53 +1,77 @@
-NAME := webserv
+# Variables
+NAME			:= webserv
+CXX				:= c++
+RM				:= rm -f
 
-OBJDIR := obj
+# Directories
+OBJDIR			:= obj
+SRCDIR			:= src
+INCLUDES_DIR	:= inc
 
-SRCDIR := src
+# Include paths
+INCLUDES		:= -I ${INCLUDES_DIR}
 
-INCLUDES_DIR := inc
+# Source files for the config parser
+CONFIG_PARSER := $(addprefix config_parser/, \
+    CheckChar.cpp \
+    ConfigParser.cpp \
+    validateValues.cpp \
+)
 
-CONFIG_PARSER := $(addprefix config_parser/, CheckChar.cpp ConfigParser.cpp validateValues.cpp)
-CONFIG_OBJECTS := $(addprefix config_objects/, CGIConfig.cpp LocationConfig.cpp ServerConfig.cpp WebServerConfig.cpp)
+# Source files for the config objects
+CONFIG_OBJECTS := $(addprefix config_objects/, \
+    CGIConfig.cpp \
+    LocationConfig.cpp \
+    ServerConfig.cpp \
+    WebServerConfig.cpp \
+)
 
-SERVER := $(addprefix server/,  ${CONFIG_PARSER} \
-								${CONFIG_OBJECTS} \
-								Server.cpp Response.cpp RequestParser.cpp RequestParserUtils.cpp RequestParserUri.cpp \
-								Methods.cpp LookupConfig.cpp)
+# Source files for the server
+SERVER := $(addprefix server/, \
+    ${CONFIG_PARSER} \
+    ${CONFIG_OBJECTS} \
+    Server.cpp \
+    Response.cpp \
+    RequestParser.cpp \
+    RequestParserUtils.cpp \
+    RequestParserUri.cpp \
+    Methods.cpp \
+    LookupConfig.cpp \
+)
 
-SRCS := main.cpp \
-		${SERVER}
+# All source files
+SRCS := \
+    main.cpp \
+    ${SERVER}
 
+# Object files corresponding to each source file
 OBJS := $(patsubst %.cpp, ${OBJDIR}/%.o, ${SRCS})
 
-HEADER := $(addprefix inc/, Colors.hpp ConfigParser.hpp \
-							Server.hpp Response.hpp RequestParser.hpp Methods.hpp \
-							LookupConfig.hpp)
-
-INCLUDES := -I ${INCLUDES_DIR}
-
-#Production flags
+# ---Compiler Flags---
+# Production flags
 CXXFLAGS := -Wall -Wextra -Werror
-CXXFLAGS += -std=c++98 -pedantic -g -O2
+CXXFLAGS += -std=c++98 -pedantic
+# CXXFLAGS += -O2
 
-#Development flags
-# CXXFLAGS := -Wall -Wextra -std=c++98 -pedantic -g -O0
-# CXXFLAGS += -g -O0
+# Development flags
+CXXFLAGS += -g -O0
 # CXXFLAGS += -fsanitize=thread
 # CXXFLAGS += -fsanitize=address
 
-#Add includes
+# Add includes
 CXXFLAGS += ${INCLUDES}
 
-CXX := c++
+# Generating dependencies for user headers automaticly
+CXXFLAGS += -MMD 
 
-RM := rm -f
 
+# Rules
 all: ${NAME}
 
 ${NAME}: ${OBJS}
 	${CXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
 
-${OBJDIR}/%.o: ${SRCDIR}/%.cpp ${HEADER} | ${OBJDIR}
+${OBJDIR}/%.o: ${SRCDIR}/%.cpp | ${OBJDIR}
 	mkdir -p $(dir $@)
 	${CXX} ${CXXFLAGS} -c $< -o $@
 
@@ -59,25 +83,11 @@ clean:
 
 fclean: clean
 	${RM} ${NAME}
-	${RM} test_config_parser.out
-	${RM} test_request_parser.out
 
 re: fclean all
 
-test_request_parser:
-	c++ ${CXXFLAGS} src/server/test_request_parser.cpp src/server/RequestParser.cpp src/server/RequestParserUtils.cpp -I inc -g -O0 -o test_request_parser.out
+# adding the dependcies as rules and not complainging (-) if file not existent
+-include ${OBJS:.o=.d}
 
-#test_config_parser - START
-OBJS_TEST_CONFIG_PARSER := $(patsubst %.cpp, ${OBJDIR}/%.o, $(addprefix server/, ${CONFIG_PARSER} ${CONFIG_OBJECTS} config_parser/test_config_parser.cpp LookupConfig.cpp))
-CXXFLAGS = -Wall -Wextra -Werror -g -O0 ${INCLUDES}
-test_config_parser: ${OBJS_TEST_CONFIG_PARSER}
-	${CXX} ${CXXFLAGS} ${OBJS_TEST_CONFIG_PARSER} -o test_config_parser.out
-
-${OBJDIR}/%.o: ${SRCDIR}/%.cpp ${HEADER} | ${OBJDIR}
-	mkdir -p $(dir $@)
-	${CXX} ${CXXFLAGS} -c $< -o $@ 
-#test_config_parser - END
-
-.PHONY: all clean fclean re test_request_parser test_config_parser
-
+.PHONY: all clean fclean re
 .NOTPARALLEL:
