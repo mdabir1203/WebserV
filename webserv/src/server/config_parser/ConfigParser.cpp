@@ -1,5 +1,13 @@
 #include "ConfigParser.hpp"
 
+#include <iostream>
+#include <sstream>
+#include <fstream>
+
+#include "WebServerConfig.hpp"
+#include "ServerConfig.hpp"
+#include "LocationConfig.hpp"
+
 ConfigParser::ConfigParser(WebServerConfig* webServerConfig)
 			: webServerConfig(webServerConfig),
 			  currentServerConfig(NULL),

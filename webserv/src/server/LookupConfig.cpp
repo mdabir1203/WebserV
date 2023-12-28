@@ -1,5 +1,11 @@
 #include "LookupConfig.hpp"
 
+#include <stdexcept>
+
+#include "WebServerConfig.hpp"
+#include "ServerConfig.hpp"
+#include "LocationConfig.hpp"
+
 LookupConfig::LookupConfig(void)
 			: currentWebServer(NULL),
 			  currentServer(NULL),

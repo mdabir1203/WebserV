@@ -1,8 +1,16 @@
 #include "Server.hpp"
-#include "Response.hpp"
-#include "RequestParser.hpp"
-#include "Methods.hpp"
+
+#include <iostream>
 #include <cstring>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <sys/epoll.h>
+#include <unistd.h>
+
+#include "RequestParser.hpp"
+#include "Response.hpp"
+#include "Methods.hpp"
+
 
 SocketServer *SocketServer::_instancePtr = NULL;
 

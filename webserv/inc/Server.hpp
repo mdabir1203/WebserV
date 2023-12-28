@@ -1,23 +1,8 @@
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#ifndef SERVER_HPP_INCLUDED
+#define SERVER_HPP_INCLUDED
 
-#include <iostream>
-#include <string>
-#include <stdexcept>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <map>
-#include <vector>
-#include <sstream>
-#include <sys/epoll.h>
-#include <signal.h>
-#include <string.h>
 #include <set>
-
-#include <filesystem>
-
-#include "Colors.hpp"
+#include <stdint.h>
 
 class SocketServer
 {
@@ -48,4 +33,4 @@ private:
     int             _epollFd;
 };
 
-#endif /* SERVER_HPP */
+#endif /* SERVER_HPP_INCLUDED */

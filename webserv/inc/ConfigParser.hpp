@@ -1,26 +1,14 @@
-#ifndef CONFIG_PARSER_HPP
-# define CONFIG_PARSER_HPP
+#ifndef CONFIG_PARSER_HPP_INCLUDED
+# define CONFIG_PARSER_HPP_INCLUDED
 
-/* ====== std lib header files ====== */
-#include <iostream>
+class WebServerConfig;
+class LocationConfig;
+class ServerConfig;
+
 #include <string>
 #include <vector>
-#include <fstream>
-#include <iomanip>
 #include <map>
-#include <algorithm>
-#include <sstream>
-#include <exception>
-#include <cctype>
-#include <cstring>
-#include <cstdlib>
-#include <stdexcept>
-#include <iostream>
-#include <set>
-
-// #include "Colors.hpp"
-// #include "Exceptions.hpp"
-#include "WebServerConfig.hpp"
+#include <stdint.h>
 
 #define CONFIG_PARSER_BUFFER_SIZE 1000
 #define CONFIG_PARSER_MAX_KEY_LENGTH 100
@@ -141,4 +129,4 @@ class ConfigParser
         std::map<std::string, std::pair<int, HandlerFunction> > locationKeys;
 };
 
-#endif /* CONFIG_PARSER_HPP */
+#endif /* CONFIG_PARSER_HPP_INCLUDED */

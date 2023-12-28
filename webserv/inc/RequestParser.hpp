@@ -1,15 +1,9 @@
-#ifndef REQUEST_PARSER_HPP
-# define REQUEST_PARSER_HPP
+#ifndef REQUEST_PARSER_HPP_INCLUDED
+# define REQUEST_PARSER_HPP_INCLUDED
 
-#include "Server.hpp"
-#include "RequestParser.hpp"
-
-#include <map>
 #include <string>
-#include <cctype>
-#include <stdexcept>
-#include <set>
-#include <cstdlib>
+#include <map>
+#include <vector>
 
 #define HEADER_URI_MAX_LENGTH 8000
 #define HEADER_METHOD_MAX_LENGTH 6
@@ -132,4 +126,4 @@ private:
    void  handleStateUriFragment(char c);
 };
 
-#endif /* REQUEST_PARSER_HPP */
+#endif /* REQUEST_PARSER_HPP_INCLUDED */

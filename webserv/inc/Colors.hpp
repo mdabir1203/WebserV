@@ -1,5 +1,5 @@
-#ifndef COLORS_HPP
-# define COLORS_HPP
+#ifndef COLORS_HPP_INCLUDED
+# define COLORS_HPP_INCLUDED
 
 # define RESET	"\033[0m"
 
@@ -44,4 +44,4 @@
 # define BG_BRIGHT_CYAN		"\033[106m"
 # define BG_BRIGHT_WHITE	"\033[107m"
 
-#endif /* COLORS_HPP */
+#endif /* COLORS_HPP_INCLUDED */

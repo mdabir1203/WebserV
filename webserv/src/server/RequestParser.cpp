@@ -1,5 +1,6 @@
 #include "RequestParser.hpp"
-#include <stdlib.h>
+
+#include <iostream>
 
 //TODO: decide for size limit of header fields
 HeaderFieldStateMachine::HeaderFieldStateMachine(void)

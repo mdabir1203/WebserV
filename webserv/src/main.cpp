@@ -1,16 +1,12 @@
-#include "Server.hpp"
-#include "RequestParser.hpp"
-#include "ConfigParser.hpp"
-#include "LookupConfig.hpp"
-
-#include <cassert>
-#include <exception>
 #include <iostream>
 #include <string>
-#include <map>
-#include <cctype>
-#include <cstddef>
-#include <cstring>
+#include <stdexcept>
+#include <signal.h>
+
+#include "Server.hpp"
+#include "WebServerConfig.hpp"
+#include "ConfigParser.hpp"
+#include "LookupConfig.hpp"
 
 void signalHandler(int signum)
 {

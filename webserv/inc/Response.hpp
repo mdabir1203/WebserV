@@ -1,10 +1,7 @@
-#ifndef RESPONSE_HPP
-# define RESPONSE_HPP
+#ifndef RESPONSE_HPP_INCLUDED
+# define RESPONSE_HPP_INCLUDED
 
-# include "Server.hpp"
-#include <ctime>
-#include <cerrno>
-#include "RequestParser.hpp"
+#include <string>
 
 class HttpResponse
 {
@@ -30,4 +27,4 @@ class HttpResponse
 		std::string content;
 };
 
-#endif /* RESPONSE_HPP */
+#endif /* RESPONSE_HPP_INCLUDED */

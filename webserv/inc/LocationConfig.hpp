@@ -1,8 +1,12 @@
-#ifndef LOCATION_CONFIG_HPP
-# define LOCATION_CONFIG_HPP
+#ifndef LOCATION_CONFIG_HPP_INCLUDED
+# define LOCATION_CONFIG_HPP_INCLUDED
 
-#include "RequestParser.hpp"
-#include "CGIConfig.hpp"
+class CGIConfig;
+
+#include <string>
+#include <vector>
+#include <bitset>
+#include <stdint.h>
 
 class LocationConfig
 {
@@ -29,9 +33,9 @@ public:
     // Add more route-specific configurations as needed
     std::bitset<3> allowedMethods; // 0 = GET, 1 = POST, 2 = DELETE // init to 111 -> all allowed
 
-    bool isMethodAllowed(HttpMethod method) const;
+    bool isMethodAllowed(int method) const;
 
     void    printConfig(bool printCGI) const;
 };
 
-#endif /* LOCATION_CONFIG_HPP */
+#endif /* LOCATION_CONFIG_HPP_INCLUDED */

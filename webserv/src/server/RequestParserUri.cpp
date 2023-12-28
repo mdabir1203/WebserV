@@ -1,5 +1,8 @@
 #include "RequestParser.hpp"
 
+#include <iostream>
+#include <cstdlib>
+
 // Function to decode percent-encoded characters in a URI
 char decodePercentEncodedChar(const std::string &uri, size_t &index)
 {

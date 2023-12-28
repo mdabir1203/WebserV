@@ -1,5 +1,15 @@
 #include "ConfigParser.hpp"
 
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+
+#include "WebServerConfig.hpp"
+#include "ServerConfig.hpp"
+#include "LocationConfig.hpp"
+#include "CGIConfig.hpp"
+#include "RequestParser.hpp"
+
 		//validate key is appropriate for current block -> move this check to when values are gathered
 			//!currentServerConfig && !currentLocationConfig
 				//client_max_body_size

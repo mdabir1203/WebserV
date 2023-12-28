@@ -1,32 +1,14 @@
-#ifndef WEB_SERVER_CONFIG_HPP
-# define WEB_SERVER_CONFIG_HPP
+#ifndef WEB_SERVER_CONFIG_HPP_INCLUDED
+# define WEB_SERVER_CONFIG_HPP_INCLUDED
 
-/* ====== std lib header files ====== */
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <iomanip>
+class ServerConfig;
+
 #include <map>
-#include <algorithm>
-#include <sstream>
-#include <exception>
-#include <cctype>
-#include <cstring>
-#include <cstdlib>
-#include <sys/stat.h>
-#include <iostream>
-#include <set>
-
-#include "Colors.hpp"
-#include <string>
 #include <vector>
-#include <map>
 #include <set>
-#include <bitset>
-#include "RequestParser.hpp"
+#include <string>
+#include <stdint.h>
 
-#include "ServerConfig.hpp"
 #include "IConfig.hpp"
 
 class WebServerConfig : public IConfig
@@ -62,6 +44,6 @@ class WebServerConfig : public IConfig
     void    printConfig(bool printServers) const;
 };
 
-#endif
+#endif /* WEB_SERVER_CONFIG_HPP_INCLUDED */
 
 

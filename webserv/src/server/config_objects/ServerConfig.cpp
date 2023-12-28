@@ -1,5 +1,11 @@
 #include "ServerConfig.hpp"
 
+#include <iostream>
+#include <sstream>
+
+#include "Colors.hpp"
+#include "LocationConfig.hpp"
+
 ServerConfig::ServerConfig()
 			: ipAddress(0),
 			  port(0),

@@ -1,5 +1,13 @@
 #include "Methods.hpp"
 
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <sys/stat.h>
+#include <sys/socket.h>
+
+#include "RequestParser.hpp"
+#include "Response.hpp"
 
 Methods::Methods()
 {
