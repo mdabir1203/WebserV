@@ -167,8 +167,8 @@ void	ConfigParser::handleDefaultErrorPage()
 void    ConfigParser::handleRoot()
 {
 	std::string& str = extractSingleValueFromValueVector(true);
-	if (str.at(str.size() - 1) != '/')
-		str.push_back('/');
+	if (str.at(str.size() - 1) == '/')
+		str.erase(str.size() - 1);
 	currentLocationConfig->rootDirectory = str;
 	// /* Print: */
 	// std::cout << GREEN <<  "(Loc)root:" << currentLocationConfig->rootDirectory << RESET << std::endl;

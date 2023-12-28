@@ -118,10 +118,10 @@ bool	Methods::isCGI(const std::string& filePath)
 
 void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response) //TODO: store answers in a queue and send them in a loop
 {	
-	//std::cout << " PATH:: " << (parser.getHeaderUriPath().c_str()) << std::endl;
+	std::cout << " PATH:: " << (_configuration->getUriPath().c_str()) << std::endl;
 	struct stat fileInfo;
 
-	if (stat(parser.getHeaderUriPath().c_str(), &fileInfo) != 0) 
+	if (stat(_configuration->getUriPath().c_str(), &fileInfo) != 0) 
 	{
 		if (errno == EACCES) //TODO: allowed?
 			response.setStatusCode(403);
@@ -131,7 +131,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 		std::cout << " GET method processed 404" << std::endl; // TODO:Provide error page 404
 		return ;
 	}
-	else if (parser.isCGIPath())
+	else if (isCGI(_configuration->getUriPath()))
 	{
 		if (fileInfo.st_mode & S_IXUSR)
 		{
@@ -148,19 +148,12 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
 			return ;
 		}
-		else // File is a cgi script and is not executable
-		{
-			response.setStatusCode(403);
-			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
-			std::cout << " GET method processed 403 - CGI" << std::endl; // TODO:Provide error page 403
-			return ;
-		}
 	}
 	else
 	{
 		if (S_ISDIR(fileInfo.st_mode))
 		{
-			if (isDefaultDirectoryPageExisting(parser.getHeaderUri(), response))
+			if (isDefaultDirectoryPageExisting(_configuration->getUriPath(), response))
 			{
 				response.setStatusCode(200);
 				response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
@@ -177,7 +170,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			// }
 			if (parser.isDirectoryListing() && (fileInfo.st_mode & S_IRUSR))
 			{
-				sendDirectoryListing(parser.getHeaderUri(), response, clientSocket);
+				sendDirectoryListing(_configuration->getUriPath(), response, clientSocket);
 				std::cout << " GET method processed 200 - Directory Listing" << std::endl;
 				return ;
 			}
@@ -191,7 +184,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			response.contentLength = fileInfo.st_size;
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-			sendFile(clientSocket, parser.getHeaderUriPath());
+			sendFile(clientSocket, _configuration->getUriPath());
 			std::cout << " GET method processed 200 - File" << std::endl;
 		}
 		else  // File is not regular or is not readable
@@ -225,7 +218,7 @@ void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clie
 {
 	struct stat fileInfo;
 
-	if (stat(parser.getHeaderUri().c_str(), &fileInfo) != 0) 
+	if (stat(_configuration->getUriPath().c_str(), &fileInfo) != 0) 
 	{
 		if (errno == EACCES) //TODO: allowed?
 			response.setStatusCode(403);
@@ -242,9 +235,9 @@ void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clie
 		std::cout << " DELETE method processed 405 - Directory" << std::endl;
 		return ;
 	}
-	else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IWUSR) && parser.getHeaderUri() == "/workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe") //TODO: remove hardcoded path when URI parsing is implemented
+	else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IWUSR) && _configuration->getUriPath() == "/workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe") //TODO: remove hardcoded path when URI parsing is implemented
 	{
-		if (std::remove(parser.getHeaderUri().c_str()) == 0)
+		if (std::remove(_configuration->getUriPath().c_str()) == 0)
 		{
 			response.setStatusCode(204);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
@@ -279,3 +272,4 @@ void    Methods::setConfiguration(LookupConfig* configuration)
 {
 	_configuration = configuration;
 }
+

@@ -200,7 +200,7 @@ void SocketServer::_HandleClient(int clientSocket)
 	std::cout << "ZWEI " << std::endl;
 
 	try
-	{	_configuration->updateCurrentServer(2130771969, 8081, "localhost");
+	{	_configuration->updateCurrentServer(2130771969, 8082, "localhost");
 		_configuration->updateCurrentLocation(parser.getHeaderUriPath());
 		_configuration->updateUriWithLocationPath(parser.getHeaderUriPath());
 		methodHandler.handleMethod(parser, clientSocket, response); // TODO: rapid request spamming leads to server failure
