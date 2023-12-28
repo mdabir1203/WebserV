@@ -9,6 +9,7 @@
 #include <cctype>
 #include <stdexcept>
 #include <set>
+#include <cstdlib>
 
 #define HEADER_URI_MAX_LENGTH 8000
 #define HEADER_METHOD_MAX_LENGTH 6

@@ -44,7 +44,7 @@ void	HeaderFieldStateMachine::parseURI(void)
 
 void	HeaderFieldStateMachine::throwUriParseError(const std::string message)
 {
-	throw std::runtime_error("Error: current state -> " + std::to_string(currentUriState) + " " + message);
+	throw std::runtime_error(message);
 }
 
 void 	HeaderFieldStateMachine::uriStateTransition(int state, int nextState)

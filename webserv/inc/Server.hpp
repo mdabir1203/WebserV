@@ -22,8 +22,6 @@
 class SocketServer
 {
 public:
-    SocketServer(const SocketServer& src) = delete;
-    SocketServer& operator=(const SocketServer& rhs) = delete;
     ~SocketServer(void);
 
     static SocketServer*    getInstance(const std::set<uint16_t>& ports);
@@ -36,6 +34,8 @@ public:
 private:
     static SocketServer* _instancePtr;
 
+    SocketServer(const SocketServer& src);
+    SocketServer& operator=(const SocketServer& rhs);
     SocketServer(const std::set<uint16_t>& ports);
 
     void    _run();
