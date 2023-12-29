@@ -323,18 +323,23 @@ uint32_t ConfigParser::ipStringToNumber(const std::string& ip) {
    return ipv4;
 }
 
-uint16_t ConfigParser::ip_port_to_uint16(const std::string& ip_port) {
-   std::size_t pos = ip_port.find(':');
-   if (pos == std::string::npos) {
-       throw std::invalid_argument("Error: Invalid IP:port format");
-   }
+uint16_t ConfigParser::ip_port_to_uint16(const std::string &ip_port)
+{
+	std::size_t pos = ip_port.find(':');
+	if (pos == std::string::npos)
+		throw std::runtime_error("Error: Invalid IP:port format");
 
-   std::string port_str = ip_port.substr(pos + 1);
-	if(port_str.empty())
-		throw std::invalid_argument("Error: Invalid IP:port format");
-   uint16_t port = static_cast<uint16_t>(std::atoi(port_str.c_str())); //check for correct error handling
-	
-   return port;
+	std::string port_str = ip_port.substr(pos + 1);
+	if (port_str.empty())
+		throw std::runtime_error("Error: Invalid IP:port format");
+
+	std::istringstream ss(port_str);
+	int port_int = 0;
+	ss >> port_int;
+	if (ss.fail() || (port_int < 49152 && port_int != 80) || port_int > 65535)
+		throw std::runtime_error("Error: Invalid port number. Valid range: 49152 - 65535 && 80");
+
+	return static_cast<uint16_t>(port_int);
 }
 
 // std::string ConfigParser::uint16_to_ip_port(uint16_t port) {
