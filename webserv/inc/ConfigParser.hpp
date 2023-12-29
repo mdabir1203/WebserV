@@ -96,17 +96,9 @@ class ConfigParser
         void    validateLocationConfig(LocationConfig* currentLocationConfig);
         void    validateServerConfig(ServerConfig* currentServerConfig);
         
-
-
+        
         uint32_t    extractIp(std::istringstream& iss);
         uint16_t    extractPort(std::istringstream& iss);
-        uint32_t    ipStringToNumber(const std::string& ip);
-        uint16_t    ip_port_to_uint16(const std::string& ip_port) ;
-        std::string uint16_to_ip_port(uint16_t port);
-        uint16_t    stringToUint16(const std::string& str);
-
-
-
 
         typedef void (ConfigParser::*HandlerFunction)(void);
         void        validateAndHandleKey(void);

@@ -297,26 +297,3 @@ void    ConfigParser::handleAutoindex()
 	else
 		throwConfigError("autoindex must be on or off", 0, autoIndex, true);
 }
-
-
-
-
-//////////////////////// converters Ip adress and port to UintXX_t and back ///////////////////////////
-
-// std::string ConfigParser::uint16_to_ip_port(uint16_t port) {
-//    std::stringstream ss;
-//    ss  << std::to_string(port);
-
-//    return ss.str();
-// }
-
-uint16_t ConfigParser::stringToUint16(const std::string& str) {
-    std::stringstream ss(str);
-    uint16_t result = 0;
-
-    if (!(ss >> result)) {
-        std::cerr << "Error: Unable to convert string to uint16_t." << std::endl;
-        return 0;
-    }
-    return result;
-}
