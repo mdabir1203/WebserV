@@ -336,8 +336,8 @@ uint16_t ConfigParser::ip_port_to_uint16(const std::string &ip_port)
 	std::istringstream ss(port_str);
 	int port_int = 0;
 	ss >> port_int;
-	if (ss.fail() || (port_int < 49152 && port_int != 80) || port_int > 65535)
-		throw std::runtime_error("Error: Invalid port number. Valid range: 49152 - 65535 && 80");
+	if (ss.fail() || port_int < 0 || port_int > 65535)
+		throw std::runtime_error("Error: Invalid port number. Valid range: 0 - 65535");
 
 	return static_cast<uint16_t>(port_int);
 }
