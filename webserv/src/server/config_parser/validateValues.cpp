@@ -111,23 +111,15 @@ void	ConfigParser::handleListen()
 
 void	ConfigParser::handleServerName()
 {
-    if (mulitValues.empty()) {
-        	
-			mulitValues.push_back("localhost");
-    }
-    // std::string& serverName = mulitValues[0];	
-	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it) {
-		const std::string& serverName = *it;
-		if (serverName.empty())	{
-			currentServerConfig->serverNames.insert("localhost");
-			break;
-		} else {
-			currentServerConfig->serverNames.insert(serverName);
-		}
+	for (std::vector<std::string>::iterator it = mulitValues.begin(); it != mulitValues.end(); ++it)
+	{
+		std::string& serverName = *it;
+		currentServerConfig->serverNames.insert(serverName);
 	}
 	// /* Print: */
-	// for (std::set<std::string>::iterator it = currentServerConfig->serverNames.begin(); it != currentServerConfig->serverNames.end(); ++it) {
-    //     std::cout << GREEN << "serverName " << *it << RESET << std::endl;
+	// for (std::set<std::string>::iterator it = currentServerConfig->serverNames.begin(); it != currentServerConfig->serverNames.end(); ++it)
+	// {
+    //     	std::cout << GREEN << "serverName " << *it << RESET << std::endl;
 	// }
 }
 
