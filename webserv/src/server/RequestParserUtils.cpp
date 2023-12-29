@@ -147,8 +147,7 @@ void	HeaderFieldStateMachine::handleStateHeaderUri(char c)
 	if (c == ' ' && !headerUri.empty())
 	{
 		paramterLength = 0;
-		parseURI(); // answer bad request if error occured
-		std::cout << "headerUriPath: " << uriParts.path << std::endl; //TODO: Remove
+		parseURI(); //TODO: answer bad request if error occured
 		stateTransition(HEADER_URI, HEADER_HTTP_VERSION);
 	}
 	else if (c == ' ' && headerUri.empty())

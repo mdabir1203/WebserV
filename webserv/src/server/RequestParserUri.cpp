@@ -30,7 +30,6 @@ static bool isValidPathChar(char c)
 
 void	HeaderFieldStateMachine::parseURI(void)
 {
-	std::cout << "Input URI parser: " << headerUri << std::endl;
 	while (uriIndex < headerUri.length())
 	{
 		char c = headerUri[uriIndex];

@@ -1,5 +1,6 @@
 #include "Methods.hpp"
 
+#include <iostream>
 #include <cstring>
 #include <sstream>
 #include <sys/stat.h>
@@ -61,7 +62,7 @@ void Methods::sendDirectoryListing(const std::string& path, HttpResponse& respon
         }
         else if (entry == NULL)
             break;
-        directoryListingHtml << "<li><a href=\"" << entry->d_name << "\">" << entry->d_name << "</a></li>";
+        directoryListingHtml << "<li><a href=\"" << entry->d_name << "/" << "\">" << entry->d_name << "</a></li>";
     }
     directoryListingHtml << "</ul></body></html>";
 

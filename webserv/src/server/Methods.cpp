@@ -118,10 +118,10 @@ bool	Methods::isCGI(const std::string& filePath)
 
 void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response) //TODO: store answers in a queue and send them in a loop
 {	
-	std::cout << " PATH:: " << (_configuration->getUriPath().c_str()) << std::endl;
 	struct stat fileInfo;
+	const std::string& UriPath = _configuration->getUriPath();
 
-	if (stat(_configuration->getUriPath().c_str(), &fileInfo) != 0) 
+	if (stat(UriPath.c_str(), &fileInfo) != 0) 
 	{
 		if (errno == EACCES) //TODO: allowed?
 			response.setStatusCode(403);
@@ -131,7 +131,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 		std::cout << " GET method processed 404" << std::endl; // TODO:Provide error page 404
 		return ;
 	}
-	else if (isCGI(_configuration->getUriPath()))
+	else if (isCGI(UriPath))
 	{
 		if (fileInfo.st_mode & S_IXUSR)
 		{
@@ -153,7 +153,10 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	{
 		if (S_ISDIR(fileInfo.st_mode))
 		{
-			if (isDefaultDirectoryPageExisting(_configuration->getUriPath(), response))
+			bool	isUriEndingSlash = false;
+			if (UriPath.at(UriPath.size() - 1) == '/')
+				isUriEndingSlash = true;
+			if (isUriEndingSlash && isDefaultDirectoryPageExisting(UriPath, response))
 			{
 				response.setStatusCode(200);
 				response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
@@ -168,9 +171,9 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			// 	std::cout << " GET method processed 403 - Directory" << std::endl;
 			// 	return ;
 			// }
-			if (_configuration->isAutoindex() && (fileInfo.st_mode & S_IRUSR))
+			if (isUriEndingSlash && _configuration->isAutoindex() && (fileInfo.st_mode & S_IRUSR))
 			{
-				sendDirectoryListing(_configuration->getUriPath(), response, clientSocket);
+				sendDirectoryListing(UriPath, response, clientSocket);
 				std::cout << " GET method processed 200 - Directory Listing" << std::endl;
 				return ;
 			}
@@ -184,7 +187,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			response.contentLength = fileInfo.st_size;
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-			sendFile(clientSocket, _configuration->getUriPath());
+			sendFile(clientSocket, UriPath);
 			std::cout << " GET method processed 200 - File" << std::endl;
 		}
 		else  // File is not regular or is not readable

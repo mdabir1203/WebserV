@@ -11,6 +11,7 @@
 #include "Response.hpp"
 #include "Methods.hpp"
 #include "LocationConfig.hpp"
+#include "Colors.hpp"
 
 SocketServer *SocketServer::_instancePtr = NULL;
 
@@ -159,6 +160,7 @@ int SocketServer::_acceptClient(int serverSocket)
 	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
 	if (clientSocket == -1)
 		throw std::runtime_error("Socket accept failed");
+	_clientList.insert(std::make_pair(clientSocket, std::make_pair(ntohl(client_addr.sin_addr.s_addr), ntohs(client_addr.sin_port)))); //storing the client fd with its ip and port
 	return clientSocket;
 }
 
@@ -183,26 +185,17 @@ void SocketServer::_HandleClient(int clientSocket)
 	}
 	
 	Methods methodHandler;
-	std::cout << "EINS " << std::endl;
 	methodHandler.setConfiguration(_configuration);
-	//bool autoindex;
-	// if (_configuration == NULL) {
-	// 	std::cerr << "_configuration is null" << std::endl;
-	// } 
-	// else if (_configuration.getCurrentLocation() == NULL) {
-	// 	std::cerr << "getCurrentLocation() returned null" << std::endl;
-	// } 
-	// else { std::cout << "HAHA " << std::endl;
-	//autoindex = _configuration.getCurrentLocation()->directoryListing;
-	// }
-
-	//bool autoindex = _configuration.getCurrentLocation()->directoryListing;	//<-added 28.12.2023 by aputiev
-	std::cout << "ZWEI " << std::endl;
-
+	std::map<int, std::pair<uint32_t, uint16_t> >::iterator it;
 	try
-	{	_configuration->updateCurrentServer(2130771969, 8082, "localhost");
+	{
+		it = _clientList.find(clientSocket);
+		// if (it == _clientList.end())
+		// 	throw std::runtime_error("couldnt find client in _clientList");
+		_configuration->updateCurrentServer(it->second.first, it->second.second, parser.getParsedHeaders().find("host")->second.front()); // TODO: make sure host is there, think about this: localhost:8082
 		_configuration->updateCurrentLocation(parser.getHeaderUriPath());
 		_configuration->updateUriWithLocationPath(parser.getHeaderUriPath());
+		std::cout << PURPLE << "Requested Path in methodHandler: " << _configuration->getUriPath() << RESET << std::endl;
 		methodHandler.handleMethod(parser, clientSocket, response); // TODO: rapid request spamming leads to server failure
 	}
 	catch (const std::exception &e)
@@ -237,6 +230,9 @@ void SocketServer::_HandleClient(int clientSocket)
 	//  char responseBuffer[8192];
 	//  int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
 	//  send(clientSocket, responseBuffer, bytesWritten, 0);
+	
+	// if (it != _clientList.end())
+	_clientList.erase(it);
 	close(clientSocket);
 }
 

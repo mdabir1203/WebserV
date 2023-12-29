@@ -2,6 +2,7 @@
 #define SERVER_HPP_INCLUDED
 
 #include <set>
+#include <map>
 #include <stdint.h>
 
 #include "LookupConfig.hpp"
@@ -30,13 +31,12 @@ private:
     int     _acceptClient(int serverSocket);
     void    _HandleClient(int clientSocket);
 
-    std::set<int>   _serverSockets;
-    std::set<int>   _clientSockets; //implement it to store open client sockets
-    bool            _isRunning;
-    int             _epollFd;
-
-    //LookupConfig _configuration; 
-    LookupConfig* _configuration;   
+    std::set<int>                                   _serverSockets;
+    std::map<int, std::pair<uint32_t, uint16_t> >   _clientList;  //stores the client fd as key, and as value ip and port;
+    std::set<int>                                   _clientSockets; //implement it to store open client sockets
+    bool                                            _isRunning;
+    int                                             _epollFd;
+    LookupConfig*                                   _configuration;   
 };
 
 #endif /* SERVER_HPP_INCLUDED */

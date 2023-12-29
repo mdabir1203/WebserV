@@ -1,5 +1,6 @@
 #include "LookupConfig.hpp"
 
+#include <iostream>
 #include <stdexcept>
 
 #include "WebServerConfig.hpp"

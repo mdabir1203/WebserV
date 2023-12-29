@@ -6,10 +6,13 @@
 #include "ServerConfig.hpp"
 
 WebServerConfig::WebServerConfig()
-				: maxClientBodySize(1000000),
+			   :  defaultServerBlock(NULL),
+				  isDefaultServerBlockSet(false),
+				  maxClientBodySize(1000000),
 				  defaultFolderFile("index.html"),
 				  maxClients(100),
 				  timeout(20000)
+
 {
 	defaultErrorPages[404] = "error_pages/404.html";
 }
@@ -37,6 +40,8 @@ void WebServerConfig::setClientMaxBodySize(const size_t& value)
 
 void WebServerConfig::addServerConfig(ServerConfig* serverConfig)
 {
+	if (!isDefaultServerBlockSet)
+		defaultServerBlock = serverConfig;
 	this->servers[std::make_pair(serverConfig->ipAddress, serverConfig->port)].push_back(serverConfig);
 }
 
@@ -59,24 +64,29 @@ const ServerConfig* WebServerConfig::getServerConfig(uint32_t ipAddress, uint16_
 				responsibleServerConfig = *serverIt;
 		}
     }
-
-	// Find match for IP-address = Any and port
-    key = std::make_pair(0, port);
-    it = servers.find(key);
-
-    if (it != servers.end())
+	else
 	{
-		std::vector<ServerConfig*>::const_iterator serverIt;
-		for (serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt)
-		{
-			if ((*serverIt)->isHostMatched(host))
-				return (*serverIt);
-			if (!responsibleServerConfig)
-				responsibleServerConfig = *serverIt;
-		}
-    }
+		// Find match for IP-address = Any and port
+		key = std::make_pair(0, port);
+		it = servers.find(key);
 
-    return (responsibleServerConfig); // TODO: What to respond to client if no match is found?
+		if (it != servers.end())
+		{
+			std::vector<ServerConfig*>::const_iterator serverIt;
+			for (serverIt = it->second.begin(); serverIt != it->second.end(); ++serverIt)
+			{
+				if ((*serverIt)->isHostMatched(host))
+					return (*serverIt);
+				if (!responsibleServerConfig)
+					responsibleServerConfig = *serverIt;
+			}
+		}
+	}
+
+	if (!responsibleServerConfig)
+		return (defaultServerBlock);
+
+    return (responsibleServerConfig);
 }
 
 const std::set<uint16_t> WebServerConfig::getServerPorts(void) const
