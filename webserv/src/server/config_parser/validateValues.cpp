@@ -80,34 +80,49 @@ void	ConfigParser::handleClientMaxBodySize()
 	// std::cout << GREEN <<  "maxClientBodySize:" << webServerConfig->maxClientBodySize << RESET << std::endl;
 }
 
-
-
 void	ConfigParser::handleListen()
 {
 	std::string& numberString = extractSingleValueFromValueVector(true);
-	//std::cout << "numberString: " << numberString << std::endl;
-	std::istringstream iss(numberString);
-    // size_t result;
 
-	for (std::size_t i = 0; i < numberString.length(); ++i)
-	{
-        char currentChar = numberString[i];
-        if (!isdigit(currentChar) && currentChar != '.' && currentChar != ':')
-		{
-            throwConfigError("Only digits", 0, numberString, true);
-        }
-	}
-	if (currentServerConfig)
-	{
-		currentServerConfig->ipAddress = ipStringToNumber(numberString);
-		currentServerConfig->port = ip_port_to_uint16(numberString);
-	}
-	//std::cout << GREEN << "ipAddress " << currentServerConfig->ipAddress << RESET << std::endl;	
-	//  std::cout << "currentServerConfig->port " << currentServerConfig->port << std::endl;
-	// std::cout << GREEN << "ipAddress back " << ipNumberToString(currentServerConfig->ipAddress) << RESET << std::endl;
-	// std::cout << GREEN << "port back " << uint16_to_ip_port(currentServerConfig->port)<< RESET << std::endl;
+	if (numberString.find_first_of("+-") != std::string::npos)
+		throwConfigError("No signs allowed (+-)", 0, numberString, true);
+
+	std::istringstream iss(numberString);
+	if (numberString.find(':') != std::string::npos)
+		currentServerConfig->ipAddress = extractIp(iss);
+	currentServerConfig->port = extractPort(iss);
 }
 
+uint32_t	ConfigParser::extractIp(std::istringstream& iss)
+{
+	int			i = 0;
+	uint32_t	ipv4 = 0;
+	uint32_t	part;
+
+	while (i < 4)
+	{
+		iss >> part;
+		if (iss.fail() || part > 255)
+			throwConfigError("Invalid IP address", 0, iss.str(), true);
+		ipv4 |= part << (8 * (3 - i));
+		if (i < 3 && iss.get() != '.')
+			throwConfigError("Invalid IP address", 0, iss.str(), true);
+		i++;
+	}
+	if (iss.get() != ':')
+		throwConfigError("Expected ':' ", 0, iss.str(), true);
+	return (ipv4);
+}
+
+uint16_t	ConfigParser::extractPort(std::istringstream& iss)
+{
+	uint16_t port = 0;
+
+	iss >> port;
+	if (iss.fail() || !iss.eof())
+		throwConfigError("invalid port", 0, iss.str(), true);
+	return (port);
+}
 
 void	ConfigParser::handleServerName()
 {
@@ -286,53 +301,7 @@ void    ConfigParser::handleAutoindex()
 
 
 
-
-
-
-
-
-
 //////////////////////// converters Ip adress and port to UintXX_t and back ///////////////////////////
-
-uint32_t ConfigParser::ipStringToNumber(const std::string& ip) {
-   std::istringstream iss(ip);
-   uint32_t ipv4 = 0;
-   for(uint32_t i = 0; i < 4; ++i) {
-       uint32_t part;
-       iss >> part;
-       if (iss.fail() || part > 255) {
-           throw std::runtime_error("Invalid IP address - Expected [0, 255]");
-       }
-       ipv4 |= part << (8 * (3 - i));
-       if (i != 3) {
-           char delimiter;
-           iss >> delimiter;
-           if (iss.fail() || delimiter != '.') {
-               throw std::runtime_error("Invalid IP address - Expected '.' delimiter");
-           }
-       }
-   }
-   return ipv4;
-}
-
-uint16_t ConfigParser::ip_port_to_uint16(const std::string &ip_port)
-{
-	std::size_t pos = ip_port.find(':');
-	if (pos == std::string::npos)
-		throw std::runtime_error("Error: Invalid IP:port format");
-
-	std::string port_str = ip_port.substr(pos + 1);
-	if (port_str.empty())
-		throw std::runtime_error("Error: Invalid IP:port format");
-
-	std::istringstream ss(port_str);
-	int port_int = 0;
-	ss >> port_int;
-	if (ss.fail() || port_int < 0 || port_int > 65535)
-		throw std::runtime_error("Error: Invalid port number. Valid range: 0 - 65535");
-
-	return static_cast<uint16_t>(port_int);
-}
 
 // std::string ConfigParser::uint16_to_ip_port(uint16_t port) {
 //    std::stringstream ss;
@@ -340,7 +309,6 @@ uint16_t ConfigParser::ip_port_to_uint16(const std::string &ip_port)
 
 //    return ss.str();
 // }
-
 
 uint16_t ConfigParser::stringToUint16(const std::string& str) {
     std::stringstream ss(str);
