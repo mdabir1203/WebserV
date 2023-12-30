@@ -30,7 +30,9 @@ private:
 	void sendDirectoryListing(const std::string& path, HttpResponse& response, const int clientSocket);
 
 	void setDefaultDirectoryPage(const std::string& defaultPagePath);
-
+	std::string defineContentType(const std::string& UriPath);
+	std::string getLastModifiedTime(const std::string& file_path);
+	std::string getServerName();
 	std::string	defaultDirectoryPage;
 };
 

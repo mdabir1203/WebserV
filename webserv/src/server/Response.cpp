@@ -1,5 +1,5 @@
 #include "Response.hpp"
-
+#include <iostream>
 #include <sstream>
 #include <ctime>
 #include <stdexcept>
@@ -10,12 +10,12 @@
 #include "RequestParser.hpp"
 
 HttpResponse::HttpResponse()
-            : statusCode(0), contentType(""), content("")
+            : statusCode(0), contentType(""), content(""), lastModifiedTime(""), serverName("")
 {
 }
 
-HttpResponse::HttpResponse(int statusCode, const std::string& contentType, const std::string& content)
-			: statusCode(statusCode), contentType(contentType), content(content)
+HttpResponse::HttpResponse(int statusCode, const std::string& contentType, const std::string& content, const std::string& lastModifiedTime, const std::string& serverName)
+			: statusCode(statusCode), contentType(contentType), content(content), lastModifiedTime(lastModifiedTime), serverName(serverName)
 {
 }
 
@@ -240,22 +240,28 @@ std::string getReasonPhrase(const int statusCode)
 void HttpResponse::sendBasicHeaderResponse(const int clientSocket, const int method) //TODO:: Implement MSG_DONTWAIT flag
 {
 	std::string header;
+    int res;
 
 	setCurrentDate(date);
 
 	header.reserve(1024);
-	// header += "HTTP/1.1 " + response.statusCode + " " + response.statusMessage + "\r\n";
+	//header += "HTTP/1.1 " + response.statusCode + " " + response.statusMessage + "\r\n";
 	header += "HTTP/1.1 ";
     header +=  convertNumberToString(statusCode) + getReasonPhrase(statusCode) + "\r\n";
 	header += "Date: " + date + "\r\n";
     if (method == GET)
-    {	// header += "Server: " + response.server + "\r\n";
+    {	
         header += "Content-Length: " + convertNumberToString(contentLength) + "\r\n";
-        header += "Content-Type: text/html; charset=utf-8\r\n";
-        // header += "content-type: text/plain\r\n";
-        // header += "Content-Type: " + response.contentType + "\r\n";
-        // header += "Last-Modified: " + response.lastModified + "\r\n";
-        // header += "Connection: " + response.connection + "\r\n";
+        header += "Content-Type: ";
+        header += contentType;
+        if(contentType == "text/plain" || contentType == "text/html" || contentType == ".css" || contentType == "application/javascript")
+            header += "; charset=utf-8";
+        header += "\r\n";   
+        header += "Last-Modified: " + lastModifiedTime;
+        header += "\r\n";        
+        header += "Connection: сlose\r\n";
+        header += "Server: \"WebServ 42 " + serverName + "\"";
+        header += "\r\n";
         // header += "Cache-Control: " + response.cacheControl + "\r\n";
     }
     else if (method == POST)
@@ -269,14 +275,30 @@ void HttpResponse::sendBasicHeaderResponse(const int clientSocket, const int met
         // header += "Content-Type: text/html; charset=utf-8\r\n";
     }
 	header += "\r\n";
-
-	if (send(clientSocket, header.c_str(), header.size(), 0) == -1)
-	{
+    std::cout << "!!!header: " << header << std::endl;   
+    res = send(clientSocket, header.c_str(), header.size(), 0);
+	if (res == -1)
 		throw std::runtime_error("Error sending basic header response" + std::string(strerror(errno))); //TODO: forbidden to check errno?
-	}
+    else if(res == 0)
+        throw std::runtime_error("Error sending basic header response: client closed connection" + std::string(strerror(errno)));
 }
 
 void HttpResponse::setStatusCode(const int statusCode)
 {
     this->statusCode = statusCode;
+}
+
+void HttpResponse::setContentType(const std::string& contentType)
+{
+    this->contentType = contentType;
+}
+
+void HttpResponse::setLastModifiedTime(const std::string& time)
+{
+	this->lastModifiedTime = time;
+}
+
+void HttpResponse::setServerName(const std::string& servName)
+{
+    this->serverName = servName;
 }

@@ -5,10 +5,13 @@
 #include <cstring>
 #include <sys/stat.h>
 #include <sys/socket.h>
+#include <ctime>
 
 #include "RequestParser.hpp"
 #include "Response.hpp"
 #include "LookupConfig.hpp"
+
+#include "ServerConfig.hpp" 	//
 
 Methods::Methods()
 {
@@ -120,6 +123,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 {	
 	struct stat fileInfo;
 	const std::string& UriPath = _configuration->getUriPath();
+	response.setServerName(getServerName());
 
 	if (stat(UriPath.c_str(), &fileInfo) != 0) 
 	{
@@ -153,6 +157,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	{
 		if (S_ISDIR(fileInfo.st_mode))
 		{
+			response.setContentType("text/html");
 			bool	isUriEndingSlash = false;
 			if (UriPath.at(UriPath.size() - 1) == '/')
 				isUriEndingSlash = true;
@@ -184,6 +189,8 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 		}
 		else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IRUSR))
 		{
+			response.setContentType(defineContentType(UriPath));
+			response.setLastModifiedTime(getLastModifiedTime(UriPath));
 			response.contentLength = fileInfo.st_size;
 			response.setStatusCode(200);
 			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
@@ -276,3 +283,51 @@ void    Methods::setConfiguration(LookupConfig* configuration)
 	_configuration = configuration;
 }
 
+/* Defines type of content, based on URI path */
+std::string Methods::defineContentType(const std::string& UriPath)
+{
+	if(UriPath.find(".txt") != std::string::npos)
+		return "text/plain";
+	else if(UriPath.find(".html") != std::string::npos)
+		return "text/html";
+	else if(UriPath.find(".css") != std::string::npos)
+		return "text/css";
+	else if(UriPath.find(".js") != std::string::npos)
+		return "application/javascript";
+	else if((UriPath.find(".jpg") != std::string::npos) || (UriPath.find(".jpeg") != std::string::npos))
+		return "image/jpeg";
+	else if(UriPath.find(".png") != std::string::npos)
+		return "image/png";
+	else if(UriPath.find(".gif") != std::string::npos)
+		return "image/gif";
+	else if(UriPath.find(".mp3") != std::string::npos)	
+		return "audio/mpeg";
+	else if(UriPath.find(".mp4") != std::string::npos)
+		return "video/mp4";
+	else if(UriPath.find(".pdf") != std::string::npos)
+		return "application/pdf";
+	else if(UriPath.find(".ico") != std::string::npos)
+		return "image/x-icon";
+	else
+		return "application/octet-stream";
+}
+
+/* Get last modified time of file */
+std::string Methods::getLastModifiedTime(const std::string& file_path)
+{
+    struct stat file_stat;
+    if (stat(file_path.c_str(), &file_stat) != 0)
+        return "";
+    std::time_t last_modified_time = file_stat.st_mtime;
+    std::tm* last_modified_tm = std::gmtime(&last_modified_time);
+    char buffer[80];
+    if (strftime(buffer, sizeof(buffer), "%a, %b %d %H:%M:%S %Y GMT", last_modified_tm) == 0)
+        return "";
+    return buffer;
+}
+
+std::string Methods::getServerName()
+{
+	std::string serverName = *(_configuration->getCurrentServer()->serverNames.begin());
+	return (serverName);
+}
