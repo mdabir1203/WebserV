@@ -186,7 +186,7 @@ void SocketServer::_HandleClient(int clientSocket)
 
 	try
 	{
-		methodHandler.handleMethod(parser, clientSocket, response); // TODO: rapid request spamming leads to server failure
+		methodHandler.handleMethod(parser, clientSocket, response, ""); // TODO: rapid request spamming leads to server failure
 	}
 	catch (const std::exception &e)
 	{

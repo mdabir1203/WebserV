@@ -194,9 +194,9 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 
 void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
 {
-	std::string targetResource = parser.getHeaderUriPath();
-	std::cout << "targetResource: " << parser.getHeaderUriPath() << std::endl
-	std::string payload = parser.getPayload();
+	std::string targetResource = parser.getHeaderUriPath().c_str(); // URI 
+	std::cout << "targetResource: " << parser.getHeaderUriPath() << std::endl;  // Get this from the get method -> check it
+	std::string payload = parser.getPayload(); // Need the body here 
 
 	try {
 		bool resourceExists = IfResourceExists(targetResource);
