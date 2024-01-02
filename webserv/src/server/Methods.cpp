@@ -46,28 +46,6 @@ void Methods::handleMethod(const HeaderFieldStateMachine& parser, const int clie
 			break ;
 	}
 }
-
-
-void Methods::handleMethod(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response, const std::string& body)
-{
-	switch (parser.getHeaderMethod())
-	{
-		case GET:
-			handleGET(parser, clientSocket, response);
-			break ;
-		case POST:
-			handlePOST(parser, clientSocket, response);
-			break ;
-		case DELETE:
-			handleDELETE(parser, clientSocket, response);
-			break ;
-		default:
-			break ;
-	}
-	(void)body;
-}
-
-
 // // stat struct INFO 
 //     dev_t st_dev: The device ID of the device containing the file.
 //     ino_t st_ino: The inode number of the file.
