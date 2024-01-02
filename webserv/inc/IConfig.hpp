@@ -8,4 +8,4 @@ public:
 	virtual void setClientMaxBodySize(const size_t &value) = 0;
 };
 
-#endif /* I_CONFIG_HPP_INCLUDED */
+#endif

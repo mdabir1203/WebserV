@@ -48,6 +48,25 @@ void Methods::handleMethod(const HeaderFieldStateMachine& parser, const int clie
 }
 
 
+void Methods::handleMethod(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response, const std::string& body)
+{
+	switch (parser.getHeaderMethod())
+	{
+		case GET:
+			handleGET(parser, clientSocket, response);
+			break ;
+		case POST:
+			handlePOST(parser, clientSocket, response);
+			break ;
+		case DELETE:
+			handleDELETE(parser, clientSocket, response);
+			break ;
+		default:
+			break ;
+	}
+	(void)body;
+}
+
 
 // // stat struct INFO 
 //     dev_t st_dev: The device ID of the device containing the file.
@@ -169,6 +188,78 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			std::cout << " GET method processed 200 - File" << std::endl;
 		}
 	}
+}
+
+// use try and catch block 
+
+void Methods::handlePUT(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
+{
+	std::string targetResource = parser.getTargetResource();
+	std::string payload = parser.getPayload();
+
+	try {
+		bool resourceExists = IfResourceExists(targetResource);
+	if (resourceExists) {
+		updateResource(targetResource, payload);
+		response.setStatusCode(200); // OK 
+	} else {
+		createResource(targetResource, payload);
+		response.setStatusCode(201); // Created
+	}
+	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+	std::cout << " PUT method processed" << std::endl;
+	} catch (const std::exception& e) {
+		std::cerr << "Error in PUT method: " << e.what() << std::endl;
+		response.setStatusCode(500); // Internal Server Error
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+
+	}
+	
+}
+
+bool Methods::doesResourceExist(const std::string& targetResource)
+{
+	std::ifstream file(targetResource.c_str());
+    return file.good();
+}
+
+bool Methods::IfResourceExists(const std::string& targetResource)
+{
+	std::ifstream file(targetResource.c_str());
+	return file.good();
+}
+
+// The file might not open successfully. 
+//This could be due to various reasons such as insufficient permissions, the file being locked by another process, or the disk being full.
+void Methods::writeToFile(const std::string& targetResource, const std::string& payload)
+{
+	std::ofstream file(targetResource);
+	if (!file.is_open()) {
+		std::cerr << "Failed to open the file: " << targetResource << std::endl;
+		throw std::runtime_error("Failed to open the file");
+	}
+
+	file << payload;
+	if (file.fail()) {
+		std::cerr << "Failed to write to the file: " << targetResource << std::endl;
+		throw std::runtime_error("Failed to write to the file");
+	}
+
+	file.close();
+	if (file.fail()) {
+		std::cerr << "Failed to close the file: " << targetResource << std::endl;
+		throw std::runtime_error("Failed to close the file");
+	}
+}
+
+void Methods::createResource(const std::string& targetResource, const std::string& payload)
+{
+	writeToFile(targetResource, payload);
+}
+
+void Methods::updateResource(const std::string& targetResource, const std::string& payload)
+{
+	writeToFile(targetResource, payload);
 }
 
 void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)

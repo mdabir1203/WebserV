@@ -22,6 +22,13 @@ private:
 	void handlePOST(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void handleDELETE(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void sendFile(const int clientSocket, const std::string &filePath);
+	void handlePUT(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response);
+    bool doesResourceExist(const std::string& targetResource);
+    bool IfResourceExists(const std::string& targetResource);
+    void writeToFile(const std::string& targetResource, const std::string& payload);
+    void createResource(const std::string& targetResource, const std::string& payload);
+    void updateResource(const std::string& targetResource, const std::string& payload);
+
 };
 
 #endif /* METHODS_HPP_INCLUDED */
