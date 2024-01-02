@@ -227,7 +227,6 @@ void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int client
 void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
 {
 	struct stat fileInfo;
-
 	if (stat(_configuration->getUriPath().c_str(), &fileInfo) != 0) 
 	{
 		if (errno == EACCES) //TODO: allowed?
@@ -245,7 +244,7 @@ void Methods::handleDELETE(const HeaderFieldStateMachine& parser, const int clie
 		std::cout << " DELETE method processed 405 - Directory" << std::endl;
 		return ;
 	}
-	else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IWUSR) && _configuration->getUriPath() == "/workspaces/WebserV/webserv/var/www/dogs.com/delete_test/deleteMe") //TODO: remove hardcoded path when URI parsing is implemented
+	else if (S_ISREG(fileInfo.st_mode) && (fileInfo.st_mode & S_IWUSR))
 	{
 		if (std::remove(_configuration->getUriPath().c_str()) == 0)
 		{
