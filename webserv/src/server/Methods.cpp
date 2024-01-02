@@ -190,11 +190,12 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	}
 }
 
-// use try and catch block 
+// use try and catch block
 
-void Methods::handlePUT(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
+void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
 {
-	std::string targetResource = parser.getTargetResource();
+	std::string targetResource = parser.getHeaderUriPath();
+	std::cout << "targetResource: " << parser.getHeaderUriPath() << std::endl
 	std::string payload = parser.getPayload();
 
 	try {
@@ -260,14 +261,6 @@ void Methods::createResource(const std::string& targetResource, const std::strin
 void Methods::updateResource(const std::string& targetResource, const std::string& payload)
 {
 	writeToFile(targetResource, payload);
-}
-
-void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
-{
-	(void)parser;
-	response.setStatusCode(201);
-	response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
-	std::cout << " POST method processed" << std::endl;
 }
 
 
