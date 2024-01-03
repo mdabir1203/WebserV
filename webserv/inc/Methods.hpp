@@ -22,6 +22,7 @@ private:
 	void handleGET(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void handlePOST(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void handleDELETE(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
+	void _handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void sendFile(const int clientSocket, const std::string &filePath);
 	LookupConfig* _configuration;   
 	
@@ -30,6 +31,7 @@ private:
 	void sendDirectoryListing(const std::string& path, HttpResponse& response, const int clientSocket);
 
 	void setDefaultDirectoryPage(const std::string& defaultPagePath);
+	std::string _retrieveCgiScriptPath(const std::string&UriPath, HttpResponse& response);
 	std::string defineContentType(const std::string& UriPath);
 	std::string getLastModifiedTime(const std::string& file_path);
 	std::string getServerName();

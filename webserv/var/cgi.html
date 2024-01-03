@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CGI Example</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid white;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    label,
+    input {
+      display: block;
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid white;
+      border-radius: 5px;
+      width: 100%;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="cgi-bin/calc.py" method="GET" enctype='multipart/form-data'>
+    <fieldset>
+        <legend>Enter two numbers to add</legend>
+        <label>First Number: <input type="number" name="num1"></label><br/>
+        <label>Second Number: <input type="number" name="num2"></label><br/>
+        <button>Add</button>
+    </fieldset>
+</form>
+</body>
+
+</html>

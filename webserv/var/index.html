@@ -115,19 +115,30 @@
   </div>
 
   <!-- DELETE Section -->
-  <div class="container" id="deleteContainer">
-    <div class="deleteSection">
-      <h2>Delete Section</h2>
-      <form id="deleteFormElement">
-        <label for="deleteResourceInput">Resource URL:</label>
-        <input type="text" id="deleteResourceInput" name="resourceUrl" placeholder="Enter resource URL" required>
+<div class="container" id="deleteContainer">
+  <div class="deleteSection">
+    <h2>Delete Section</h2>
+    <form id="deleteFormElement">
+      <label for="deleteResourceInput">Resource URL:</label>
+      <input type="text" id="deleteResourceInput" name="resourceUrl" placeholder="Enter resource URL" required>
 
-        <button type="button" onclick="sendDeleteRequest()">Click to DELETE</button>
-      </form>
-      <!-- Result area for displaying DELETE request response -->
-      <div id="deleteResult"></div>
-    </div>
+      <button type="button" onclick="sendDeleteRequest()">Click to DELETE</button>
+    </form>
+    <!-- Result area for displaying DELETE request response -->
+    <div id="deleteResult"></div>
   </div>
+</div>
+
+<!-- CGI Section -->
+<div class="container">
+  <button onclick="navigateToCGI()">CGI</button>
+</div>
+
+<script>
+  function navigateToCGI() {
+    window.location.href = 'cgi.html';
+  }
+</script>
 
   <script>
     function sendPostRequest() {

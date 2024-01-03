@@ -34,7 +34,7 @@ Methods::~Methods()
 
 
 void Methods::handleMethod(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response)
-{
+{	
 	switch (parser.getHeaderMethod())
 	{
 		case GET:
@@ -112,10 +112,24 @@ void Methods::sendFile(const int clientSocket, const std::string& filePath)
 	file.close();
 }
 
+/* Checks if path is a CGI path */
 bool	Methods::isCGI(const std::string& filePath)
 {
-	(void)filePath;
-	
+	std::string cgiExtension;
+	std::cout << "isCGI - entered" << filePath << std::endl;
+	size_t dotPos = filePath.find_last_of('.');
+	size_t qusetionMarkPos = filePath.find('?');
+	if (dotPos == std::string::npos)
+		return (false);
+	if(qusetionMarkPos != std::string::npos)
+	{
+		cgiExtension = filePath.substr(dotPos, qusetionMarkPos - dotPos);
+	}
+	else
+	{
+		cgiExtension = filePath.substr(dotPos, filePath.size() - dotPos);
+	}
+	//std::cout << "CGI EXT" << cgiExtension << std::endl;	
 	return (false);
 }
 
@@ -137,6 +151,7 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 	}
 	else if (isCGI(UriPath))
 	{
+		_handleCGI(parser, clientSocket, response);
 		if (fileInfo.st_mode & S_IXUSR)
 		{
 			response.setStatusCode(200);
@@ -329,4 +344,48 @@ std::string Methods::getServerName()
 {
 	std::string serverName = *(_configuration->getCurrentServer()->serverNames.begin());
 	return (serverName);
+}
+
+void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response)
+{
+	(void)parser;
+	(void)clientSocket;
+	(void)response;
+	
+	/* CHECK IF CGI ALLOWED IN CONFIG */
+	const std::string& UriPath = (_configuration->getUriPath());
+	std::cout << "_handleCGI" << std::endl;
+	
+	std::string cgiScriptPath = _retrieveCgiScriptPath(UriPath, response);
+	std::cout << "CGI SCRIPT PATH: " << cgiScriptPath << std::endl;
+	
+}
+
+std::string Methods::_retrieveCgiScriptPath(const std::string& UriPath, HttpResponse& response)
+{
+	struct stat fileStat;
+	std::cout << "CGI PATH: " << UriPath << std::endl;
+	size_t dotPos = UriPath.find('.');
+	size_t infoPos = UriPath.find('/', dotPos);
+	size_t queryPos = UriPath.find('?', dotPos);
+	std::string cgiScriptPath;
+	if (queryPos < infoPos)
+		cgiScriptPath = UriPath.substr(0, queryPos);
+	else
+		cgiScriptPath = UriPath.substr(0, infoPos);
+	if (stat(cgiScriptPath.c_str(), &fileStat) == 0)
+	{
+        if (fileStat.st_mode & S_IFREG)
+		{
+            if (fileStat.st_mode & S_IXUSR)
+                return cgiScriptPath;
+			else
+                response.setStatusCode(403);
+        }
+		else 
+            response.setStatusCode(403);
+    }
+	else
+        response.setStatusCode(404);
+	return "";
 }
