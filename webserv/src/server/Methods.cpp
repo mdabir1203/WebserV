@@ -174,6 +174,7 @@ void Methods::handlePOST(const HeaderFieldStateMachine& parser, const int client
 {
 	std::string targetResource = parser.getHeaderUriPath().c_str(); // URI 
 	std::cout << "targetResource: " << parser.getHeaderUriPath() << std::endl;  // Get this from the get method -> check it
+	// Parser gets buffer -> from there we read the Payload
 	std::string payload = parser.getPayload(); // Need the body here 
 
 	try {

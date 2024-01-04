@@ -346,6 +346,9 @@ void	HeaderFieldStateMachine::handleStateHeaderPairDone(char c)
 	}
 }
 
+
+// TODO: Implement the HeaderStateBody method -> Why -> need my post to work 
+
 /*---------------------header Body parsing----------------*/
 
 void	HeaderFieldStateMachine::handleStateHeaderBody(char c)
