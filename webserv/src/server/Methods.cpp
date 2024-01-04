@@ -148,7 +148,7 @@ bool	Methods::isCGI(const std::string& filePath)
 
 bool	Methods::isCGIAllowed(const std::string& cgiExtension)
 {
-	std::cout << "sCGIAllowed: " << cgiExtension << std::endl;
+	std::cout << "isCGIAllowed: " << cgiExtension ;
 	for (std::set<std::string>::const_iterator it = _configuration->getCurrentCGI()->cgiExtensions.begin(); it != _configuration->getCurrentCGI()->cgiExtensions.end(); ++it)
 	{
 		if (*it == cgiExtension)
@@ -158,6 +158,7 @@ bool	Methods::isCGIAllowed(const std::string& cgiExtension)
 		}
 	}
 	std::cout << "FALSE"<< std::endl;
+	return false;
 }
 
 
@@ -188,12 +189,12 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			return ;
 		}
 		_handleCGI(parser, clientSocket, response);
+		//http://127.0.0.1:8083/cgi-bin/calc.py?param1=1&param2=4
 
 
 
 
 
-		
 		if (fileInfo.st_mode & S_IXUSR)
 		{
 			response.setStatusCode(200);
@@ -391,10 +392,8 @@ std::string Methods::getServerName()
 void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response)
 {
 	// (void)parser;
-	// (void)clientSocket;
+	(void)clientSocket;
 	// (void)response;
-	
-	/* CHECK IF CGI ALLOWED IN CONFIG */
 
 	const std::string& UriPath = (_configuration->getUriPath());
 	std::cout << "_handleCGI" << std::endl;
@@ -408,7 +407,7 @@ void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int client
 	
 
 
-	//http://127.0.0.1:8083/cgi-bin/calc.py?param1=1&param2=4
+	
 }
 
 std::string Methods::_retrieveCgiScriptPath(const std::string& UriPath, HttpResponse& response)

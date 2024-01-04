@@ -8,19 +8,21 @@
 #include "LocationConfig.hpp"
 
 LookupConfig::LookupConfig(void)
-			: currentWebServer(NULL),
-			  currentServer(NULL),
-			  currentLocation(NULL),
-			  currentCGI(NULL), CGIExt("")
+			:  CGIExt(""),
+			currentWebServer(NULL),
+			  currentServer(NULL),			 
+			  currentLocation(NULL),			  
+			  currentCGI(NULL)
 {
 
 }
 
 LookupConfig::LookupConfig(const WebServerConfig* webServer)
-			: currentWebServer(webServer),
-			  currentServer(NULL),
-			  currentLocation(NULL),
-			  currentCGI(NULL), CGIExt("")
+			: CGIExt(""),
+			currentWebServer(webServer),
+			  currentServer(NULL),			  
+			  currentLocation(NULL),				
+			  currentCGI(NULL)
 {
 
 }
@@ -63,6 +65,7 @@ void LookupConfig::updateCurrentLocation(const std::string& uri)
 	if (!this->currentServer)
 		throw std::logic_error("LookupConfig::updateCurrentLocation: currentServer is NULL");
 	this->currentLocation = this->currentServer->getLocation(uri);
+	
 }
 
 void	LookupConfig::updateUriWithLocationPath(const std::string& uri)

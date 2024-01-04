@@ -1,10 +1,11 @@
 #ifndef LOOKUP_CONFIG_HPP_INCLUDED
 #define LOOKUP_CONFIG_HPP_INCLUDED
 
+class CGIConfig;
 class WebServerConfig;
 class ServerConfig;
 class LocationConfig;
-class CGIConfig;
+
 
 #include <string>
 #include <set>
