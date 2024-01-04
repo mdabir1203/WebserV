@@ -12,6 +12,7 @@
 #include "LookupConfig.hpp"
 
 #include "ServerConfig.hpp" 	//
+#include "CGIConfig.hpp"		//
 
 Methods::Methods()
 {
@@ -116,22 +117,50 @@ void Methods::sendFile(const int clientSocket, const std::string& filePath)
 bool	Methods::isCGI(const std::string& filePath)
 {
 	std::string cgiExtension;
-	std::cout << "isCGI - entered" << filePath << std::endl;
+	std::cout << "isCGI - entered:" << filePath << std::endl;
 	size_t dotPos = filePath.find_last_of('.');
 	size_t qusetionMarkPos = filePath.find('?');
 	if (dotPos == std::string::npos)
-		return (false);
+	{
+		std::cout << "IS CGI - FALSE"<< std::endl;
+		_configuration->CGIExt = "";
+		return false;
+	}
 	if(qusetionMarkPos != std::string::npos)
 	{
 		cgiExtension = filePath.substr(dotPos, qusetionMarkPos - dotPos);
+		std::cout << "IS CGI - TRUE1" << std::endl;
 	}
 	else
 	{
 		cgiExtension = filePath.substr(dotPos, filePath.size() - dotPos);
+		std::cout << "IS CGI - TRUE2"<< std::endl;
 	}
-	//std::cout << "CGI EXT" << cgiExtension << std::endl;	
-	return (false);
+	if (cgiExtension == ".py" || cgiExtension == ".sh" || cgiExtension == ".js")
+	{
+		std::cout << "IS CGI - TRUE3"<< std::endl;
+		_configuration->CGIExt = cgiExtension;
+		return (true);
+	}
+	_configuration->CGIExt = "";
+    return false;
 }
+
+bool	Methods::isCGIAllowed(const std::string& cgiExtension)
+{
+	std::cout << "sCGIAllowed: " << cgiExtension << std::endl;
+	for (std::set<std::string>::const_iterator it = _configuration->getCurrentCGI()->cgiExtensions.begin(); it != _configuration->getCurrentCGI()->cgiExtensions.end(); ++it)
+	{
+		if (*it == cgiExtension)
+		{
+			std::cout << "TRUE"<< std::endl;
+			return true;
+		}
+	}
+	std::cout << "FALSE"<< std::endl;
+}
+
+
 
 void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientSocket, HttpResponse& response) //TODO: store answers in a queue and send them in a loop
 {	
@@ -150,8 +179,21 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 		return ;
 	}
 	else if (isCGI(UriPath))
-	{
+	{	
+		if(!isCGIAllowed(_configuration->CGIExt))
+		{
+			response.setStatusCode(403);
+			response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+			std::cout << " GET method processed 403 - CGI extension not allowed in config" << std::endl; // TODO:Provide error page 403
+			return ;
+		}
 		_handleCGI(parser, clientSocket, response);
+
+
+
+
+
+		
 		if (fileInfo.st_mode & S_IXUSR)
 		{
 			response.setStatusCode(200);
@@ -348,23 +390,31 @@ std::string Methods::getServerName()
 
 void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response)
 {
-	(void)parser;
-	(void)clientSocket;
-	(void)response;
+	// (void)parser;
+	// (void)clientSocket;
+	// (void)response;
 	
 	/* CHECK IF CGI ALLOWED IN CONFIG */
+
 	const std::string& UriPath = (_configuration->getUriPath());
 	std::cout << "_handleCGI" << std::endl;
 	
 	std::string cgiScriptPath = _retrieveCgiScriptPath(UriPath, response);
-	std::cout << "CGI SCRIPT PATH: " << cgiScriptPath << std::endl;
+	std::cout << "cgiScriptPath is: " << cgiScriptPath << std::endl;
+	std::string const queryPath = parser.getUriComponents("query");
+	std::cout << "queryPath is: " << queryPath << std::endl;
+	std::string const path = parser.getUriComponents("path");
+	std::cout << "path is: " << path << std::endl;
 	
+
+
+	//http://127.0.0.1:8083/cgi-bin/calc.py?param1=1&param2=4
 }
 
 std::string Methods::_retrieveCgiScriptPath(const std::string& UriPath, HttpResponse& response)
 {
 	struct stat fileStat;
-	std::cout << "CGI PATH: " << UriPath << std::endl;
+	std::cout << "_retrieveCgiScriptPath, UriPath is: " << UriPath << std::endl;
 	size_t dotPos = UriPath.find('.');
 	size_t infoPos = UriPath.find('/', dotPos);
 	size_t queryPos = UriPath.find('?', dotPos);

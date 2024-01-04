@@ -352,3 +352,19 @@ void	HeaderFieldStateMachine::handleStateHeaderBody(char c)
 	(void)c;
 	stateTransition(HEADER_BODY, HEADER_END);
 }
+
+const std::string& HeaderFieldStateMachine::getUriComponents(std::string identifier) const
+{
+	if (identifier == "scheme")
+		return (uriParts.scheme);
+	else if (identifier == "authority")
+		return (uriParts.authority);
+	else if (identifier == "path")
+		return (uriParts.path);
+	else if (identifier == "query")
+		return (uriParts.query);
+	else if (identifier == "fragment")
+		return (uriParts.fragment);
+	else
+		throw std::runtime_error("Invalid identifier");
+}

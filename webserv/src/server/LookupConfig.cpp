@@ -11,7 +11,7 @@ LookupConfig::LookupConfig(void)
 			: currentWebServer(NULL),
 			  currentServer(NULL),
 			  currentLocation(NULL),
-			  currentCGI(NULL)
+			  currentCGI(NULL), CGIExt("")
 {
 
 }
@@ -20,7 +20,7 @@ LookupConfig::LookupConfig(const WebServerConfig* webServer)
 			: currentWebServer(webServer),
 			  currentServer(NULL),
 			  currentLocation(NULL),
-			  currentCGI(NULL)
+			  currentCGI(NULL), CGIExt("")
 {
 
 }
@@ -71,6 +71,13 @@ void	LookupConfig::updateUriWithLocationPath(const std::string& uri)
 		throw std::logic_error("LookupConfig::updateUriWithLocationPath: currentLocation is NULL");	
 	_uriPath = uri;
 	_uriPath.insert(0, this->currentLocation->rootDirectory);
+}
+
+void	LookupConfig::updateCurrentCGI()
+{
+	if (!this->currentLocation)
+		throw std::logic_error("LookupConfig::updateCurrentCGI: currentLocation is NULL");
+	this->currentCGI = this->currentLocation->cgiConfig;
 }
 
 const WebServerConfig* LookupConfig::getCurrentWebServer(void) const

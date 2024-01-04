@@ -195,6 +195,8 @@ void SocketServer::_HandleClient(int clientSocket)
 		_configuration->updateCurrentServer(it->second.first, it->second.second, parser.getParsedHeaders().find("host")->second.front()); // TODO: make sure host is there, think about this: localhost:8082
 		_configuration->updateCurrentLocation(parser.getHeaderUriPath());
 		_configuration->updateUriWithLocationPath(parser.getHeaderUriPath());
+		_configuration->updateCurrentCGI();
+
 		std::cout << PURPLE << "Requested Path in methodHandler: " << _configuration->getUriPath() << RESET << std::endl;
 		methodHandler.handleMethod(parser, clientSocket, response); // TODO: rapid request spamming leads to server failure
 	}

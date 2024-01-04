@@ -16,6 +16,20 @@ CGIConfig::~CGIConfig()
 {
 }
 
+
+CGIConfig::CGIConfig(const CGIConfig& source) : cgiExtensions(source.cgiExtensions)
+{    
+}
+
+CGIConfig& CGIConfig::operator=(const CGIConfig& source)
+{
+    if (this != &source)
+    {
+        cgiExtensions = source.cgiExtensions;
+    }
+    return *this;
+}
+
 void CGIConfig::printConfig(void) const
 {
     std::cout << CYAN << "===cgiConfig===" << RESET << std::endl;

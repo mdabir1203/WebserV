@@ -12,6 +12,9 @@ public:
     std::set<std::string> cgiExtensions; // by default empty will be filled in the handler (.py .sh)
     CGIConfig();
     ~CGIConfig();
+    CGIConfig(const CGIConfig& source);
+
+    CGIConfig& operator=(const CGIConfig& source);
     // std::string cgiPath;
     // std::string cgiDirectory;
     //  Add more CGI-related configurations if needed
@@ -20,3 +23,4 @@ public:
 };
 
 #endif /* CGI_CONFIG_HPP_INCLUDED */
+

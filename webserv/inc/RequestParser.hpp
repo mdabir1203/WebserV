@@ -60,6 +60,7 @@ public:
    const std::map<std::string, std::vector<std::string> >& getParsedHeaders() const;
    int getHeaderMethod() const;
    const std::string& getHeaderUriPath() const;
+   const std::string& getUriComponents(std::string identifier) const;
    const bool& getIsHttpVersionRight() const;
    void  setCurrentState(const int state);
    void  setInputPosition(const size_t position);

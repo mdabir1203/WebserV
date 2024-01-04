@@ -15,7 +15,8 @@ public:
 	~Methods();
 
 	void handleMethod(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
-	bool isCGI(const std::string &filePath);
+	bool	isCGI(const std::string &filePath);
+	bool isCGIAllowed(const std::string& cgiExtension);
 	void    setConfiguration(LookupConfig* configuration);
 
 private:
