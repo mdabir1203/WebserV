@@ -7,7 +7,7 @@ ClientState::ClientState(const int clientSocket, const WebServerConfig& webServe
 			: _clientSocket(clientSocket),
 			  state(CLIENT_STATE_REQUEST_PARSING)
 {
-
+	updateLastInteractionTime();
 	//TODO: initialize LookupConfig with webServerConfig change to mandatory in construcor of lookupConfig
 }
 
@@ -38,7 +38,7 @@ bool	ClientState::isTimeout(void) const
 
 	if (timeout > std::numeric_limits<time_t>::max() - this->_lastInteraction)
 		return (false);
-	else if (currentTime > _lastInteraction + timeout)
+	else if (currentTime > this->_lastInteraction + timeout)
 		return (true);
 	return (false);
 }
