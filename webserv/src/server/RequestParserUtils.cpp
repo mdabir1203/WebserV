@@ -351,8 +351,78 @@ void	HeaderFieldStateMachine::handleStateHeaderPairDone(char c)
 
 /*---------------------header Body parsing----------------*/
 
+
+
+std::string readBody(int contentLength, std::istream& inputStream) {
+    std::string body;
+    body.reserve(contentLength);  // Reserve space to avoid reallocations
+    char buffer;
+    for (int i = 0; i < contentLength; ++i) {
+        inputStream.get(buffer);  // Read one character at a time
+        body.push_back(buffer);
+    }
+    return body;
+}
+
+
 void	HeaderFieldStateMachine::handleStateHeaderBody(char c)
 {
-	(void)c;
+	std::string body;
+	int contentLength = std::stoi(headers["Content-Length"]).front();
+	body(contentLength, '\0');
+
+	inputStream.read(&body[0], contentLength);
+
+	parseBody(body);
 	stateTransition(HEADER_BODY, HEADER_END);
+
+}
+
+void HeaderFieldStateMachine::parseBody(const std::string& body)
+{
+	std::string contentType = headers["Content-Type"].front();
+	if (contentType == "application/x-www-form-urlencoded") {
+		std::map<std::string, std::string> data = parseUrlEncoded(body);
+		//handle data as needed
+	}
+	// adding more conditions
+}
+
+std::map<std::string, std::string> HeaderFieldStateMachine::parseUrlEncoded(const std::string& body)
+{
+	std::map<std::string, std::string> data;
+	std::istringstream bodyStream(body);
+	std::string pair;
+
+	while (std::getline(bodyStream, pair, '&'))
+	{
+		size_t equalPos = pair.find('=');
+		if (equalPos != std::string::npos){
+			std::string key = pair.substr(0, equalPos);
+			std::string value = pair.substr(equalPos + 1);
+			data[urlDecode(key)] = urlDecode(value);
+		}
+	}
+	return data;
+}
+
+
+std::string HeaderFieldStateMachine::urlDecode(const std::string& str)
+{
+	std::ostringstream decoded;
+	for (size_t i = 0; i < str.length(); ++i){
+		if (str[i] == '+'){
+			decoded << ' ';
+		} else if (str[i] == '%' && i + 2 < str.length()){
+			int value;
+			std::istringstream is(str.substr(i + 1, 2));
+			if (is >> std::hex >> value) {
+				decoded << static_cast<char>(value);
+				i += 2;
+			}
+		} else {
+			decoded << str[i];
+		}
+	}
+	return decoded.str();
 }

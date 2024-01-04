@@ -6,6 +6,7 @@
 #include <cctype>
 #include <cstddef>
 #include <cstring>
+#include <sstream>
 
 
 #include "RequestParser.hpp"
@@ -302,6 +303,56 @@ void    testWrongRequestLineAndFieldsCombiantion()
 
     std::cout << "Test Wrong Request Line and Header Fields Combination: Passed\n";
 }
+
+void testReadBody() {
+    std::stringstream inputStream("Hookah Hookah");
+    int contentLength = 13;
+    std::string result = readBody(contentLength, inputStream);
+    assert(result == "Hookah Hookah");
+    std::cout << "Test Read Body: Passed\n";
+}
+
+void testHandleStateHeaderBody() {
+    std::stringstream inputStream("BodyContent");
+    HeaderFieldStateMachine parser;
+    parser.headers["Content-Length"].push_back("13");
+    parser.headers["Content-Type"].push_back("application/x-www-form-urlencoded");
+
+    // lets mock the inputStream
+    parser.handleStateHeaderBody(' ');
+    std::cout << "Test Handle State Header Body: Passed\n";
+}
+
+
+void testParseBody(){
+    HeaderFieldStateMachine parser;
+    std::string body = "key=value&key2=value2";
+    parser.headers["Content-Type"].push_back("application/x-www-form-urlencoded");
+    parser.parseBody(body);
+
+    assert(parser.getParsedHeaders().at("key").front() == "value");
+    assert(parser.getParsedHeaders().at("key2").front() == "value2");
+    std::cout << "Test Parse Body: Passed\n";
+}
+
+void testParseUrlEncoded() {
+    std::string body = "key=value&key2=value2";
+    std::map<std::string, std::string> result = parseUrlEncoded(body);  // Explicitly specifying the type
+
+    assert(result["key"] == "value");
+    assert(result["key2"] == "value2");
+    std::cout << "Test Parse Url Encoded: Passed\n";
+}
+
+
+void testUrlDecode() {
+    std::string encoded = "We%20are%21+Stuck%20stupid%20test%21";
+    std::string decoded = urlDecode(encoded);
+
+    assert(decoded == "We are! Stuck stupid test!");
+    std::cout << "Test URL Decode: Passed\n";
+}
+
 
 // Additional test cases would be similarly structured...
 int main() {
