@@ -32,6 +32,8 @@ class LookupConfig
 
 		const std::set<uint16_t>	getServerPorts(void) const;
 
+		time_t						getTimeout(void) const;
+
 	private:
 		const WebServerConfig*	currentWebServer;
 		const ServerConfig*		currentServer;

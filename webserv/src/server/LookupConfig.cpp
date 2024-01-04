@@ -98,4 +98,10 @@ const std::set<uint16_t> LookupConfig::getServerPorts(void) const
 	return (this->currentWebServer->getServerPorts());
 }
 
+time_t	LookupConfig::getTimeout(void) const
+{
+	if (!this->currentWebServer)
+		throw std::logic_error("LookupConfig::getServerPorts: currentWebServer is NULL");
+	return (this->currentWebServer->timeout); //TODO: adjust data type in parsing
+}
 // void LookupConfig::updateCurrentCGI(???)
