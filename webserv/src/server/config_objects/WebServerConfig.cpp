@@ -5,6 +5,14 @@
 #include "Colors.hpp"
 #include "ServerConfig.hpp"
 
+WebServerConfig *WebServerConfig::_instancePtr = NULL;
+
+WebServerConfig* WebServerConfig::getInstance(void)
+{
+	//TODO: implement singleton here
+	return (WebServerConfig::_instancePtr);
+}
+
 WebServerConfig::WebServerConfig()
 				: maxClientBodySize(1000000),
 				  defaultFolderFile("index.html"),
@@ -12,6 +20,7 @@ WebServerConfig::WebServerConfig()
 				  timeout(20000)
 {
 	defaultErrorPages[404] = "error_pages/404.html";
+	WebServerConfig::_instancePtr = this;
 }
 
 WebServerConfig::~WebServerConfig()

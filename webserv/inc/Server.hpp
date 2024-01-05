@@ -1,34 +1,43 @@
 #ifndef SERVER_HPP_INCLUDED
 #define SERVER_HPP_INCLUDED
 
+class ClientState;
+
 #include <set>
 #include <stdint.h>
+#include <map>
 
 class SocketServer
 {
 public:
     ~SocketServer(void);
 
-    static SocketServer*    getInstance(const std::set<uint16_t>& ports);
-    static SocketServer*    getServer(void);
+    static SocketServer*    getInstance(void);
 
-    void    start();
+
+    void    start(const std::set<uint16_t> &ports);
     void    stop();
     bool    isRunning() const;
 
 private:
     static SocketServer* _instancePtr;
 
+    SocketServer(void);
     SocketServer(const SocketServer& src);
     SocketServer& operator=(const SocketServer& rhs);
-    SocketServer(const std::set<uint16_t>& ports);
 
+    void    _initServerSockets(const std::set<uint16_t> &ports);
     void    _run();
+
+    ClientState&    _getClientState(const int clientSocket);
+
     int     _acceptClient(int serverSocket);
-    void    _HandleClient(int clientSocket);
+    void    _handleClient(ClientState& client);
+
+
+    std::map<int, ClientState*> _clientStates;
 
     std::set<int>   _serverSockets;
-    std::set<int>   _clientSockets; //implement it to store open client sockets
     bool            _isRunning;
     int             _epollFd;
 };

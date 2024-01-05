@@ -10,27 +10,55 @@
 #include "RequestParser.hpp"
 #include "Response.hpp"
 #include "Methods.hpp"
-
+#include "ClientState.hpp"
+#include "WebServerConfig.hpp"
 
 SocketServer *SocketServer::_instancePtr = NULL;
 
-SocketServer *SocketServer::getInstance(const std::set<uint16_t> &ports)
+SocketServer *SocketServer::getInstance(void)
 {
 	if (!SocketServer::_instancePtr)
-		SocketServer::_instancePtr = new SocketServer(ports);
+		SocketServer::_instancePtr = new SocketServer();
 	return (SocketServer::_instancePtr);
 }
 
-SocketServer* SocketServer::getServer(void)
-{
-	if (!SocketServer::_instancePtr)
-		throw std::runtime_error("Server not initialized");
-	return (SocketServer::_instancePtr);
-}
-
-SocketServer::SocketServer(const std::set<uint16_t> &ports)
+SocketServer::SocketServer(void)
 	: _isRunning(false),
 	  _epollFd(-1)
+{
+	
+}
+
+SocketServer& SocketServer::operator=(const SocketServer& rhs)
+{
+	(void)rhs;
+	return (*this);
+}
+
+SocketServer::~SocketServer()
+{
+	std::set<int>::iterator it;
+	for (it = _serverSockets.begin(); it != _serverSockets.end(); it++)
+		close(*it);
+	
+	std::map<int, ClientState*>::iterator clientStateIt;
+	for (clientStateIt = _clientStates.begin(); clientStateIt != _clientStates.end(); clientStateIt++)
+		delete clientStateIt->second;
+
+	if (_epollFd != -1)
+		close(_epollFd);
+}
+
+void SocketServer::start(const std::set<uint16_t> &ports)
+{
+	if (this->_isRunning)
+		throw std::logic_error("Server is already running");
+	this->_isRunning = true;
+	_initServerSockets(ports);
+	_run(); // -> used to start the main server loop
+}
+
+void	SocketServer::_initServerSockets(const std::set<uint16_t> &ports)
 {
 	sockaddr_in m_address;
 	std::memset(&m_address, 0, sizeof(m_address));
@@ -51,33 +79,6 @@ SocketServer::SocketServer(const std::set<uint16_t> &ports)
 		if (listen(*(socketSetRet.first), 10) == -1) // 10 is the maximum number of connections
 			throw std::runtime_error("Socket listening failed for port"); //TODO: add port print
 	}
-}
-
-SocketServer& SocketServer::operator=(const SocketServer& rhs)
-{
-	(void)rhs;
-	return (*this);
-}
-
-SocketServer::~SocketServer()
-{
-	std::set<int>::iterator it;
-	for (it = _serverSockets.begin(); it != _serverSockets.end(); it++)
-		close(*it);
-	for (it = _clientSockets.begin(); it != _clientSockets.end(); it++)
-		close(*it);
-	if (_epollFd != -1)
-		close(_epollFd);
-}
-
-void SocketServer::start()
-{
-	if (this->_isRunning)
-	{
-		throw std::logic_error("Server is already running");
-	}
-	this->_isRunning = true;
-	_run(); // -> used to start the main server loop
 }
 
 void SocketServer::stop()
@@ -132,7 +133,7 @@ void SocketServer::_run()
 			{
 				struct epoll_event event;
 				int clientSocket = _acceptClient(fd); // Socket for connections between client and server
-				event.events = EPOLLIN;				// Monitor for read events
+				event.events = EPOLLIN | EPOLLOUT;		// Monitor for read and write events
 				event.data.fd = clientSocket;
 				if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, clientSocket, &event) == -1)
 				{
@@ -142,7 +143,8 @@ void SocketServer::_run()
 			else
 			{
 				// Handle client request
-				_HandleClient(fd);
+				ClientState& client = _getClientState(fd);
+				_handleClient(client);
 				close(fd); // Close client socket after handling request
 			}
 			i++;
@@ -159,26 +161,34 @@ int SocketServer::_acceptClient(int serverSocket)
 	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
 	if (clientSocket == -1)
 		throw std::runtime_error("Socket accept failed");
+	_getClientState(clientSocket);
 	return clientSocket;
 }
 
-void SocketServer::_HandleClient(int clientSocket)
+ClientState&	SocketServer::_getClientState(const int clientSocket)
+{
+	std::pair<std::map<int, ClientState*>::iterator, bool> insertResult;
+	insertResult = this->_clientStates.insert(std::make_pair(clientSocket, (ClientState*)NULL));
+	if (insertResult.second)
+		insertResult.first->second = new ClientState(clientSocket, WebServerConfig::getInstance());
+	return (*(insertResult.first->second));
+}
+
+void SocketServer::_handleClient(ClientState& client)
 {
 	// Read the HTTP request from the client
 	char requestBuffer[8192];
-	int bytesReceived = recv(clientSocket, requestBuffer, 8192, 0); // change 8192 ResponseBufferSize
+	int bytesReceived = recv(client.getClientSocket(), requestBuffer, 8192, 0); // change 8192 ResponseBufferSize
 	if (bytesReceived < 0)
 	{
 		throw std::runtime_error("Error in recv()");
 	}
 	// Temporarily parse the HTTP request
-	HeaderFieldStateMachine parser;
-	HttpResponse response;
 
-	if (parser.parseRequestHeaderChunk(requestBuffer) == BAD_REQUEST)
+	if (client.requestParser.parseRequestHeaderChunk(requestBuffer) == BAD_REQUEST)
 	{
-		response.setStatusCode(400);
-		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		client.response.setStatusCode(400);
+		client.response.sendBasicHeaderResponse(client.getClientSocket(), UNKNOWN);
 		return;
 	}
 
@@ -186,13 +196,13 @@ void SocketServer::_HandleClient(int clientSocket)
 
 	try
 	{
-		methodHandler.handleMethod(parser, clientSocket, response); // TODO: rapid request spamming leads to server failure
+		methodHandler.handleMethod(client.requestParser, client.getClientSocket(), client.response); // TODO: rapid request spamming leads to server failure
 	}
 	catch (const std::exception &e)
 	{
 		std::cerr << "Error processing request: " << e.what() << std::endl; // TODO: send back 500 error
-		response.setStatusCode(500);
-		response.sendBasicHeaderResponse(clientSocket, UNKNOWN);
+		client.response.setStatusCode(500);
+		client.response.sendBasicHeaderResponse(client.getClientSocket(), UNKNOWN);
 	}
 	// ----- ------- Testing Parer ------------  -----------
 	// std::cout << "Method: " << ToString((HttpMethod)parser.getHeaderMethod()) << std::endl;
@@ -220,5 +230,12 @@ void SocketServer::_HandleClient(int clientSocket)
 	//  char responseBuffer[8192];
 	//  int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
 	//  send(clientSocket, responseBuffer, bytesWritten, 0);
-	close(clientSocket);
+	close(client.getClientSocket());
+
+	//delete client from list
+	std::map<int, ClientState*>::iterator it;
+	it = _clientStates.find(client.getClientSocket());
+	delete it->second;
+	it->second = NULL;
+	_clientStates.erase(it);
 }

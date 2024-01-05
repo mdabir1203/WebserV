@@ -16,7 +16,7 @@ enum CLIENT_STATES
 class ClientState
 {
 	public:
-		ClientState(const int clientSocket, const WebServerConfig& webServerConfig);
+		ClientState(const int clientSocket, const WebServerConfig* webServerConfig);
 		ClientState(const ClientState& src);
 		ClientState& operator=(const ClientState& rhs);
 		~ClientState(void);

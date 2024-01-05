@@ -37,6 +37,7 @@ SERVER := $(addprefix server/, \
     RequestParserUri.cpp \
     Methods.cpp \
     LookupConfig.cpp \
+    ClientState.cpp \
 )
 
 # All source files
