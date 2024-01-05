@@ -160,6 +160,7 @@ std::string LookupConfig::_retrievePathInfo(const std::string& path)
 }
 
 
+
 #include <sstream>
 void LookupConfig::setEnvVars(int method, HttpResponse &response)
 {
@@ -176,6 +177,7 @@ void LookupConfig::setEnvVars(int method, HttpResponse &response)
 	_updateEnvVarVector("CONTENT_TYPE=", response.contentType);	
 	_updateEnvVarVector("GATEWAY_INTERFACE=", "CGI/1.1");
 	_updateEnvVarVector("PATH_INFO=", _retrievePathInfo(_uriPath));
+	_updateEnvVarVector("PATH_TRANSLATED=", _retrievePathInfo(_uriPath));
 
 	// _envVars.push_back("PATH_TRANSLATED=" + _scriptPath);
 	// _envVars.push_back("QUERY_STRING=" + _queryString);

@@ -44,6 +44,7 @@ class LookupConfig
 
 		const std::string & getUriPath() const;
 		std::string _retrievePathInfo(const std::string& path);
+		
 		std::string 			CGIExt;
 
 	private:
@@ -53,6 +54,7 @@ class LookupConfig
 		const CGIConfig*		currentCGI;
 		std::string 			_uriPath;
 		std::vector<std::string>_envVars;
+		std::string				_cgiScriptPath;
 
 		void _updateEnvVarVector(const std::string authTypePrefix, const std::string newAuthType);
 		

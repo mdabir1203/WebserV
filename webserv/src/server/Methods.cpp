@@ -402,6 +402,8 @@ void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int client
 	// std::cout << "cgiScriptPath is: " << cgiScriptPath << std::endl;
 	std::string const queryPath = parser.getUriComponents("query");
 	std::cout << "queryPath is: " << queryPath << std::endl;
+
+
 	std::string const path = parser.getUriComponents("path");
 	std::cout << "path is: " << path << std::endl;
 
