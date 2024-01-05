@@ -28,6 +28,7 @@ class LookupConfig
 		void	setCurrentWebServer(const WebServerConfig* webServer);
 
 		void	updateCurrentServer(const uint32_t& ipv4Address, const uint16_t& port, const std::string& host);
+		void	updateCurrentServer(const ServerConfig* server);
 		void	updateCurrentLocation(const std::string& uri);
 		void	updateUriWithLocationPath(const std::string& uri);
 		void	updateCurrentCGI();
@@ -39,6 +40,8 @@ class LookupConfig
 		void					setEnvVars(int method, HttpResponse &response);
 
 		const std::set<uint16_t>	getServerPorts(void) const;
+
+		time_t						getTimeout(void) const;
 
 		bool isAutoindex() const;
 

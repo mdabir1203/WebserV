@@ -68,6 +68,11 @@ void LookupConfig::updateCurrentServer(const uint32_t& ipv4Address, const uint16
 	this->currentServer = this->currentWebServer->getServerConfig(ipv4Address, port, host);
 }
 
+void LookupConfig::updateCurrentServer(const ServerConfig* server)
+{
+	this->currentServer = server;
+}
+
 void LookupConfig::updateCurrentLocation(const std::string& uri)
 {
 	if (!this->currentServer)
@@ -118,6 +123,12 @@ const std::set<uint16_t> LookupConfig::getServerPorts(void) const
 	return (this->currentWebServer->getServerPorts());
 }
 
+time_t	LookupConfig::getTimeout(void) const
+{
+	if (!this->currentWebServer)
+		throw std::logic_error("LookupConfig::getServerPorts: currentWebServer is NULL");
+	return (this->currentWebServer->timeout); //TODO: adjust data type in parsing
+}
 // void LookupConfig::updateCurrentCGI(???)
 
 bool LookupConfig::isAutoindex() const

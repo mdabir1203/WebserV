@@ -36,6 +36,8 @@ class WebServerConfig : public IConfig
     void setClientMaxBodySize(const size_t& value);
 
 
+    static WebServerConfig*    getInstance(void);
+
 
     //Lookup config data
     const ServerConfig*         getServerConfig(uint32_t ipAddress, uint16_t port, const std::string& host) const;
@@ -44,6 +46,10 @@ class WebServerConfig : public IConfig
     // std::string getUriPathFromConfig(const std::string& uri) const;
 
     void    printConfig(bool printServers) const;
+
+    private:
+
+    static WebServerConfig* _instancePtr;
 };
 
 #endif /* WEB_SERVER_CONFIG_HPP_INCLUDED */

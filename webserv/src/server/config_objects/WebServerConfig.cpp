@@ -5,6 +5,14 @@
 #include "Colors.hpp"
 #include "ServerConfig.hpp"
 
+WebServerConfig *WebServerConfig::_instancePtr = NULL;
+
+WebServerConfig* WebServerConfig::getInstance(void)
+{
+	//TODO: implement singleton here
+	return (WebServerConfig::_instancePtr);
+}
+
 WebServerConfig::WebServerConfig()
 			   :  defaultServerBlock(NULL),
 				  isDefaultServerBlockSet(false),
@@ -15,6 +23,7 @@ WebServerConfig::WebServerConfig()
 
 {
 	defaultErrorPages[404] = "error_pages/404.html";
+	WebServerConfig::_instancePtr = this;
 }
 
 WebServerConfig::~WebServerConfig()

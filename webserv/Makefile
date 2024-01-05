@@ -39,6 +39,7 @@ SERVER := $(addprefix server/, \
     LookupConfig.cpp \
     directory_listing.cpp \
     file_locking.cpp \
+    ClientState.cpp \
 )
 
 # All source files
