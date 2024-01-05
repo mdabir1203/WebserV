@@ -10,12 +10,12 @@
 #include "RequestParser.hpp"
 
 HttpResponse::HttpResponse()
-            : statusCode(0), contentType(""), content(""), lastModifiedTime(""), serverName("")
+            :  contentType(""), statusCode(0), content(""), lastModifiedTime(""), serverName("")
 {
 }
 
-HttpResponse::HttpResponse(int statusCode, const std::string& contentType, const std::string& content, const std::string& lastModifiedTime, const std::string& serverName)
-			: statusCode(statusCode), contentType(contentType), content(content), lastModifiedTime(lastModifiedTime), serverName(serverName)
+HttpResponse::HttpResponse(const std::string& contentType, int statusCode,  const std::string& content, const std::string& lastModifiedTime, const std::string& serverName)
+			: contentType(contentType), statusCode(statusCode),  content(content), lastModifiedTime(lastModifiedTime), serverName(serverName)
 {
 }
 

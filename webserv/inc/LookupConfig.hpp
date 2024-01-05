@@ -6,10 +6,15 @@ class WebServerConfig;
 class ServerConfig;
 class LocationConfig;
 
+#define GET_METHOD 0
+ #define POST_METHOD 1
+ #define DELETE_METHOD 2
 
 #include <string>
 #include <set>
 #include <stdint.h>
+#include <vector>
+#include "Response.hpp"
 
 class LookupConfig
 {
@@ -31,12 +36,14 @@ class LookupConfig
 		const ServerConfig*		getCurrentServer(void) const;
 		const LocationConfig*	getCurrentLocation(void) const;
 		const CGIConfig*		getCurrentCGI(void) const;
+		void					setEnvVars(int method, HttpResponse &response);
 
 		const std::set<uint16_t>	getServerPorts(void) const;
 
 		bool isAutoindex() const;
 
 		const std::string & getUriPath() const;
+		std::string _retrievePathInfo(const std::string& path);
 		std::string 			CGIExt;
 
 	private:
@@ -45,6 +52,9 @@ class LookupConfig
 		const LocationConfig*	currentLocation;
 		const CGIConfig*		currentCGI;
 		std::string 			_uriPath;
+		std::vector<std::string>_envVars;
+
+		void _updateEnvVarVector(const std::string authTypePrefix, const std::string newAuthType);
 		
 };
 

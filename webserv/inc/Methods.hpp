@@ -7,6 +7,10 @@ class LookupConfig;
 #include <string>
 
 class Methods
+
+// #define GET_METHOD 0
+// #define POST_METHOD 1
+// #define DELETE_METHOD 2
 {
 public:
 	Methods();
@@ -23,7 +27,7 @@ private:
 	void handleGET(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void handlePOST(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
 	void handleDELETE(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
-	void _handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response);
+	void _handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response, int method);
 	void sendFile(const int clientSocket, const std::string &filePath);
 	LookupConfig* _configuration;   
 	
@@ -32,10 +36,15 @@ private:
 	void sendDirectoryListing(const std::string& path, HttpResponse& response, const int clientSocket);
 
 	void setDefaultDirectoryPage(const std::string& defaultPagePath);
-	std::string _retrieveCgiScriptPath(const std::string&UriPath, HttpResponse& response);
+	/* GET Method */
 	std::string defineContentType(const std::string& UriPath);
 	std::string getLastModifiedTime(const std::string& file_path);
 	std::string getServerName();
+
+	/* CGI */
+	std::string _retrieveCgiScriptPath(const std::string&UriPath, HttpResponse& response);
+	
+
 	std::string	defaultDirectoryPage;
 };
 

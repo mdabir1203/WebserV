@@ -6,6 +6,9 @@
 #include "WebServerConfig.hpp"
 #include "ServerConfig.hpp"
 #include "LocationConfig.hpp"
+#include "Response.hpp"
+
+extern char **environ;
 
 LookupConfig::LookupConfig(void)
 			:  CGIExt(""),
@@ -14,7 +17,9 @@ LookupConfig::LookupConfig(void)
 			  currentLocation(NULL),			  
 			  currentCGI(NULL)
 {
-
+	int i = 0;
+	while (environ[i])
+		_envVars.push_back(environ[i++]);
 }
 
 LookupConfig::LookupConfig(const WebServerConfig* webServer)
@@ -24,7 +29,9 @@ LookupConfig::LookupConfig(const WebServerConfig* webServer)
 			  currentLocation(NULL),				
 			  currentCGI(NULL)
 {
-
+	int i = 0;
+	while (environ[i])
+		_envVars.push_back(environ[i++]);
 }
 
 LookupConfig::LookupConfig(const LookupConfig& src)
@@ -40,6 +47,7 @@ LookupConfig& LookupConfig::operator=(const LookupConfig& rhs)
 	this->currentServer = rhs.currentServer;
 	this->currentLocation = rhs.currentLocation;
 	this->currentCGI = rhs.currentCGI;
+	this->_envVars = rhs._envVars;
 	return (*this);
 }
 
@@ -120,4 +128,69 @@ bool LookupConfig::isAutoindex() const
 const std::string & LookupConfig::getUriPath() const
 {
 	return (_uriPath);
+}
+
+
+void LookupConfig::_updateEnvVarVector(const std::string authTypePrefix, const std::string newAuthType)
+{
+    // Поиск элемента, начинающегося с "AUTH_TYPE="
+    for (std::vector<std::string>::iterator it = _envVars.begin(); it != _envVars.end(); ++it)
+	{
+        if (it->find(authTypePrefix) == 0)
+		{
+            *it = authTypePrefix + newAuthType;
+            return;
+        }
+    }
+    _envVars.push_back(authTypePrefix + "\"\"");
+	return;
+}
+
+std::string LookupConfig::_retrievePathInfo(const std::string& path)
+{
+	size_t dotPos = path.find('.');
+	size_t addPath = path.find('/', dotPos);
+	size_t queryPos = path.find('?', dotPos);
+	std::string _pathInfo = "";
+	if(queryPos != std::string::npos && addPath != std::string::npos)
+		_pathInfo = path.substr(addPath, queryPos - addPath);
+	else if(addPath != std::string::npos)
+		_pathInfo = path.substr(addPath);
+	return _pathInfo;
+}
+
+
+#include <sstream>
+void LookupConfig::setEnvVars(int method, HttpResponse &response)
+{
+	_updateEnvVarVector("AUTH_TYPE=", "");
+	if (method == GET_METHOD)
+		_updateEnvVarVector("CONTENT_LENGTH=", "");	
+	else if(method == POST_METHOD)
+	{
+		std::ostringstream oss;
+    	oss << response.contentLength;
+    	std::string contentLengthStr = oss.str();
+		_updateEnvVarVector("CONTENT_LENGTH=", contentLengthStr);// TO DO - ADD LENGTH FOR POST 
+	}
+	_updateEnvVarVector("CONTENT_TYPE=", response.contentType);	
+	_updateEnvVarVector("GATEWAY_INTERFACE=", "CGI/1.1");
+	_updateEnvVarVector("PATH_INFO=", _retrievePathInfo(_uriPath));
+
+	// _envVars.push_back("PATH_TRANSLATED=" + _scriptPath);
+	// _envVars.push_back("QUERY_STRING=" + _queryString);
+	// // _envVars.push_back("REMOTE_ADDR=" + _clientSocket.getIP());
+	// _envVars.push_back("REMOTE_IDENT=");
+	// _envVars.push_back("REMOTE_USER=");
+	// _envVars.push_back("REQUEST_METHOD=" + _header["Method"]);
+	// _envVars.push_back("REQUEST_URI=" + _header["Path"]);
+	// _envVars.push_back("SCRIPT_NAME=" + _scriptPath);
+	// _envVars.push_back("SERVER_NAME=" + _serverConfig.serverName);
+	// _envVars.push_back("SERVER_PORT=" + toString(_serverConfig.port));
+	// _envVars.push_back("SERVER_PROTOCOL=" + _header["HTTP-Version"]);
+	// _envVars.push_back("SERVER_SOFTWARE=webserv/1.0");
+	/* Test: */
+	for (std::vector<std::string>::iterator it = _envVars.begin(); it != _envVars.end(); it++) {
+		std::cout << "header:" << *it << std::endl;
+	}
 }

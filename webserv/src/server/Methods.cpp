@@ -188,8 +188,8 @@ void Methods::handleGET(const HeaderFieldStateMachine& parser, const int clientS
 			std::cout << " GET method processed 403 - CGI extension not allowed in config" << std::endl; // TODO:Provide error page 403
 			return ;
 		}
-		_handleCGI(parser, clientSocket, response);
-		//http://127.0.0.1:8083/cgi-bin/calc.py?param1=1&param2=4
+		_handleCGI(parser, clientSocket, response, GET);
+	
 
 
 
@@ -389,22 +389,23 @@ std::string Methods::getServerName()
 	return (serverName);
 }
 
-void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response)
+void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse &response, int method)
 {
 	// (void)parser;
 	(void)clientSocket;
-	// (void)response;
+	(void)response;
 
-	const std::string& UriPath = (_configuration->getUriPath());
+	//const std::string& UriPath = (_configuration->getUriPath());
 	std::cout << "_handleCGI" << std::endl;
 	
-	std::string cgiScriptPath = _retrieveCgiScriptPath(UriPath, response);
-	std::cout << "cgiScriptPath is: " << cgiScriptPath << std::endl;
+	// std::string cgiScriptPath = _retrieveCgiScriptPath(UriPath, response);
+	// std::cout << "cgiScriptPath is: " << cgiScriptPath << std::endl;
 	std::string const queryPath = parser.getUriComponents("query");
 	std::cout << "queryPath is: " << queryPath << std::endl;
 	std::string const path = parser.getUriComponents("path");
 	std::cout << "path is: " << path << std::endl;
-	
+
+	_configuration->setEnvVars(method, response);
 
 
 	
@@ -438,3 +439,4 @@ std::string Methods::_retrieveCgiScriptPath(const std::string& UriPath, HttpResp
         response.setStatusCode(404);
 	return "";
 }
+
