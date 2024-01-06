@@ -31,6 +31,7 @@ SERVER := $(addprefix server/, \
     ${CONFIG_PARSER} \
     ${CONFIG_OBJECTS} \
     Server.cpp \
+    Server_handleClient.cpp \
     Response.cpp \
     RequestParser.cpp \
     RequestParserUtils.cpp \

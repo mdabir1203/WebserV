@@ -37,13 +37,17 @@ private:
     int     _acceptClient(int serverSocket);
     void    _handleClient(ClientState& client);
 
+    void    _handleClientAsync(ClientState& clientState);
+    void    _readRequestAsync(ClientState& client);
+    void    _processRequest(ClientState& client);
+    void    _writeResponseAsync(ClientState& client);
+    void    _closeConnection(ClientState& client);
+
 
     std::map<int, ClientState*> _clientStates;
-
-    std::set<int>                                   _serverSockets;
-    bool                                            _isRunning;
-    int                                             _epollFd;
-    LookupConfig*                                   _configuration;   
+    std::set<int>               _serverSockets;
+    bool                        _isRunning;
+    int                         _epollFd;
 };
 
 #endif /* SERVER_HPP_INCLUDED */

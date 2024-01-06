@@ -6,6 +6,7 @@
 #include <netinet/in.h>
 #include <sys/epoll.h>
 #include <unistd.h>
+#include "fcntl.h"
 
 #include "RequestParser.hpp"
 #include "Response.hpp"
@@ -129,13 +130,13 @@ void SocketServer::_run()
 		while (i < num_events)
 		{
 			int fd = events[i].data.fd;
-
+			struct epoll_event event;
+	
 			// If server socket has an event, accept new client connection
 			if (this->_serverSockets.find(fd) != this->_serverSockets.end())
 			{
-				struct epoll_event event;
 				int clientSocket = _acceptClient(fd); // Socket for connections between client and server
-				event.events = EPOLLIN | EPOLLOUT;		// Monitor for read and write events
+				event.events = EPOLLIN;		// Monitor for read and write events
 				event.data.fd = clientSocket;
 				if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, clientSocket, &event) == -1)
 				{
@@ -145,9 +146,18 @@ void SocketServer::_run()
 			else
 			{
 				// Handle client request
-				ClientState& client = _getClientState(fd);
-				_handleClient(client);
-				close(fd); // Close client socket after handling request
+				ClientState& clientState = _getClientState(fd);
+				_handleClientAsync(clientState);
+				if (clientState.state == CLIENT_STATE_SENDING)
+				{
+					event.events = EPOLLOUT;
+					if (epoll_ctl(_epollFd, EPOLL_CTL_MOD, clientState.getClientSocket(), &event) == -1)
+					{
+						throw std::runtime_error("Error modifying client socket in epoll set");
+					}
+				}
+				// _handleClient(client);
+				// close(fd); // Close client socket after handling request
 			}
 			i++;
 		}
@@ -164,6 +174,11 @@ int SocketServer::_acceptClient(int serverSocket)
 	if (clientSocket == -1)
 		throw std::runtime_error("Socket accept failed");
 	ClientState& client = _getClientState(clientSocket);
+
+	// Set the socket to non-blocking mode
+	int flags = fcntl(clientSocket, F_GETFL, 0);
+	fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK);
+
 	client.serverConfiguration.updateCurrentServer(client.serverConfiguration.getCurrentWebServer()->defaultServerBlock); //TODO: pick the right block to answer if the request does not make it till the host header
 	client.ipv4 = ntohl(client_addr.sin_addr.s_addr);
 	client.port = ntohs(client_addr.sin_port);
@@ -241,13 +256,4 @@ void SocketServer::_handleClient(ClientState& client)
 	//  char responseBuffer[8192];
 	//  int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
 	//  send(clientSocket, responseBuffer, bytesWritten, 0);
-	
-	close(client.getClientSocket());
-
-	//delete client from list
-	std::map<int, ClientState*>::iterator clientIt;
-	clientIt = _clientStates.find(client.getClientSocket());
-	delete clientIt->second;
-	clientIt->second = NULL;
-	_clientStates.erase(clientIt);
 }
