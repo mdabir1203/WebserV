@@ -58,6 +58,8 @@ bool ServerConfig::isHostMatched(const std::string& host) const
 
 const LocationConfig* ServerConfig::getLocation(const std::string& uri) const //Todo: maybe change to trie structure
 {
+	std::cout << uri << std::endl;
+
 	if (this->locations.empty())
 		return NULL;
 	std::map<std::string, LocationConfig *>::const_iterator c_it;

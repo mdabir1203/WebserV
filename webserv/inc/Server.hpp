@@ -30,7 +30,11 @@ private:
     SocketServer& operator=(const SocketServer& rhs);
 
     void    _initServerSockets(const std::set<uint16_t> &ports);
-    void    _run();
+    void    _run(void);
+    void    _enterEpollEventLoop(void);
+    void    _handleEpollEvents(struct epoll_event* event, int numEvents);
+    void    _handleServerSocketEvent(int serverSocket);
+    void    _handleClientSocketEvent(int clientSocket);
 
     ClientState&    _getClientState(const int clientSocket);
 

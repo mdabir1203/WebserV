@@ -78,7 +78,6 @@ void LookupConfig::updateCurrentLocation(const std::string& uri)
 	if (!this->currentServer)
 		throw std::logic_error("LookupConfig::updateCurrentLocation: currentServer is NULL");
 	this->currentLocation = this->currentServer->getLocation(uri);
-	
 }
 
 void	LookupConfig::updateUriWithLocationPath(const std::string& uri)

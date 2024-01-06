@@ -16,6 +16,14 @@
 #include "ClientState.hpp"
 #include "WebServerConfig.hpp"
 
+static int createEpoll(void);
+static void addServerSocketsToEpoll(int epollFd, const std::set<int>& serverSockets);
+static int acceptClientConnection(int serverSocket, struct sockaddr_in* client_addr);
+static void	storeClientIpAddressandPort(struct sockaddr_in* clientAddr, ClientState& clientStateObject);
+static void	setDefaultServerBlockForResponse(ClientState& clientStateObject);
+static void	setSocketToNonBlocking(int clientSocket);
+static void registerClientForReadEvents(int epollFd, int clientSocket);
+
 SocketServer *SocketServer::_instancePtr = NULL;
 
 SocketServer *SocketServer::getInstance(void)
@@ -99,70 +107,239 @@ bool SocketServer::isRunning() const
 	return this->_isRunning;
 }
 
-void SocketServer::_run()
+void	SocketServer::_run(void)
 {
-	int _epollFd = epoll_create(1); // Create epoll instance
-	if (_epollFd == -1)
-		throw std::runtime_error("Error creating epoll instance");
-
-	std::set<int>::iterator it;
-	for (it = _serverSockets.begin(); it != _serverSockets.end(); it++)
-	{
-		struct epoll_event event;
-		event.events = EPOLLIN; // Monitor for read events
-		event.data.fd = *it;	// Add server socket to epoll set
-		if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, *it, &event) == -1)
-		{
-			throw std::runtime_error("Error adding server socket to epoll set");
-		}
-	}
-
-	std::cout << "Server started." << std::endl;
-	while (this->_isRunning)
-	{
-		struct epoll_event events[10];							// Array to store events
-		int num_events = epoll_wait(_epollFd, events, 10, 150); // Wait for events // TODO: define timeout
-		if (num_events == -1 && this->_isRunning)
-			throw std::runtime_error("Error in epoll_wait");
-
-		// Process events
-		int i = 0;
-		while (i < num_events)
-		{
-			int fd = events[i].data.fd;
-			struct epoll_event event;
-	
-			// If server socket has an event, accept new client connection
-			if (this->_serverSockets.find(fd) != this->_serverSockets.end())
-			{
-				int clientSocket = _acceptClient(fd); // Socket for connections between client and server
-				event.events = EPOLLIN;		// Monitor for read and write events
-				event.data.fd = clientSocket;
-				if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, clientSocket, &event) == -1)
-				{
-					throw std::runtime_error("Error adding client socket to epoll set");
-				}
-			}
-			else
-			{
-				// Handle client request
-				ClientState& clientState = _getClientState(fd);
-				_handleClientAsync(clientState);
-				if (clientState.state == CLIENT_STATE_SENDING)
-				{
-					event.events = EPOLLOUT;
-					if (epoll_ctl(_epollFd, EPOLL_CTL_MOD, clientState.getClientSocket(), &event) == -1)
-					{
-						throw std::runtime_error("Error modifying client socket in epoll set");
-					}
-				}
-				// _handleClient(client);
-				// close(fd); // Close client socket after handling request
-			}
-			i++;
-		}
-	}
+	this->_epollFd = createEpoll();
+	addServerSocketsToEpoll(this->_epollFd, this->_serverSockets);
+    std::cout << "Server started" << std::endl;
+	_enterEpollEventLoop();
 }
+
+static void addServerSocketsToEpoll(int epollFd, const std::set<int>& serverSockets)
+{
+	std::set<int>::iterator it;
+    for (it = serverSockets.begin(); it != serverSockets.end(); it++)
+	{
+        struct epoll_event event;
+        event.events = EPOLLIN; // Monitor for read events
+        event.data.fd = *it;    // Add server socket to epoll set
+        if (epoll_ctl(epollFd, EPOLL_CTL_ADD, *it, &event) == -1)
+            throw std::runtime_error("Error adding server socket to epoll set");
+    }
+}
+
+static int createEpoll(void)
+{
+    int epollFd = epoll_create(1);
+    if (epollFd == -1)
+        throw std::runtime_error("Error creating epoll instance");
+    return epollFd;
+}
+
+void SocketServer::_enterEpollEventLoop(void)
+{
+    while (this->_isRunning)
+	{
+        struct epoll_event events[10]; //TODO: adjust max events
+        int numEvents = epoll_wait(this->_epollFd, events, 10, 150); // TODO: define timeout
+
+        if (numEvents == -1 && this->_isRunning)
+            throw std::runtime_error("Error in epoll_wait");
+
+        _handleEpollEvents(events, numEvents);
+    }
+}
+
+void SocketServer::_handleEpollEvents(struct epoll_event* events, int numEvents)
+{
+    for (int i = 0; i < numEvents; ++i)
+	{
+        int fd = events[i].data.fd;
+
+        if (_serverSockets.find(fd) != _serverSockets.end())
+            _handleServerSocketEvent(fd);
+		else
+            _handleClientSocketEvent(fd);
+    }
+}
+
+void SocketServer::_handleServerSocketEvent(int serverSocket) 
+{
+	struct sockaddr_in	clientAddr;
+	int 				clientSocket;
+	ClientState* 		clientStateObject = NULL;
+
+    clientSocket = acceptClientConnection(serverSocket, &clientAddr);
+	clientStateObject = &_getClientState(clientSocket);
+	storeClientIpAddressandPort(&clientAddr, *clientStateObject);
+	setDefaultServerBlockForResponse(*clientStateObject);
+	setSocketToNonBlocking(clientSocket);
+    registerClientForReadEvents(this->_epollFd, clientSocket);
+}
+
+static int acceptClientConnection(int serverSocket, struct sockaddr_in* client_addr)
+{
+	std::memset(&client_addr, 0, sizeof(client_addr));
+	socklen_t len = sizeof(client_addr);
+	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
+	if (clientSocket == -1)
+		throw std::runtime_error("Socket accept failed");
+    return clientSocket;
+}
+
+static void	storeClientIpAddressandPort(struct sockaddr_in* clientAddr, ClientState& clientStateObject)
+{
+	clientStateObject.ipv4 = ntohl(clientAddr->sin_addr.s_addr);
+	clientStateObject.port = ntohs(clientAddr->sin_port);
+}
+
+static void	setDefaultServerBlockForResponse(ClientState& clientStateObject)
+{
+	LookupConfig*		serverConfiguration;
+	ServerConfig*		currentServerBlock;
+
+	serverConfiguration = &clientStateObject.serverConfiguration;
+	currentServerBlock = serverConfiguration->getCurrentWebServer()->defaultServerBlock;
+
+	serverConfiguration->updateCurrentServer(currentServerBlock); //TODO: pick the right block to answer if the request does not make it till the host header
+}
+
+static void	setSocketToNonBlocking(int clientSocket)
+{
+	int flags = fcntl(clientSocket, F_GETFL, 0);
+	if (fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK) == -1)
+		throw std::runtime_error("Error setting client socket to non-blocking mode");
+}
+
+static void registerClientForReadEvents(int epollFd, int clientSocket)
+{
+    struct epoll_event event;
+    event.events = EPOLLIN;
+    event.data.fd = clientSocket;
+
+    if (epoll_ctl(epollFd, EPOLL_CTL_ADD, clientSocket, &event) == -1)
+        throw std::runtime_error("Error adding client socket to epoll set");
+}
+
+void	SocketServer::_handleClientSocketEvent(int clientSocket)
+{
+	ClientState& client = _getClientState(clientSocket);
+	_handleClient(client);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void SocketServer::_run()
+// {
+// 	int _epollFd = epoll_create(1); // Create epoll instance
+// 	if (_epollFd == -1)
+// 		throw std::runtime_error("Error creating epoll instance");
+
+// 	std::set<int>::iterator it;
+// 	for (it = _serverSockets.begin(); it != _serverSockets.end(); it++)
+// 	{
+// 		struct epoll_event event;
+// 		event.events = EPOLLIN; // Monitor for read events
+// 		event.data.fd = *it;	// Add server socket to epoll set
+// 		if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, *it, &event) == -1)
+// 		{
+// 			throw std::runtime_error("Error adding server socket to epoll set");
+// 		}
+// 	}
+
+// 	std::cout << "Server started." << std::endl;
+// 	while (this->_isRunning)
+// 	{
+// 		struct epoll_event events[10];							// Array to store events
+// 		int num_events = epoll_wait(_epollFd, events, 10, 150); // Wait for events // TODO: define timeout
+// 		if (num_events == -1 && this->_isRunning)
+// 			throw std::runtime_error("Error in epoll_wait");
+
+// 		// Process events
+// 		int i = 0;
+// 		while (i < num_events)
+// 		{
+// 			int fd = events[i].data.fd;
+// 			struct epoll_event event;
+	
+// 			// If server socket has an event, accept new client connection
+// 			if (this->_serverSockets.find(fd) != this->_serverSockets.end())
+// 			{
+// 				int clientSocket = _acceptClient(fd); // Socket for connections between client and server
+// 				event.events = EPOLLIN;		// Monitor for read and write events
+// 				event.data.fd = clientSocket;
+// 				if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, clientSocket, &event) == -1)
+// 				{
+// 					throw std::runtime_error("Error adding client socket to epoll set");
+// 				}
+// 			}
+// 			else
+// 			{
+// 				// Handle client request
+// 				ClientState& clientState = _getClientState(fd);
+// 				_handleClientAsync(clientState);
+// 				if (clientState.state == CLIENT_STATE_SENDING)
+// 				{
+// 					event.events = EPOLLOUT;
+// 					if (epoll_ctl(_epollFd, EPOLL_CTL_MOD, clientState.getClientSocket(), &event) == -1)
+// 					{
+// 						throw std::runtime_error("Error modifying client socket in epoll set");
+// 					}
+// 				}
+// 				// _handleClient(client);
+// 				// close(fd); // Close client socket after handling request
+// 			}
+// 			i++;
+// 		}
+// 	}
+// }
 
 // opens a unique socket for each connection of client
 int SocketServer::_acceptClient(int serverSocket)
@@ -256,4 +433,11 @@ void SocketServer::_handleClient(ClientState& client)
 	//  char responseBuffer[8192];
 	//  int bytesWritten = httpResponse.WriteToBuffer(responseBuffer, sizeof(responseBuffer));
 	//  send(clientSocket, responseBuffer, bytesWritten, 0);
+	close(client.getClientSocket());
+	//delete client from list
+	std::map<int, ClientState*>::iterator clientIt;
+	clientIt = _clientStates.find(client.getClientSocket());
+	delete clientIt->second;
+	clientIt->second = NULL;
+	_clientStates.erase(clientIt);
 }
