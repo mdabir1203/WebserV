@@ -5,6 +5,7 @@
 
 ClientState::ClientState(const int clientSocket, const WebServerConfig* webServerConfig)
 			: state(CLIENT_STATE_REQUEST_PARSING),
+			  epollOutSet(false),
 			  _clientSocket(clientSocket)
 {
 	this->updateLastInteractionTime();

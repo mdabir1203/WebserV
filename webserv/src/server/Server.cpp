@@ -16,10 +16,10 @@
 #include "ClientState.hpp"
 #include "WebServerConfig.hpp"
 
-static int createEpoll(void);
+static int	createEpoll(void);
 static void addServerSocketsToEpoll(int epollFd, const std::set<int>& serverSockets);
-static int acceptClientConnection(int serverSocket, struct sockaddr_in* client_addr);
-static void	storeClientIpAddressandPort(struct sockaddr_in* clientAddr, ClientState& clientStateObject);
+static int	acceptClientConnection(int serverSocket);
+static void	storeServerIpAddressandPort(ClientState& clientStateObject);
 static void	setDefaultServerBlockForResponse(ClientState& clientStateObject);
 static void	setSocketToNonBlocking(int clientSocket);
 static void registerClientForReadEvents(int epollFd, int clientSocket);
@@ -165,32 +165,56 @@ void SocketServer::_handleEpollEvents(struct epoll_event* events, int numEvents)
 
 void SocketServer::_handleServerSocketEvent(int serverSocket) 
 {
-	struct sockaddr_in	clientAddr;
 	int 				clientSocket;
 	ClientState* 		clientStateObject = NULL;
 
-    clientSocket = acceptClientConnection(serverSocket, &clientAddr);
+    clientSocket = acceptClientConnection(serverSocket);
 	clientStateObject = &_getClientState(clientSocket);
-	storeClientIpAddressandPort(&clientAddr, *clientStateObject);
+	storeServerIpAddressandPort(*clientStateObject);
 	setDefaultServerBlockForResponse(*clientStateObject);
 	setSocketToNonBlocking(clientSocket);
     registerClientForReadEvents(this->_epollFd, clientSocket);
 }
 
-static int acceptClientConnection(int serverSocket, struct sockaddr_in* client_addr)
+#include <arpa/inet.h>
+static int acceptClientConnection(int serverSocket)
 {
-	std::memset(&client_addr, 0, sizeof(client_addr));
-	socklen_t len = sizeof(client_addr);
-	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
+	struct sockaddr_in	clientAddr;
+	std::memset(&clientAddr, 0, sizeof(clientAddr));
+	socklen_t len = sizeof(clientAddr);
+	int clientSocket = accept(serverSocket, (struct sockaddr *)&clientAddr, &len);
 	if (clientSocket == -1)
 		throw std::runtime_error("Socket accept failed");
+	struct in_addr ipAddr;
+	ipAddr.s_addr = clientAddr.sin_addr.s_addr; // Convert to network byte order
+	char* ipStr = inet_ntoa(ipAddr); // Convert to string
+	std::cout << "CLIENT IP Address: " << ipStr << std::endl; // Print the string
+	std::cout << "CLEINT Port: " << clientAddr.sin_port << std::endl;
     return clientSocket;
 }
 
-static void	storeClientIpAddressandPort(struct sockaddr_in* clientAddr, ClientState& clientStateObject)
+static void	storeServerIpAddressandPort(ClientState& clientStateObject)
 {
-	clientStateObject.ipv4 = ntohl(clientAddr->sin_addr.s_addr);
-	clientStateObject.port = ntohs(clientAddr->sin_port);
+	struct sockaddr_in	clientAddr;
+	std::memset(&clientAddr, 0, sizeof(clientAddr));
+	socklen_t len = sizeof(clientAddr);
+	if (getsockname(clientStateObject.getClientSocket(), (struct sockaddr *)&clientAddr, &len) == -1)
+		throw std::runtime_error("Error getting client socket address");
+	clientStateObject.ipv4Server = ntohl(clientAddr.sin_addr.s_addr);
+	clientStateObject.portServer = ntohs(clientAddr.sin_port);
+	struct in_addr ipAddr;
+	ipAddr.s_addr = htonl(clientStateObject.ipv4Server); // Convert to network byte order
+	char* ipStr = inet_ntoa(ipAddr); // Convert to string
+	std::cout << "IP Address: " << ipStr << std::endl; // Print the string
+	std::cout << "Port: " << clientStateObject.portServer << std::endl;
+
+	getpeername(clientStateObject.getClientSocket(), (struct sockaddr *)&clientAddr, &len);
+	clientStateObject.ipv4Server = ntohl(clientAddr.sin_addr.s_addr);
+	clientStateObject.portServer = ntohs(clientAddr.sin_port);
+	ipAddr.s_addr = htonl(clientStateObject.ipv4Server); // Convert to network byte order
+	ipStr = inet_ntoa(ipAddr); // Convert to string
+	std::cout << "peer IP Address: " << ipStr << std::endl; // Print the string
+	std::cout << "peer Port: " << clientStateObject.portServer << std::endl;
 }
 
 static void	setDefaultServerBlockForResponse(ClientState& clientStateObject)
@@ -225,141 +249,22 @@ void	SocketServer::_handleClientSocketEvent(int clientSocket)
 {
 	ClientState& client = _getClientState(clientSocket);
 	_handleClient(client);
+	// _handleClientAsync(client);
+	if (!client.epollOutSet && client.state == CLIENT_STATE_SENDING)
+	{
+		_modifyClientEventMonitoring(clientSocket, EPOLLOUT);
+		client.epollOutSet = true;
+	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// void SocketServer::_run()
-// {
-// 	int _epollFd = epoll_create(1); // Create epoll instance
-// 	if (_epollFd == -1)
-// 		throw std::runtime_error("Error creating epoll instance");
-
-// 	std::set<int>::iterator it;
-// 	for (it = _serverSockets.begin(); it != _serverSockets.end(); it++)
-// 	{
-// 		struct epoll_event event;
-// 		event.events = EPOLLIN; // Monitor for read events
-// 		event.data.fd = *it;	// Add server socket to epoll set
-// 		if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, *it, &event) == -1)
-// 		{
-// 			throw std::runtime_error("Error adding server socket to epoll set");
-// 		}
-// 	}
-
-// 	std::cout << "Server started." << std::endl;
-// 	while (this->_isRunning)
-// 	{
-// 		struct epoll_event events[10];							// Array to store events
-// 		int num_events = epoll_wait(_epollFd, events, 10, 150); // Wait for events // TODO: define timeout
-// 		if (num_events == -1 && this->_isRunning)
-// 			throw std::runtime_error("Error in epoll_wait");
-
-// 		// Process events
-// 		int i = 0;
-// 		while (i < num_events)
-// 		{
-// 			int fd = events[i].data.fd;
-// 			struct epoll_event event;
-	
-// 			// If server socket has an event, accept new client connection
-// 			if (this->_serverSockets.find(fd) != this->_serverSockets.end())
-// 			{
-// 				int clientSocket = _acceptClient(fd); // Socket for connections between client and server
-// 				event.events = EPOLLIN;		// Monitor for read and write events
-// 				event.data.fd = clientSocket;
-// 				if (epoll_ctl(_epollFd, EPOLL_CTL_ADD, clientSocket, &event) == -1)
-// 				{
-// 					throw std::runtime_error("Error adding client socket to epoll set");
-// 				}
-// 			}
-// 			else
-// 			{
-// 				// Handle client request
-// 				ClientState& clientState = _getClientState(fd);
-// 				_handleClientAsync(clientState);
-// 				if (clientState.state == CLIENT_STATE_SENDING)
-// 				{
-// 					event.events = EPOLLOUT;
-// 					if (epoll_ctl(_epollFd, EPOLL_CTL_MOD, clientState.getClientSocket(), &event) == -1)
-// 					{
-// 						throw std::runtime_error("Error modifying client socket in epoll set");
-// 					}
-// 				}
-// 				// _handleClient(client);
-// 				// close(fd); // Close client socket after handling request
-// 			}
-// 			i++;
-// 		}
-// 	}
-// }
-
-// opens a unique socket for each connection of client
-int SocketServer::_acceptClient(int serverSocket)
+void	SocketServer::_modifyClientEventMonitoring(int clientSocket, uint32_t eventsToMonitor)
 {
-	struct sockaddr_in client_addr;
-	std::memset(&client_addr, 0, sizeof(client_addr));
-	socklen_t len = sizeof(client_addr);
-	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
-	if (clientSocket == -1)
-		throw std::runtime_error("Socket accept failed");
-	ClientState& client = _getClientState(clientSocket);
+    struct epoll_event event;
 
-	// Set the socket to non-blocking mode
-	int flags = fcntl(clientSocket, F_GETFL, 0);
-	fcntl(clientSocket, F_SETFL, flags | O_NONBLOCK);
-
-	client.serverConfiguration.updateCurrentServer(client.serverConfiguration.getCurrentWebServer()->defaultServerBlock); //TODO: pick the right block to answer if the request does not make it till the host header
-	client.ipv4 = ntohl(client_addr.sin_addr.s_addr);
-	client.port = ntohs(client_addr.sin_port);
-	return (clientSocket);
+	event.events = eventsToMonitor;
+	event.data.fd = clientSocket;
+	if (epoll_ctl(this->_epollFd, EPOLL_CTL_MOD, clientSocket, &event) == -1)
+		throw std::runtime_error("Error modifying client socket in epoll set");
 }
 
 ClientState&	SocketServer::_getClientState(const int clientSocket)
@@ -393,7 +298,7 @@ void SocketServer::_handleClient(ClientState& client)
 	methodHandler.setConfiguration(&client.serverConfiguration);
 	try
 	{
-		client.serverConfiguration.updateCurrentServer(client.ipv4, client.port, client.requestParser.getParsedHeaders().find("host")->second.front()); // TODO: make sure host is there, think about this: localhost:8082
+		client.serverConfiguration.updateCurrentServer(client.ipv4Server, client.portServer, client.requestParser.getParsedHeaders().find("host")->second.front()); // TODO: make sure host is there, think about this: localhost:8082
 		client.serverConfiguration.updateCurrentLocation(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateUriWithLocationPath(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateCurrentCGI();

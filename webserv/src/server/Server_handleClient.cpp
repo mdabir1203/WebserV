@@ -63,7 +63,7 @@ void    SocketServer::_processRequest(ClientState& client)
 	methodHandler.setConfiguration(&client.serverConfiguration);
 	try
 	{
-		client.serverConfiguration.updateCurrentServer(client.ipv4, client.port, client.requestParser.getParsedHeaders().find("host")->second.front()); // TODO: make sure host is there, think about this: localhost:8082
+		client.serverConfiguration.updateCurrentServer(client.ipv4Server, client.portServer, client.requestParser.getParsedHeaders().find("host")->second.front()); // TODO: make sure host is there, think about this: localhost:8082
 		client.serverConfiguration.updateCurrentLocation(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateUriWithLocationPath(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateCurrentCGI();

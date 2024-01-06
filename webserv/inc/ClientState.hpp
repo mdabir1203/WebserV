@@ -33,12 +33,12 @@ class ClientState
 		LookupConfig			serverConfiguration;
 		
 		int						state;
-		uint32_t				ipv4;
-		uint16_t				port;
+		uint32_t				ipv4Server;
+		uint16_t				portServer;
+		bool					epollOutSet;
 	private:
 		int			_clientSocket;
 		time_t		_lastInteraction;
-
 };
 
 #endif /* CLIENT_STATE_INCLUDED */

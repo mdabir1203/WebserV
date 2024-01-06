@@ -35,6 +35,7 @@ private:
     void    _handleEpollEvents(struct epoll_event* event, int numEvents);
     void    _handleServerSocketEvent(int serverSocket);
     void    _handleClientSocketEvent(int clientSocket);
+    void    _modifyClientEventMonitoring(int clientSocket, uint32_t events);
 
     ClientState&    _getClientState(const int clientSocket);
 
