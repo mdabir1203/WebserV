@@ -22,7 +22,12 @@ jobs:
         run: |
           cd webserv
           make
-          ./webserv
+          if [ $? -eq 0 ]; then
+            echo "Compilation successful"
+          else
+            echo "Compilation failed"
+          exit 1
+          fi
 
       - name: Lint with Super-Linter
         uses: github/super-linter@v4
