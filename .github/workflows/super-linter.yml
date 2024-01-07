@@ -30,7 +30,8 @@ jobs:
           fi
       - name: HealthCheck
         run: |
-          ./webserv
+          cd webserv
+          ./webserv &
           curl -f http://localhost:8080/health
 
       - name: Lint with Super-Linter
