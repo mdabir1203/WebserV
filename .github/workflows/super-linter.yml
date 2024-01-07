@@ -28,6 +28,10 @@ jobs:
             echo "Compilation failed"
           exit 1
           fi
+      - name: HealthCheck
+        run: |
+          ./webserv
+          curl -f http://localhost:8080/health
 
       - name: Lint with Super-Linter
         uses: github/super-linter@v4
