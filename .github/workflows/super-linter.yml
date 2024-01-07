@@ -21,6 +21,7 @@ jobs:
       - name: Compile and Run Project
         run: |
           cd webserv
+          
           make
           if [ $? -eq 0 ]; then
             echo "Compilation successful"
@@ -28,6 +29,9 @@ jobs:
             echo "Compilation failed"
           exit 1
           fi
+      - name: HeatlthTest
+          ./webserv
+          curl -f http://localhost:8080/health
 
       - name: Lint with Super-Linter
         uses: github/super-linter@v4
