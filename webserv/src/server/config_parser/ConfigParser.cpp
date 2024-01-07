@@ -341,6 +341,10 @@ void	ConfigParser::handleStateValue(char c) // state 4
 	{
 		handleKeyValuePair();
 	}
+	else if (isCommentStart(c))
+	{
+		throwConfigError("Missing semicolon", c, "", true);
+	}
 	else if (toggleQuoteMode(c))
 	{
 		return;
@@ -366,7 +370,8 @@ void	ConfigParser::handleStateValue(char c) // state 4
 
 void	ConfigParser::handleKeyValuePair(void)
 {
-	mulitValues.push_back(value);
+	if (!value.empty())
+		mulitValues.push_back(value);
 	validateAndHandleKey();
 	paramterLength = 0;
 	key.clear();
@@ -440,13 +445,7 @@ void    ConfigParser::validateLocationConfig(LocationConfig* currentLocationConf
 
 void    ConfigParser::validateServerConfig(ServerConfig* currentServerConfig)
 {
-	if (currentServerConfig->ipAddress == 0 || currentServerConfig->port == 0) {        
-       throw std::runtime_error("Error: Server has no valid Ip adress or port\n");
-    }
-	if (currentServerConfig->serverNames.empty()) {
-        std::cout << "Set is empty. Adding 'localhost'." << std::endl;
-        currentServerConfig->serverNames.insert("localhost");
-	}
+	(void)currentServerConfig;
 }
 
 WebServerConfig* ConfigParser::getWebServerConfig(void) const
