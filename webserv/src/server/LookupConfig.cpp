@@ -2,21 +2,24 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <iostream>
+#include <sstream>
+#include <arpa/inet.h>
 
 #include "WebServerConfig.hpp"
 #include "ServerConfig.hpp"
 #include "LocationConfig.hpp"
 #include "Response.hpp"
 
-
 extern char **environ;
 
 LookupConfig::LookupConfig(void)
-			:  CGIExt(""),
-			currentWebServer(NULL),
-			  currentServer(NULL),			 
-			  currentLocation(NULL),			  
-			  currentCGI(NULL)
+			:	CGIExt(""),
+				env(NULL),
+				currentWebServer(NULL),
+			  	currentServer(NULL),			 
+			  	currentLocation(NULL),			  
+			  	currentCGI(NULL)
 
 {
 	int i = 0;
@@ -25,11 +28,12 @@ LookupConfig::LookupConfig(void)
 }
 
 LookupConfig::LookupConfig(const WebServerConfig* webServer)
-			: CGIExt(""),
-			currentWebServer(webServer),
-			  currentServer(NULL),			  
-			  currentLocation(NULL),				
-			  currentCGI(NULL)
+			:	CGIExt(""),
+			 	env(NULL),
+				currentWebServer(webServer),
+			  	currentServer(NULL),			  
+			  	currentLocation(NULL),				
+			 	currentCGI(NULL)
 {
 	int i = 0;
 	while (environ[i])
@@ -158,6 +162,10 @@ void	LookupConfig::updateReqestHeaders(const std::map<std::string, std::vector<s
 	_Headers = setOfHeaders;
 }
 
+void 	LookupConfig::updateHttpVersion(std::string htttpVersion)// TODO: check 
+{
+	_httpVersion = htttpVersion;
+}
 
 std::string LookupConfig::_retrievePathInfo(const std::string& path)
 {
@@ -172,11 +180,6 @@ std::string LookupConfig::_retrievePathInfo(const std::string& path)
 	return _pathInfo;
 }
 
-
-
-	#include <iostream>
-#include <sstream>
-#include <arpa/inet.h>
 
 void LookupConfig::setEnvVars(int method, HttpResponse &response)
 {
@@ -212,15 +215,26 @@ void LookupConfig::setEnvVars(int method, HttpResponse &response)
 	_updateEnvVarVector("SCRIPT_NAME=", _cgiScriptPath);
 	_updateEnvVarVector("SERVER_NAME=", response.getserverName());
 	//_updateEnvVarVector("SERVER_PORT=",);TO DO - FIX IT
+	_updateEnvVarVector("SERVER_PROTOCOL=", _httpVersion);
+	_updateEnvVarVector("SERVER_SOFTWARE=", "Fancy_Webserv/42.0");
 
-	
-	typedef std::map<std::string, std::vector<std::string> > HeadersMap;
+	/* Cast to char* string C-style for environment to run execve */
+	env = new char*[_envVars.size() + 1];
+	for (long unsigned int i = 0; i < _envVars.size(); i++)
+	{
+		env[i] = new char[_envVars[i].size() + 1];
+		env[i] = (char*)(_envVars[i].c_str());
+		env[i][_envVars[i].size()] = '\0';		
+	}
+	env[_envVars.size()] = NULL;
+	/*----------------------*/
+
 
 	/*------test print -----------------*/
+	typedef std::map<std::string, std::vector<std::string> > HeadersMap;	
 	std::cout << "=========_Headers:==========" << std::endl;
 	for (HeadersMap::const_iterator it = _Headers.begin(); it != _Headers.end(); ++it) {
         std::cout << "===Header: " << it->first << ", Values: ";
-
         const std::vector<std::string>& values = it->second;
         for (std::vector<std::string>::const_iterator vecIt = values.begin(); vecIt != values.end(); ++vecIt) {
             std::cout << *vecIt << " ";
@@ -230,22 +244,17 @@ void LookupConfig::setEnvVars(int method, HttpResponse &response)
 	std::cout << "===========================" << std::endl;
 	/*----------------------*/
 
-    // HeadersMap::const_iterator it = _Headers.find("SERVER_PROTOCOL="); TO DO - FIND OUT FROM WHERE TO TAKE PROTOCOL VERSION
-    // if (it != _Headers.end() && !it->second.empty()) {
-    //     std::cout << "=============" << it->second.front() << std::endl;
-	// 	_updateEnvVarVector("SERVER_PROTOCOL=", it->second.front());
-    // }
-	// else	
-	// 	_updateEnvVarVector("SERVER_PROTOCOL=", "");
-	_updateEnvVarVector("SERVER_PROTOCOL=", "HTTP/1.1");
-	_updateEnvVarVector("SERVER_SOFTWARE=", "Fancy_Webserv/42.0");
-	// _envVars.push_back("SERVER_SOFTWARE=webserv/1.0");
-	/* Test: */
-	for (std::vector<std::string>::iterator it = _envVars.begin(); it != _envVars.end(); it++) {
-		std::cout << "header:" << *it << std::endl;
-	}
+	/* Debug print : */
+	// for (std::vector<std::string>::iterator it = _envVars.begin(); it != _envVars.end(); it++) {
+	// 	std::cout << "header:" << *it << std::endl;
+	// }
 }
 
+
+
+
+
+/* Geters and setters */
 
 std::string	LookupConfig::getCgiScriptPath(void) const
 {
@@ -261,7 +270,6 @@ std::string	LookupConfig::getIpAdress(void) const
 {
 	return (_ipAdress);
 }
-
 
 void	LookupConfig::setCgiScriptPath(std::string path)
 {

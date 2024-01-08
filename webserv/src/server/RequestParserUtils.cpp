@@ -169,9 +169,14 @@ void	HeaderFieldStateMachine::handleStateHeaderUri(char c)
 	}
 }
 
-bool	isHttpVersionCorrect(const std::string& httpVersion)
-{
-	return (httpVersion == HEADER_HTTP_VERSION_STRING);
+bool	HeaderFieldStateMachine::isHttpVersionCorrect(const std::string& httpVersion)
+{	if(httpVersion == HEADER_HTTP_VERSION_STRING)
+	{
+		_httpVersion = httpVersion;
+		return (true);
+	}
+	//return (httpVersion == HEADER_HTTP_VERSION_STRING);
+	return (false);
 }
 
 void	HeaderFieldStateMachine::handleStateHeaderHttpVersion(char c)
@@ -367,4 +372,9 @@ const std::string& HeaderFieldStateMachine::getUriComponents(std::string identif
 		return (uriParts.fragment);
 	else
 		throw std::runtime_error("Invalid identifier");
+}
+
+std::string HeaderFieldStateMachine::getHttpVersion() const
+{
+	return (_httpVersion);
 }

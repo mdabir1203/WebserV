@@ -35,6 +35,7 @@ class LookupConfig
 		void	updateUriWithLocationPath(const std::string& uri);
 		void	updateCurrentCGI();
 		void	updateReqestHeaders(const std::map<std::string, std::vector<std::string> >& setOfHeaders);
+		void 	updateHttpVersion(std::string htttpVersion);// TODO: check 
 
 		const WebServerConfig*	getCurrentWebServer(void) const;
 		const ServerConfig*		getCurrentServer(void) const;
@@ -60,6 +61,7 @@ class LookupConfig
 		
 		std::string 			CGIExt;
 		SocketServer*			socketServer;
+		char**					env;
 
 	private:
 		const WebServerConfig*	currentWebServer;
@@ -71,7 +73,9 @@ class LookupConfig
 		std::string				_cgiScriptPath;
 		std::string				_queryString;
 		std::string				_ipAdress;
+		std::string				_httpVersion;
 		std::map<std::string, std::vector<std::string> > _Headers;
+		
 
 
 		void _updateEnvVarVector(const std::string authTypePrefix, const std::string newAuthType);

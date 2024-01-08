@@ -43,7 +43,7 @@ private:
 
 	/* CGI */
 	std::string _retrieveCgiScriptPath(const std::string&UriPath, HttpResponse& response);
-	
+	void		_executeCgiScript(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse& response);
 
 	std::string	defaultDirectoryPage;
 };

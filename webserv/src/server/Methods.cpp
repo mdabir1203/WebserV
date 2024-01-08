@@ -13,6 +13,7 @@
 
 #include "ServerConfig.hpp" 	//
 #include "CGIConfig.hpp"		//
+#include<unistd.h>
 
 Methods::Methods()
 {
@@ -407,6 +408,8 @@ void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int client
 
 	_configuration->setEnvVars(method, response);
 
+	_executeCgiScript(parser, clientSocket, response);
+
 
 	
 }
@@ -440,3 +443,57 @@ std::string Methods::_retrieveCgiScriptPath(const std::string& UriPath, HttpResp
 	return "";
 }
 
+void Methods::_executeCgiScript(const HeaderFieldStateMachine &parser, const int clientSocket, HttpResponse& response)
+{
+	/* =test print for cgi env= */
+	// int i = 0;
+	// while(_configuration->env[i]!= NULL)
+	// {
+	// 	std::cout << "env[i] is: " << _configuration->env[i] << std::endl;
+	// 	i++;
+	// }
+	// (void)response;	
+	/*============================*/
+	int CGI_OUT[2];
+	int CGI_IN[2];
+
+	if(pipe(CGI_OUT) < 0 || pipe(CGI_IN) < 0)
+	{
+		response.setStatusCode(500);
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+		std::cout << " 500. Cannot run CGI - pipe is broken" << std::endl;
+		return ;
+	}
+	if(pid_t pid = fork() == -1)
+	{
+		response.setStatusCode(500);
+		response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+		std::cout << " 500. Cannot run CGI - fork process fall down" << std::endl;
+		return ;
+	}
+	else if (pid == 0) // child process
+	{
+		if (dup2(CGI_IN[0], 0) < 0 || dup2(CGI_OUT[1], 1) < 0)
+		{
+			response.setStatusCode(500);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " 500. Cannot run CGI - dup2 fall down" << std::endl;
+			return ;
+		}
+		else if (close(CGI_IN[1]) < 0 || close(CGI_OUT[0]) < 0 || close(CGI_IN[0]) < 0 || close(CGI_OUT[1] < 0))
+		{
+			response.setStatusCode(500);
+			response.sendBasicHeaderResponse(clientSocket, parser.getHeaderMethod());
+			std::cout << " 500. Cannot run CGI - close fall down" << std::endl;
+			return ;
+		}
+		
+		
+			
+
+	}
+	else // parent process
+	{
+	
+}
+}

@@ -257,6 +257,7 @@ void SocketServer::_handleClient(ClientState& client)
 		client.serverConfiguration.updateUriWithLocationPath(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateCurrentCGI();
 		client.serverConfiguration.updateReqestHeaders(client.requestParser.getParsedHeaders());
+		client.serverConfiguration.updateHttpVersion(client.requestParser.getHttpVersion());// TODO: check 
 
 		std::cout << PURPLE << "Requested Path in methodHandler: " << client.serverConfiguration.getUriPath() << RESET << std::endl;
 		methodHandler.handleMethod(client.requestParser, client.getClientSocket(), client.response); // TODO: rapid request spamming leads to server failure

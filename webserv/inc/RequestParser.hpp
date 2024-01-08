@@ -62,12 +62,14 @@ public:
    const std::string& getHeaderUriPath() const;
    const std::string& getUriComponents(std::string identifier) const;
    const bool& getIsHttpVersionRight() const;
+   std::string getHttpVersion() const;
    void  setCurrentState(const int state);
    void  setInputPosition(const size_t position);
    void  reset(void);
 
    bool  isDirectoryListing(void) const;
 	bool  isCGI(void) const;
+
 
 
 private:
@@ -82,6 +84,7 @@ private:
 
    std::string                          headerUri;
    int                                  headerMethod;
+   std::string                          _httpVersion;
    bool                                 isHttpVersionRight;
 
    bool                                 isAutoindex;
@@ -93,6 +96,7 @@ private:
    StateHandler stateTransitionArray[8];// number of transition functions
 
    //header request line parsing
+   bool	isHttpVersionCorrect(const std::string& httpVersion);
    void  handleStateHeaderMethod(char c);
    bool  setMethod(const std::string& input);
    void  handleStateHeaderUri(char c);
