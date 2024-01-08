@@ -302,3 +302,8 @@ void HttpResponse::setServerName(const std::string& servName)
 {
     this->serverName = servName;
 }
+
+std::string HttpResponse::getserverName() const
+{
+    return (this->serverName);
+}

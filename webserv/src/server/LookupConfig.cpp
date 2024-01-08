@@ -8,6 +8,7 @@
 #include "LocationConfig.hpp"
 #include "Response.hpp"
 
+
 extern char **environ;
 
 LookupConfig::LookupConfig(void)
@@ -16,6 +17,7 @@ LookupConfig::LookupConfig(void)
 			  currentServer(NULL),			 
 			  currentLocation(NULL),			  
 			  currentCGI(NULL)
+
 {
 	int i = 0;
 	while (environ[i])
@@ -136,26 +138,26 @@ bool LookupConfig::isAutoindex() const
 	return(currentLocation->directoryListing);
 }
 
-const std::string & LookupConfig::getUriPath() const
-{
-	return (_uriPath);
-}
-
-
 void LookupConfig::_updateEnvVarVector(const std::string authTypePrefix, const std::string newAuthType)
 {
-    // Поиск элемента, начинающегося с "AUTH_TYPE="
     for (std::vector<std::string>::iterator it = _envVars.begin(); it != _envVars.end(); ++it)
 	{
-        if (it->find(authTypePrefix) == 0)
+        if (it->find(authTypePrefix) == 0) //если нашли
 		{
             *it = authTypePrefix + newAuthType;
             return;
         }
     }
-    _envVars.push_back(authTypePrefix + "\"\"");
+    _envVars.push_back(authTypePrefix + newAuthType);
 	return;
 }
+
+
+void	LookupConfig::updateReqestHeaders(const std::map<std::string, std::vector<std::string> >& setOfHeaders)
+{
+	_Headers = setOfHeaders;
+}
+
 
 std::string LookupConfig::_retrievePathInfo(const std::string& path)
 {
@@ -172,7 +174,10 @@ std::string LookupConfig::_retrievePathInfo(const std::string& path)
 
 
 
+	#include <iostream>
 #include <sstream>
+#include <arpa/inet.h>
+
 void LookupConfig::setEnvVars(int method, HttpResponse &response)
 {
 	_updateEnvVarVector("AUTH_TYPE=", "");
@@ -188,22 +193,99 @@ void LookupConfig::setEnvVars(int method, HttpResponse &response)
 	_updateEnvVarVector("CONTENT_TYPE=", response.contentType);	
 	_updateEnvVarVector("GATEWAY_INTERFACE=", "CGI/1.1");
 	_updateEnvVarVector("PATH_INFO=", _retrievePathInfo(_uriPath));
-	_updateEnvVarVector("PATH_TRANSLATED=", _retrievePathInfo(_uriPath));
+	_updateEnvVarVector("PATH_TRANSLATED=", (currentLocation->rootDirectory + _cgiScriptPath));
+	_updateEnvVarVector("QUERY_STRING=", _queryString);
+	//_updateEnvVarVector("REMOTE_ADDR=", _ipAdress); TO DO - FIX IT
+	_updateEnvVarVector("REMOTE_IDENT=", "");
+	_updateEnvVarVector("REMOTE_USER=", "");
+	if(method == GET_METHOD)
+		_updateEnvVarVector("REQUEST_METHOD=", "GET");
+	else if(method == POST_METHOD)
+		_updateEnvVarVector("REQUEST_METHOD=", "POST");
+	else if(method == DELETE_METHOD)
+		_updateEnvVarVector("REQUEST_METHOD=", "DELETE");
 
-	// _envVars.push_back("PATH_TRANSLATED=" + _scriptPath);
-	// _envVars.push_back("QUERY_STRING=" + _queryString);
-	// // _envVars.push_back("REMOTE_ADDR=" + _clientSocket.getIP());
-	// _envVars.push_back("REMOTE_IDENT=");
-	// _envVars.push_back("REMOTE_USER=");
-	// _envVars.push_back("REQUEST_METHOD=" + _header["Method"]);
-	// _envVars.push_back("REQUEST_URI=" + _header["Path"]);
-	// _envVars.push_back("SCRIPT_NAME=" + _scriptPath);
-	// _envVars.push_back("SERVER_NAME=" + _serverConfig.serverName);
-	// _envVars.push_back("SERVER_PORT=" + toString(_serverConfig.port));
-	// _envVars.push_back("SERVER_PROTOCOL=" + _header["HTTP-Version"]);
+	if(_queryString != "")
+		_updateEnvVarVector("REQUEST_URI=", _uriPath + "?" + _queryString);
+	else
+		_updateEnvVarVector("REQUEST_URI=", _uriPath);
+	_updateEnvVarVector("SCRIPT_NAME=", _cgiScriptPath);
+	_updateEnvVarVector("SERVER_NAME=", response.getserverName());
+	//_updateEnvVarVector("SERVER_PORT=",);TO DO - FIX IT
+
+	
+	typedef std::map<std::string, std::vector<std::string> > HeadersMap;
+
+	/*------test print -----------------*/
+	std::cout << "=========_Headers:==========" << std::endl;
+	for (HeadersMap::const_iterator it = _Headers.begin(); it != _Headers.end(); ++it) {
+        std::cout << "===Header: " << it->first << ", Values: ";
+
+        const std::vector<std::string>& values = it->second;
+        for (std::vector<std::string>::const_iterator vecIt = values.begin(); vecIt != values.end(); ++vecIt) {
+            std::cout << *vecIt << " ";
+        }
+        std::cout << std::endl;
+    }
+	std::cout << "===========================" << std::endl;
+	/*----------------------*/
+
+    // HeadersMap::const_iterator it = _Headers.find("SERVER_PROTOCOL="); TO DO - FIND OUT FROM WHERE TO TAKE PROTOCOL VERSION
+    // if (it != _Headers.end() && !it->second.empty()) {
+    //     std::cout << "=============" << it->second.front() << std::endl;
+	// 	_updateEnvVarVector("SERVER_PROTOCOL=", it->second.front());
+    // }
+	// else	
+	// 	_updateEnvVarVector("SERVER_PROTOCOL=", "");
+	_updateEnvVarVector("SERVER_PROTOCOL=", "HTTP/1.1");
+	_updateEnvVarVector("SERVER_SOFTWARE=", "Fancy_Webserv/42.0");
 	// _envVars.push_back("SERVER_SOFTWARE=webserv/1.0");
 	/* Test: */
 	for (std::vector<std::string>::iterator it = _envVars.begin(); it != _envVars.end(); it++) {
 		std::cout << "header:" << *it << std::endl;
 	}
 }
+
+
+std::string	LookupConfig::getCgiScriptPath(void) const
+{
+	return (_cgiScriptPath);
+}
+
+std::string	LookupConfig::getUriPath(void) const
+{
+	return (_uriPath);
+}
+
+std::string	LookupConfig::getIpAdress(void) const
+{
+	return (_ipAdress);
+}
+
+
+void	LookupConfig::setCgiScriptPath(std::string path)
+{
+	_cgiScriptPath = path;
+}
+
+void	LookupConfig::setQueryString(std::string path)
+{
+	_queryString = path;
+}
+
+void	LookupConfig::setUriPath(std::string path)
+{
+	_uriPath = path;
+}
+
+void	LookupConfig::setIpAdress(std::string &ip)
+{	
+	std::cout << "111ip: " << ip << std::endl;
+	_ipAdress = ip;
+}
+
+void LookupConfig::setSocketServer(SocketServer* server)
+{
+	socketServer = server;
+}
+

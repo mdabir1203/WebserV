@@ -395,17 +395,15 @@ void Methods::_handleCGI(const HeaderFieldStateMachine &parser, const int client
 	(void)clientSocket;
 	(void)response;
 
-	//const std::string& UriPath = (_configuration->getUriPath());
+
 	std::cout << "_handleCGI" << std::endl;
 	
-	// std::string cgiScriptPath = _retrieveCgiScriptPath(UriPath, response);
-	// std::cout << "cgiScriptPath is: " << cgiScriptPath << std::endl;
+	_configuration->setCgiScriptPath(parser.getUriComponents("path"));
+	_configuration->setQueryString(parser.getUriComponents("query"));
+	//std::cout << "@@@@@@    CGI Script Path is: " << _configuration->getCgiScriptPath() << std::endl;
+
 	std::string const queryPath = parser.getUriComponents("query");
 	std::cout << "queryPath is: " << queryPath << std::endl;
-
-
-	std::string const path = parser.getUriComponents("path");
-	std::cout << "path is: " << path << std::endl;
 
 	_configuration->setEnvVars(method, response);
 

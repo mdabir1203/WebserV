@@ -19,6 +19,7 @@ class HttpResponse
 		void setLastModifiedTime(const std::string& time);
 		void setServerName(const std::string& servName);
 		std::string getContentType() const;
+		std::string getserverName() const;
 		
 		static const std::string server;
 		long int contentLength;

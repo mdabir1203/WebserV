@@ -6,6 +6,10 @@
 #include <netinet/in.h>
 #include <sys/epoll.h>
 #include <unistd.h>
+#include <netinet/in.h>
+#include <sstream>
+#include <cstdio>
+
 
 #include "RequestParser.hpp"
 #include "Response.hpp"
@@ -14,6 +18,17 @@
 #include "Colors.hpp"
 #include "ClientState.hpp"
 #include "WebServerConfig.hpp"
+
+
+
+		#include <stdio.h>
+	#include <stdlib.h>
+	#include <arpa/inet.h>
+	#include <netinet/in.h>
+
+
+
+
 
 SocketServer *SocketServer::_instancePtr = NULL;
 
@@ -133,7 +148,7 @@ void SocketServer::_run()
 			// If server socket has an event, accept new client connection
 			if (this->_serverSockets.find(fd) != this->_serverSockets.end())
 			{
-				struct epoll_event event;
+				struct epoll_event event; 
 				int clientSocket = _acceptClient(fd); // Socket for connections between client and server
 				event.events = EPOLLIN | EPOLLOUT;		// Monitor for read and write events
 				event.data.fd = clientSocket;
@@ -163,12 +178,48 @@ int SocketServer::_acceptClient(int serverSocket)
 	int clientSocket = accept(serverSocket, (struct sockaddr *)&client_addr, &len);
 	if (clientSocket == -1)
 		throw std::runtime_error("Socket accept failed");
-	ClientState& client = _getClientState(clientSocket);
-	client.serverConfiguration.updateCurrentServer(client.serverConfiguration.getCurrentWebServer()->defaultServerBlock); //TODO: pick the right block to answer if the request does not make it till the host header
-	client.ipv4 = ntohl(client_addr.sin_addr.s_addr);
-	client.port = ntohs(client_addr.sin_port);
+	// ClientState& client = _getClientState(clientSocket);
+	// client.serverConfiguration.updateCurrentServer(client.serverConfiguration.getCurrentWebServer()->defaultServerBlock); //TODO: pick the right block to answer if the request does not make it till the host header
+	// client.ipv4 = ntohl(client_addr.sin_addr.s_addr);
+	// //_configuration->setIpAdress(client.ipv4);
+	// client.port = ntohs(client_addr.sin_port);
+
+
+
+
+
+	/* -Saving IP-adress for CGI request environment- */
+
+	int s = clientSocket;
+		socklen_t length;
+	struct sockaddr_storage addr;
+	char ipstr[INET6_ADDRSTRLEN];
+	int port;
+
+	length = sizeof addr;
+	getpeername(s, (struct sockaddr*)&addr, &length);
+
+	if (addr.ss_family == AF_INET) {
+		struct sockaddr_in *s = (struct sockaddr_in *)&addr;
+		port = ntohs(s->sin_port);
+		inet_ntop(AF_INET, &s->sin_addr, ipstr, sizeof ipstr);
+	} else { // AF_INET6
+		struct sockaddr_in6 *s = (struct sockaddr_in6 *)&addr;
+		port = ntohs(s->sin6_port);
+		inet_ntop(AF_INET6, &s->sin6_addr, ipstr, sizeof ipstr);
+	}
+	(void)port;
+	printf("*************Peer IP address: %s *************\n", ipstr);
+
+	std::string ipstr2(ipstr);
+	std::cout << "IPSTR2: " << ipstr2 << std::endl;
+	_configuration->setIpAdress(ipstr2);
+
+	/* ---------------------------------------------- */
+
 	return (clientSocket);
 }
+
 
 ClientState&	SocketServer::_getClientState(const int clientSocket)
 {
@@ -190,7 +241,7 @@ void SocketServer::_handleClient(ClientState& client)
 	}
 	// Temporarily parse the HTTP request
 
-	if (client.requestParser.parseRequestHeaderChunk(requestBuffer) == BAD_REQUEST)
+	if (client.requestParser.parseRequestHeaderChunk(requestBuffer) == BAD_REQUEST)    /// HERE WE PARSING HEADERS!!!
 	{
 		client.response.setStatusCode(400);
 		client.response.sendBasicHeaderResponse(client.getClientSocket(), UNKNOWN);
@@ -205,6 +256,7 @@ void SocketServer::_handleClient(ClientState& client)
 		client.serverConfiguration.updateCurrentLocation(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateUriWithLocationPath(client.requestParser.getHeaderUriPath());
 		client.serverConfiguration.updateCurrentCGI();
+		client.serverConfiguration.updateReqestHeaders(client.requestParser.getParsedHeaders());
 
 		std::cout << PURPLE << "Requested Path in methodHandler: " << client.serverConfiguration.getUriPath() << RESET << std::endl;
 		methodHandler.handleMethod(client.requestParser, client.getClientSocket(), client.response); // TODO: rapid request spamming leads to server failure
@@ -250,4 +302,10 @@ void SocketServer::_handleClient(ClientState& client)
 	delete clientIt->second;
 	clientIt->second = NULL;
 	_clientStates.erase(clientIt);
+}
+
+
+void SocketServer::setConfiguration(LookupConfig& config)
+{
+	_configuration = &config;
 }

@@ -21,7 +21,7 @@ public:
     void    start(const std::set<uint16_t> &ports);
     void    stop();
     bool    isRunning() const;
-
+    void setConfiguration(LookupConfig &configuration);
 private:
     static SocketServer* _instancePtr;
 
